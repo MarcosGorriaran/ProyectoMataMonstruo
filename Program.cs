@@ -136,11 +136,13 @@ namespace MataMonstruo
                     repeated = false;
                     while (errorProvideAllStatsCounter < AllowedErrors)
                     {
+                        Console.WriteLine(MenuSpliter);
                         if (repeated)
                         {
                             errorProvideAllStatsCounter++;
                             Console.WriteLine(ErrorMenuOptionOutsideRange);
                         }
+                        Console.WriteLine(ArcherStatAssign);
                         repeated = true;
                         repeatedSecondLoop = false;
                         errorProvideStatsCounter = 0;
@@ -152,7 +154,42 @@ namespace MataMonstruo
                                 errorProvideStatsCounter++;
                             }
                             repeatedSecondLoop = true;
+                            Console.Write(ProvideHP,ArcherMinHP,ArcherMaxHP);
+                            archerHP = Convert.ToInt32(Console.ReadLine());
                         }
+                        if(errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((archerDamage<ArcherMinDamage || archerDamage>ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            Console.Write(ProvideDamage,ArcherMinDamage,ArcherMaxDamage);
+                            archerDamage = Convert.ToInt32(Console.ReadLine());
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((archerDefense < ArcherMinDefense || archerDefense > ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            Console.Write(ProvideDefense,ArcherMinDefense,ArcherMaxDefense);
+                            archerDamage = Convert.ToInt32(Console.ReadLine());
+                        }
+                        Console.WriteLine(MenuSpliter);
                     }
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);

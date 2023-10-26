@@ -99,14 +99,14 @@ namespace MataMonstruo
             int archerTurnHP;
             int archerDamage;
             int archerDefense = 0;
-            int archerTurnDefense;
+            int archerTurnDefense=0;
             int archerSkillCooldown;
             //BarbarianStats
             int barbarianHP;
             int barbarianTurnHP;
             int barbarianDamage;
             int barbarianDefense = 0;
-            int barbarianTurnDefense;
+            int barbarianTurnDefense=0;
             int barbarianSkillCooldown = 0;
             int barbarianPerfectDefense = 0;
             //MageStats
@@ -114,14 +114,14 @@ namespace MataMonstruo
             int mageTurnHP;
             int mageDamage;
             int mageDefense = 0;
-            int mageTurnDefense;
+            int mageTurnDefense=0;
             int mageSkillCooldown = 0;
             //DruidStats
             int druidHP;
             int druidTurnHP;
             int druidDamage;
             int druidDefense = 0;
-            int druidTurnDefense;
+            int druidTurnDefense = 0;
             int druidSkillCooldown = 0;
             //MonsterStats
             int monsterHP;
@@ -583,7 +583,6 @@ namespace MataMonstruo
                         mageTurnHP = mageHP;
                         druidTurnHP = druidHP;
                         monsterTurnHP = monsterHP;
-                        errorProvideNumFightMenuCounter = 0;
 
                         Console.WriteLine(FightIcon);
                         do
@@ -632,7 +631,11 @@ namespace MataMonstruo
 
                             //BarbarianTurn
                             repeated = false;
-                            errorProvideNumFightMenuCounter = 0;
+                            if (errorProvideNumFightMenuCounter < AllowedErrors)
+                            {
+                                errorProvideNumFightMenuCounter = 0;
+                            }
+                            
                             while (barbarianTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
                             {
                                 if (repeated)
@@ -677,7 +680,10 @@ namespace MataMonstruo
 
                             //MageTurn
                             repeated = false;
-                            errorProvideNumFightMenuCounter = 0;
+                            if (errorProvideNumFightMenuCounter < AllowedErrors)
+                            {
+                                errorProvideNumFightMenuCounter = 0;
+                            }
                             while (mageTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
                             {
                                 if (repeated)
@@ -718,7 +724,10 @@ namespace MataMonstruo
 
                             //DruidTurn
                             repeated = false;
-                            errorProvideNumFightMenuCounter = 0;
+                            if (errorProvideNumFightMenuCounter < AllowedErrors)
+                            {
+                                errorProvideNumFightMenuCounter = 0;
+                            }
                             while (druidTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
                             {
                                 if (repeated)
@@ -786,6 +795,30 @@ namespace MataMonstruo
                                         errorProvideNumFightMenuCounter++;
                                         break;
                                 }
+                            }
+
+                            //MonsterTurn
+                            if(errorProvideNumFightMenuCounter < AllowedErrors && monsterTurnHP > DeathValue && monsterStun<=0)
+                            {
+                                if (archerTurnHP>DeathValue)
+                                {
+                                    archerTurnHP -= (monsterDamage * archerTurnDefense) / PercentageTop;
+                                }
+                                if (barbarianTurnHP > DeathValue)
+                                {
+                                    barbarianTurnHP -= (monsterDamage * barbarianTurnDefense) / PercentageTop;
+                                }
+                                if (mageTurnHP > DeathValue)
+                                {
+                                    mageTurnHP -= (monsterDamage * mageTurnDefense) / PercentageTop;
+                                }
+                                if (druidTurnHP > DeathValue)
+                                {
+                                    druidTurnHP -= (monsterDamage * druidTurnDefense) / PercentageTop;
+                                }
+                            } else if(errorProvideNumFightMenuCounter < AllowedErrors)
+                            {
+
                             }
                         } while (monsterTurnHP>DeathValue && (archerTurnHP>DeathValue || barbarianTurnHP>DeathValue || mageTurnHP>DeathValue || druidTurnHP>DeathValue) && errorProvideNumFightMenuCounter<AllowedErrors);
                     }

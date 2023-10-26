@@ -34,6 +34,7 @@ namespace MataMonstruo
             const int BarbarianMaxDamage = 250;
             const int BarbarianMinDefense = 35;
             const int BarbarianMaxDefense = 45;
+            const int BarbarianPerfectDefenseDuration = 3;
             //MageStatsLimit
             const int MageMinHP = 1000;
             const int MageMaxHP = 1500;
@@ -105,6 +106,7 @@ namespace MataMonstruo
             int barbarianDefense = 0;
             int barbarianTurnDefense;
             int barbarianSkillCooldown = 0;
+            int barbarianPerfectDefense = 0;
             //MageStats
             int mageHP;
             int mageTurnHP;
@@ -584,11 +586,11 @@ namespace MataMonstruo
                         Console.WriteLine(FightIcon);
                         do
                         {
+                            //ArcherTurn
                             repeated = false;
                             errorProvideNumFightMenuCounter = 0;
-                            fightOption = MinMenusOption;
-                            //ArcherTurn
-                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && archerTurnHP>DeathValue && !choosenOnCooldown)
+                            fightOption = MinMenusOption; 
+                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && archerTurnHP>DeathValue && monsterHP>DeathValue && !choosenOnCooldown)
                             {
                                 if (repeated)
                                 {
@@ -626,7 +628,50 @@ namespace MataMonstruo
                                 
                             }
 
+                            //BarbarianTurn
+                            repeated = false;
+                            errorProvideNumFightMenuCounter = 0;
+                            fightOption = MinMenusOption;
+                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && barbarianTurnHP > DeathValue && monsterHP > DeathValue && !choosenOnCooldown)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(fightOption == SkillOption ? ErrorChoosenUnderCooldown : ErrorMenuOptionOutsideRange);
+                                }
+                                choosenOnCooldown = false;
+                                barbarianTurnDefense = barbarianDefense;
 
+                                Console.WriteLine(MenuSpliter);
+                                Console.Write(FightMenu, archerSkillCooldown == 0 ? SkillReady : archerSkillCooldown);
+                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                switch (fightOption)
+                                {
+                                    case AtackOption:
+                                        monsterTurnHP -= (archerDamage * monsterDefense) / PercentageTop;
+                                        break;
+                                    case DefendOption:
+                                        barbarianTurnDefense += barbarianDefense;
+                                        break;
+                                    case SkillOption:
+                                        if (barbarianSkillCooldown > 0)
+                                        {
+                                            choosenOnCooldown = true;
+                                            errorProvideNumFightMenuCounter++;
+                                        }
+                                        else
+                                        {
+                                            barbarianPerfectDefense = BarbarianPerfectDefenseDuration;
+                                        }
+                                        break;
+                                    default:
+                                        errorProvideNumFightMenuCounter++;
+                                        break;
+                                }
+                                if(barbarianPerfectDefense>0 && !choosenOnCooldown && fightOption<=MaxFightMenuOpt && fightOption<=MinMenusOption)
+                                {
+                                    barbarianTurnDefense = PercentageTop;
+                                }
+                            }
                         } while (monsterTurnHP>DeathValue && (archerTurnHP>DeathValue || barbarianTurnHP>DeathValue || mageTurnHP>DeathValue || druidTurnHP>DeathValue) && errorProvideNumFightMenuCounter<AllowedErrors);
                     }
                     

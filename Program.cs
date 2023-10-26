@@ -11,8 +11,14 @@ namespace MataMonstruo
             const int ExitGameOption = 2;
             const int MinMenusOption = 1;
             const int MaxStartingMenuOpt = 2;
+            const int MaxFightMenuOpt = 3;
             const int StartGameOption = 1;
             const int GlobalSpecialSkillCooldown = 5;
+            const int DeathValue = 0;
+            const int AtackOption = 1;
+            const int DefendOption = 2;
+            const int SkillOption = 3;
+            const int PercentageTop = 100;
             //ArcherStatsLimit
             const int ArcherMinHP = 1500;
             const int ArcherMaxHP = 2000;
@@ -20,6 +26,7 @@ namespace MataMonstruo
             const int ArcherMaxDamage = 300;
             const int ArcherMinDefense = 25;
             const int ArcherMaxDefense = 40;
+            const int ArcherStunDuration = 2;
             //BarbarianStatsLimit
             const int BarbarianMinHP = 3000;
             const int BarbarianMaxHP = 3750;
@@ -53,51 +60,71 @@ namespace MataMonstruo
             const string ErrorOvercameSecondErrorLimit = "Ha cometido 3 errores 3 veces, vuelve al principio";
             const string ErrorOutsideStatRange = "El valor esta fuera del rango solicitado";
             const string ErrorOvercameStartErrorLimit = "Se ha superado el limite de errores en el menu principal, el programa finalizara por ello";
+            const string ErrorChoosenUnderCooldown = "La habilidad aun estaba bajo tiempo de espera, el heroe es incapaz de utilizarlo";
             const string StartingMenu = "1. Iniciar una nueva batalla \n2. Salir \nEscribe el numero de la opcion deseas utilizar: ";
+            const string FightMenu = "1. Atacar \n2. Defenderse \n3. Habilidad especial, tiempo de espera {0} \nElige una de las acciones listadas: ";
             const string MenuSpliter = "--------------------------";
+            /**
+             * FightIcon obtenido de: https://www.asciiart.eu/weapons/swords
+             */
+            const string FightIcon = "   |\\                     /)\r\n /\\_\\\\__               (_//\r\n|   `>\\-`     _._       //`)\r\n \\ /` \\\\  _.-`:::`-._  //\r\n  `    \\|`    :::    `|/\r\n        |     :::     |\r\n        |.....:::.....|\r\n        |:::::::::::::|\r\n        |     :::     |\r\n        \\     :::     /\r\n         \\    :::    /\r\n          `-. ::: .-'\r\n           //`:::`\\\\\r\n          //   '   \\\\\r\n         |/         \\\\";
             const string ProvideHP = "Vida [{0} - {1}]: ";
             const string ProvideDamage = "Atac [{0} - {1}]: ";
             const string ProvideDefense = "Reduccion de daño (valor percentual) [{0} - {1}]: ";
+            const string SkillReady = "Listo";
             const string ArcherStatAssign = "Proporciona los stats de la arquera";
             const string BarbarianStatAssign = "Proporciona los stats del barbaro";
             const string MageStatAssign = "Proporciona los stats del mago";
             const string DruidStatAssign = "Proporciona los stats del druida";
             const string MonsterStatAssign = "Proporciona los stats del monstruo";
+            const string ArcherTurn = "Es el turno de la arquera";
+            const string BarbarianTurn = "Es el turno del barbaro";
+            const string MageTurn = "Es el turno del mago";
+            const string DruidTurn = "Es el turno del druida";
 
             bool repeated;
             bool repeatedSecondLoop;
+            bool choosenOnCooldown=false;
+            int fightOption = 0;
             int menuOption = 0;
             int errorProvideNumStartMenuCounter;
             int errorProvideAllStatsCounter;
             int errorProvideStatsCounter;
+            int errorProvideNumFightMenuCounter;
             //ArcherStats
             int archerHP;
+            int archerTurnHP;
             int archerDamage;
             int archerDefense = 0;
             int archerTurnDefense;
             int archerSkillCooldown;
             //BarbarianStats
             int barbarianHP;
+            int barbarianTurnHP;
             int barbarianDamage;
             int barbarianDefense = 0;
             int barbarianTurnDefense;
             int barbarianSkillCooldown = 0;
             //MageStats
             int mageHP;
+            int mageTurnHP;
             int mageDamage;
             int mageDefense = 0;
             int mageTurnDefense;
             int mageSkillCooldown = 0;
             //DruidStats
             int druidHP;
+            int druidTurnHP;
             int druidDamage;
             int druidDefense = 0;
             int druidTurnDefense;
             int druidSkillCooldown = 0;
             //MonsterStats
             int monsterHP;
+            int monsterTurnHP;
             int monsterDamage;
             int monsterDefense = 0;
+            int monsterStun = 0;
             do
             {
                 repeated = false;
@@ -137,6 +164,9 @@ namespace MataMonstruo
                     druidDamage = 0;
                     druidDefense = 0;
                     druidSkillCooldown = 0;
+                    monsterHP = 0;
+                    monsterDamage = 0;
+                    monsterDefense = 0;
 
                     //Asignacion stats arquera
                     repeated = false;
@@ -542,6 +572,64 @@ namespace MataMonstruo
                         }
                         Console.WriteLine(MenuSpliter);
                     }
+                    if(errorProvideAllStatsCounter < AllowedErrors)
+                    {
+                        archerTurnHP = archerHP;
+                        barbarianTurnHP = barbarianHP;
+                        mageTurnHP = mageHP;
+                        druidTurnHP = druidHP;
+                        monsterTurnHP = monsterHP;
+                        errorProvideNumFightMenuCounter = 0;
+
+                        Console.WriteLine(FightIcon);
+                        do
+                        {
+                            repeated = false;
+                            errorProvideNumFightMenuCounter = 0;
+                            fightOption = MinMenusOption;
+                            //ArcherTurn
+                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && archerTurnHP>DeathValue && !choosenOnCooldown)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(fightOption==SkillOption ? ErrorChoosenUnderCooldown : ErrorMenuOptionOutsideRange);
+                                }
+                                choosenOnCooldown = false;
+                                archerTurnDefense = archerDefense;
+                                
+                                Console.WriteLine(MenuSpliter);
+                                Console.Write(FightMenu, archerSkillCooldown==0 ? SkillReady : archerSkillCooldown);
+                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                switch (fightOption)
+                                {
+                                    case AtackOption:
+                                        monsterTurnHP -= (archerDamage * monsterDefense) / PercentageTop;
+                                        break;
+                                    case DefendOption:
+                                        archerTurnDefense+= archerDefense;
+                                        break;
+                                    case SkillOption:
+                                        if (archerSkillCooldown > 0)
+                                        {
+                                            choosenOnCooldown= true;
+                                            errorProvideNumFightMenuCounter++;
+                                        }
+                                        else
+                                        {
+                                            monsterStun = ArcherStunDuration;
+                                        }
+                                        break;
+                                    default:
+                                        errorProvideNumFightMenuCounter++;
+                                        break;
+                                }
+                                
+                            }
+
+
+                        } while (monsterTurnHP>DeathValue && (archerTurnHP>DeathValue || barbarianTurnHP>DeathValue || mageTurnHP>DeathValue || druidTurnHP>DeathValue) && errorProvideNumFightMenuCounter<AllowedErrors);
+                    }
+                    
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);
             if (errorProvideNumStartMenuCounter==AllowedErrors)

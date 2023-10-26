@@ -77,7 +77,7 @@ namespace MataMonstruo
             const string MenuSpliter = "--------------------------";
             const string FightIcon = "   |\\                     /)\r\n /\\_\\\\__               (_//\r\n|   `>\\-`     _._       //`)\r\n \\ /` \\\\  _.-`:::`-._  //\r\n  `    \\|`    :::    `|/\r\n        |     :::     |\r\n        |.....:::.....|\r\n        |:::::::::::::|\r\n        |     :::     |\r\n        \\     :::     /\r\n         \\    :::    /\r\n          `-. ::: .-'\r\n           //`:::`\\\\\r\n          //   '   \\\\\r\n         |/         \\\\";
             const string ProvideHP = "Vida [{0} - {1}]: ";
-            const string ProvideDamage = "Atac [{0} - {1}]: ";
+            const string ProvideDamage = "Ataque [{0} - {1}]: ";
             const string ProvideDefense = "Reduccion de daño (valor percentual) [{0} - {1}]: ";
             const string SkillReady = "Listo";
             const string ArcherStatAssign = "Proporciona los stats de la arquera";

@@ -907,6 +907,10 @@ namespace MataMonstruo
                         {
                             Console.WriteLine(MonsterWins);
                         }
+                        else
+                        {
+                            Console.WriteLine(ErrorOvercameErrorLimit);
+                        }
                     }
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);

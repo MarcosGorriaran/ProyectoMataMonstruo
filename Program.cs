@@ -42,6 +42,7 @@ namespace MataMonstruo
             const int MageMaxDamage = 350;
             const int MageMinDefense = 20;
             const int MageMaxDefense = 35;
+            const int MageSuperAttackMult = 3;
             //DruidStatsLimit
             const int DruidMinHP = 2000;
             const int DruidMaxHP = 2500;
@@ -590,7 +591,7 @@ namespace MataMonstruo
                             repeated = false;
                             errorProvideNumFightMenuCounter = 0;
                             fightOption = MinMenusOption; 
-                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && archerTurnHP>DeathValue && monsterHP>DeathValue && !choosenOnCooldown)
+                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && archerTurnHP>DeathValue && monsterHP>DeathValue && errorProvideNumFightMenuCounter>0)
                             {
                                 if (repeated)
                                 {
@@ -619,6 +620,7 @@ namespace MataMonstruo
                                         else
                                         {
                                             monsterStun = ArcherStunDuration;
+                                            archerSkillCooldown = GlobalSpecialSkillCooldown;
                                         }
                                         break;
                                     default:
@@ -632,7 +634,7 @@ namespace MataMonstruo
                             repeated = false;
                             errorProvideNumFightMenuCounter = 0;
                             fightOption = MinMenusOption;
-                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && barbarianTurnHP > DeathValue && monsterHP > DeathValue && !choosenOnCooldown)
+                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && barbarianTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -647,7 +649,7 @@ namespace MataMonstruo
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        monsterTurnHP -= (archerDamage * monsterDefense) / PercentageTop;
+                                        monsterTurnHP -= (barbarianDamage * monsterDefense) / PercentageTop;
                                         break;
                                     case DefendOption:
                                         barbarianTurnDefense += barbarianDefense;
@@ -661,6 +663,7 @@ namespace MataMonstruo
                                         else
                                         {
                                             barbarianPerfectDefense = BarbarianPerfectDefenseDuration;
+                                            barbarianSkillCooldown = GlobalSpecialSkillCooldown;
                                         }
                                         break;
                                     default:
@@ -671,6 +674,49 @@ namespace MataMonstruo
                                 {
                                     barbarianTurnDefense = PercentageTop;
                                 }
+                            }
+
+                            //MageTurn
+                            repeated = false;
+                            errorProvideNumFightMenuCounter = 0;
+                            fightOption = MinMenusOption;
+                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && mageTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(fightOption == SkillOption ? ErrorChoosenUnderCooldown : ErrorMenuOptionOutsideRange);
+                                }
+                                choosenOnCooldown = false;
+                                mageTurnDefense = mageDefense;
+
+                                Console.WriteLine(MenuSpliter);
+                                Console.Write(FightMenu, archerSkillCooldown == 0 ? SkillReady : archerSkillCooldown);
+                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                switch (fightOption)
+                                {
+                                    case AtackOption:
+                                        monsterTurnHP -= (mageDamage * monsterDefense) / PercentageTop;
+                                        break;
+                                    case DefendOption:
+                                        mageTurnDefense += mageDefense;
+                                        break;
+                                    case SkillOption:
+                                        if (mageSkillCooldown > 0)
+                                        {
+                                            choosenOnCooldown = true;
+                                            errorProvideNumFightMenuCounter++;
+                                        }
+                                        else
+                                        {
+                                            monsterTurnHP -= ((mageDamage * MageSuperAttackMult)) / PercentageTop;
+                                            mageSkillCooldown = GlobalSpecialSkillCooldown;
+                                        }
+                                        break;
+                                    default:
+                                        errorProvideNumFightMenuCounter++;
+                                        break;
+                                }
+
                             }
                         } while (monsterTurnHP>DeathValue && (archerTurnHP>DeathValue || barbarianTurnHP>DeathValue || mageTurnHP>DeathValue || druidTurnHP>DeathValue) && errorProvideNumFightMenuCounter<AllowedErrors);
                     }

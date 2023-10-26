@@ -1,6 +1,6 @@
 ﻿/**
  * Author: Gorriaran Caamaño Marcos Facundo
- * Date: 26/10/2023 V1
+ * Date: 26/10/2023 V1.1
  * Descripcion: Juego en el que el usuario al elegir jugar a traves de un menu tendra que
  * asignar los stats de los heroes que controlara y del monstruo que se enfrentara.
  * La lucha va por turnos y finaliza cuando todos los miembros de un lado caigan.
@@ -104,8 +104,11 @@ namespace MataMonstruo
             const string MonsterAttacks = "El monstruo lanza un zarpazo, alcanzando a todos los miembros del grupo";
             const string MonsterArcherDamage = "La arquera recive {0} puntos de daño, ahora posee {1} puntos de salud";
             const string MonsterBarbarianDamage = "El barbaro recive {0} puntos de daño, ahora posee {1} puntos de salud";
-            const string MonsterMageDamage = "La arquera recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string MonsterMageDamage = "El mago recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string MonsterDruidDamage = "El druid recive {0} puntos de daño, ahora posee {1} puntos de salud";
             const string MonsterIsStuned = "El monstruo aun sigue siendo incapaz de moverse del impacto de la arquera";
+            const string HeroesWin = "Los heroes consiguen derrotar al monstruo";
+            const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
 
             bool repeated;
             bool repeatedSecondLoop;
@@ -613,12 +616,15 @@ namespace MataMonstruo
                         {
                             //ArcherTurn
                             errorProvideNumFightMenuCounter = 0;
-                            while (archerTurnHP>DeathValue && monsterHP>DeathValue && errorProvideNumFightMenuCounter>0)
+                            fightOption = 0;
+                            choosenOnCooldown = true;
+                            while (archerTurnHP>DeathValue && monsterTurnHP>DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 archerTurnDefense = archerDefense;
                                 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(ArcherTurn);
                                 Console.Write(FightMenu, archerSkillCooldown==0 ? SkillReady : archerSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
                                 switch (fightOption)
@@ -665,12 +671,15 @@ namespace MataMonstruo
                             {
                                 errorProvideNumFightMenuCounter = 0;
                             }
-                            while (barbarianTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
+                            fightOption = 0;
+                            choosenOnCooldown = true;
+                            while (barbarianTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 barbarianTurnDefense = barbarianDefense;
 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(BarbarianTurn);
                                 Console.Write(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : barbarianSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
                                 switch (fightOption)
@@ -702,7 +711,7 @@ namespace MataMonstruo
                                         Console.WriteLine(ErrorOutsideStatRange);
                                         break;
                                 }
-                                if(!choosenOnCooldown && fightOption<=MaxFightMenuOpt && fightOption<=MinMenusOption)
+                                if(!choosenOnCooldown && fightOption<=MaxFightMenuOpt && fightOption>=MinMenusOption)
                                 {
                                     if (barbarianPerfectDefense > 0)
                                     {
@@ -722,12 +731,15 @@ namespace MataMonstruo
                             {
                                 errorProvideNumFightMenuCounter = 0;
                             }
-                            while (mageTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
+                            fightOption = 0;
+                            choosenOnCooldown = true;
+                            while (mageTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 mageTurnDefense = mageDefense;
 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(MageTurn);
                                 Console.Write(FightMenu, mageSkillCooldown == 0 ? SkillReady : mageSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
                                 switch (fightOption)
@@ -751,7 +763,7 @@ namespace MataMonstruo
                                         {
                                             monsterTurnHP -= (mageDamage*MageSuperAttackMult)-(((mageDamage * MageSuperAttackMult)) / PercentageTop);
                                             mageSkillCooldown = GlobalSpecialSkillCooldown;
-                                            Console.WriteLine(MageSkill);
+                                            Console.WriteLine(MageSkill, (mageDamage * MageSuperAttackMult) - (((mageDamage * MageSuperAttackMult)) / PercentageTop),monsterTurnHP);
                                         }
                                         break;
                                     default:
@@ -774,12 +786,15 @@ namespace MataMonstruo
                             {
                                 errorProvideNumFightMenuCounter = 0;
                             }
-                            while (druidTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
+                            fightOption = 0;
+                            choosenOnCooldown = true;
+                            while (druidTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 druidTurnDefense = druidDefense;
 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(DruidTurn);
                                 Console.Write(FightMenu, druidSkillCooldown == 0 ? SkillReady : druidSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
                                 switch (fightOption)
@@ -801,7 +816,7 @@ namespace MataMonstruo
                                         }
                                         else
                                         {
-                                            Console.WriteLine(DruidSkill);
+                                            Console.WriteLine(DruidSkill , DruidHealingAmount);
                                             if(archerTurnHP > DeathValue)
                                             {
                                                 archerTurnHP += DruidHealingAmount;
@@ -853,6 +868,7 @@ namespace MataMonstruo
                             if (errorProvideNumFightMenuCounter < AllowedErrors && monsterTurnHP > DeathValue && monsterStun<=0)
                             {
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(MonsterAttacks);
                                 if (archerTurnHP>DeathValue)
                                 {
                                     archerTurnHP -= monsterDamage - ((monsterDamage * archerTurnDefense) / PercentageTop);
@@ -872,7 +888,7 @@ namespace MataMonstruo
                                 if (druidTurnHP > DeathValue)
                                 {
                                     druidTurnHP -= monsterDamage-((monsterDamage * druidTurnDefense) / PercentageTop);
-                                    Console.WriteLine(MonsterMageDamage, monsterDamage - ((monsterDamage * druidTurnDefense) / PercentageTop), druidTurnHP);
+                                    Console.WriteLine(MonsterDruidDamage, monsterDamage - ((monsterDamage * druidTurnDefense) / PercentageTop), druidTurnHP);
                                 }
                                 Console.WriteLine(MenuSpliter);
                             } else if(errorProvideNumFightMenuCounter < AllowedErrors && monsterTurnHP > DeathValue && monsterStun>0)
@@ -883,6 +899,14 @@ namespace MataMonstruo
                                 Console.WriteLine(MenuSpliter);
                             }
                         } while (monsterTurnHP>DeathValue && (archerTurnHP>DeathValue || barbarianTurnHP>DeathValue || mageTurnHP>DeathValue || druidTurnHP>DeathValue) && errorProvideNumFightMenuCounter<AllowedErrors);
+                        if (monsterTurnHP <= DeathValue)
+                        {
+                            Console.WriteLine(HeroesWin);
+                        }
+                        else if(archerTurnHP > DeathValue && barbarianTurnHP > DeathValue && mageTurnHP > DeathValue && druidTurnHP > DeathValue)
+                        {
+                            Console.WriteLine(MonsterWins);
+                        }
                     }
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);

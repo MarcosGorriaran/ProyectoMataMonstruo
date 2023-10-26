@@ -50,6 +50,7 @@ namespace MataMonstruo
             const int DruidMaxDamage = 120;
             const int DruidMinDefense = 25;
             const int DruidMaxDefense = 40;
+            const int DruidHealingAmount = 500;
             //MonsterStatsLimit
             const int MonsterMinHP = 9000;
             const int MonsterMaxHP = 12000;
@@ -590,8 +591,7 @@ namespace MataMonstruo
                             //ArcherTurn
                             repeated = false;
                             errorProvideNumFightMenuCounter = 0;
-                            fightOption = MinMenusOption; 
-                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && archerTurnHP>DeathValue && monsterHP>DeathValue && errorProvideNumFightMenuCounter>0)
+                            while (archerTurnHP>DeathValue && monsterHP>DeathValue && errorProvideNumFightMenuCounter>0)
                             {
                                 if (repeated)
                                 {
@@ -633,8 +633,7 @@ namespace MataMonstruo
                             //BarbarianTurn
                             repeated = false;
                             errorProvideNumFightMenuCounter = 0;
-                            fightOption = MinMenusOption;
-                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && barbarianTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
+                            while (barbarianTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -644,7 +643,7 @@ namespace MataMonstruo
                                 barbarianTurnDefense = barbarianDefense;
 
                                 Console.WriteLine(MenuSpliter);
-                                Console.Write(FightMenu, archerSkillCooldown == 0 ? SkillReady : archerSkillCooldown);
+                                Console.Write(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : barbarianSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
                                 switch (fightOption)
                                 {
@@ -679,8 +678,7 @@ namespace MataMonstruo
                             //MageTurn
                             repeated = false;
                             errorProvideNumFightMenuCounter = 0;
-                            fightOption = MinMenusOption;
-                            while (fightOption < MinMenusOption && fightOption > MaxFightMenuOpt && mageTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
+                            while (mageTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -690,7 +688,7 @@ namespace MataMonstruo
                                 mageTurnDefense = mageDefense;
 
                                 Console.WriteLine(MenuSpliter);
-                                Console.Write(FightMenu, archerSkillCooldown == 0 ? SkillReady : archerSkillCooldown);
+                                Console.Write(FightMenu, mageSkillCooldown == 0 ? SkillReady : mageSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
                                 switch (fightOption)
                                 {
@@ -716,11 +714,81 @@ namespace MataMonstruo
                                         errorProvideNumFightMenuCounter++;
                                         break;
                                 }
+                            }
 
+                            //DruidTurn
+                            repeated = false;
+                            errorProvideNumFightMenuCounter = 0;
+                            while (druidTurnHP > DeathValue && monsterHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(fightOption == SkillOption ? ErrorChoosenUnderCooldown : ErrorMenuOptionOutsideRange);
+                                }
+                                choosenOnCooldown = false;
+                                druidTurnDefense = druidDefense;
+
+                                Console.WriteLine(MenuSpliter);
+                                Console.Write(FightMenu, druidSkillCooldown == 0 ? SkillReady : druidSkillCooldown);
+                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                switch (fightOption)
+                                {
+                                    case AtackOption:
+                                        monsterTurnHP -= (druidDamage * monsterDefense) / PercentageTop;
+                                        break;
+                                    case DefendOption:
+                                        druidTurnDefense += druidDefense;
+                                        break;
+                                    case SkillOption:
+                                        if (druidSkillCooldown > 0)
+                                        {
+                                            choosenOnCooldown = true;
+                                            errorProvideNumFightMenuCounter++;
+                                        }
+                                        else
+                                        {
+                                            if(archerTurnHP > DeathValue)
+                                            {
+                                                archerTurnHP += DruidHealingAmount;
+                                                if(archerTurnHP > archerHP)
+                                                {
+                                                    archerTurnHP = archerHP;
+                                                }
+                                            }
+                                            if (barbarianTurnHP > DeathValue)
+                                            {
+                                                barbarianTurnHP += DruidHealingAmount;
+                                                if (barbarianTurnHP > barbarianHP)
+                                                {
+                                                    barbarianTurnHP = barbarianHP;
+                                                }
+                                            }
+                                            if (mageTurnHP > DeathValue)
+                                            {
+                                                mageTurnHP += DruidHealingAmount;
+                                                if (mageTurnHP > mageHP)
+                                                {
+                                                    mageTurnHP = mageHP;
+                                                }
+                                            }
+                                            if (druidTurnHP > DeathValue)
+                                            {
+                                                druidTurnHP += DruidHealingAmount;
+                                                if (druidTurnHP > druidHP)
+                                                {
+                                                    druidTurnHP = druidHP;
+                                                }
+                                            }
+                                            druidSkillCooldown = GlobalSpecialSkillCooldown;
+                                        }
+                                        break;
+                                    default:
+                                        errorProvideNumFightMenuCounter++;
+                                        break;
+                                }
                             }
                         } while (monsterTurnHP>DeathValue && (archerTurnHP>DeathValue || barbarianTurnHP>DeathValue || mageTurnHP>DeathValue || druidTurnHP>DeathValue) && errorProvideNumFightMenuCounter<AllowedErrors);
                     }
-                    
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);
             if (errorProvideNumStartMenuCounter==AllowedErrors)

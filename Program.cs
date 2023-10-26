@@ -121,6 +121,14 @@ namespace MataMonstruo
 
                 if (menuOption == StartGameOption)
                 {
+                    archerHP = 0;
+                    archerDamage = 0;
+                    archerDefense = 0;
+                    archerSkillCooldown = 0;
+                    barbarianHP = 0;
+                    barbarianDamage = 0;
+                    barbarianDefense = 0;
+                    barbarianSkillCooldown = 0;
                     mageHP = 0;
                     mageDamage = 0;
                     mageDefense = 0;
@@ -130,6 +138,7 @@ namespace MataMonstruo
                     druidDefense = 0;
                     druidSkillCooldown = 0;
 
+                    //Asignacion stats arquera
                     repeated = false;
                     errorProvideAllStatsCounter = 0;
                     while (errorProvideAllStatsCounter < AllowedErrors && (archerDefense < ArcherMinDefense || archerDefense > ArcherMaxDefense))
@@ -207,12 +216,13 @@ namespace MataMonstruo
                         Console.WriteLine(MenuSpliter);
                     }
 
+                    //Asignacion de stats barbaro
                     repeated = false;
                     if(errorProvideAllStatsCounter < AllowedErrors)
                     {
                         errorProvideAllStatsCounter = 0;
                     }
-                    while (errorProvideAllStatsCounter < AllowedErrors && (barbarianDefense < ArcherMinDefense || barbarianDefense > ArcherMaxDefense))
+                    while (errorProvideAllStatsCounter < AllowedErrors && (barbarianDefense < BarbarianMinDefense || barbarianDefense > BarbarianMaxDefense))
                     {
                         barbarianHP = 0;
                         barbarianDamage = 0;
@@ -287,6 +297,89 @@ namespace MataMonstruo
                         }
                         Console.WriteLine(MenuSpliter);
                     }
+
+                    //Asignacion de stats mago
+                    repeated = false;
+                    if (errorProvideAllStatsCounter < AllowedErrors)
+                    {
+                        errorProvideAllStatsCounter = 0;
+                    }
+                    while (errorProvideAllStatsCounter < AllowedErrors && (mageDefense < MageMinDefense || mageDefense > MageMaxDefense))
+                    {
+                        mageHP = 0;
+                        mageDamage = 0;
+                        mageDefense = 0;
+                        mageSkillCooldown = 0;
+                        if (repeated)
+                        {
+                            errorProvideAllStatsCounter++;
+                            Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                        }
+                        if (errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(MageStatAssign);
+                        }
+
+                        repeated = true;
+                        repeatedSecondLoop = false;
+                        errorProvideStatsCounter = 0;
+                        while ((mageHP < MageMinHP || mageHP > MageMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideHP, MageMinHP, MageMaxHP);
+                                mageHP = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((mageDamage < MageMinDamage || mageDamage > MageMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDamage, MageMinDamage, MageMaxDamage);
+                                mageDamage = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((mageDefense < MageMinDefense || mageDefense > MageMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDefense, MageMinDefense, MageMaxDefense);
+                                mageDefense = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        Console.WriteLine(MenuSpliter);
+                    }
+
 
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);

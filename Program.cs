@@ -462,6 +462,86 @@ namespace MataMonstruo
                         Console.WriteLine(MenuSpliter);
                     }
 
+                    //Asignacion de stats monstruo
+                    repeated = false;
+                    if (errorProvideAllStatsCounter < AllowedErrors)
+                    {
+                        errorProvideAllStatsCounter = 0;
+                    }
+                    while (errorProvideAllStatsCounter < AllowedErrors && (monsterDefense < MonsterMinDefense || monsterDefense > MonsterMaxDefense))
+                    {
+                        monsterHP = 0;
+                        monsterDamage = 0;
+                        monsterDefense = 0;
+                        if (repeated)
+                        {
+                            errorProvideAllStatsCounter++;
+                            Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                        }
+                        if (errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(MonsterStatAssign);
+                        }
+
+                        repeated = true;
+                        repeatedSecondLoop = false;
+                        errorProvideStatsCounter = 0;
+                        while ((monsterHP < MonsterMinHP || monsterHP > MonsterMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideHP, MonsterMinHP, MonsterMaxHP);
+                                monsterHP = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((monsterDamage < MonsterMinDamage || monsterDamage > MonsterMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
+                                monsterDamage = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((monsterDefense < MonsterMinDefense || monsterDefense > MonsterMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
+                                monsterDefense = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        Console.WriteLine(MenuSpliter);
+                    }
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);
             if (errorProvideNumStartMenuCounter==AllowedErrors)

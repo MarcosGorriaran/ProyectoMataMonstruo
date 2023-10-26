@@ -50,6 +50,7 @@ namespace MataMonstruo
             const int MonsterMaxDefense = 30;
             const string ErrorMenuOptionOutsideRange = "Opcion seleccionado en el menu esta fuera del rango permitido, elige una de las opciones que se muestran en pantalla";
             const string ErrorOvercameErrorLimit = "Se ha superado el limite de errores, debera de reintroducir los valores en este apartado";
+            const string ErrorOvercameSecondErrorLimit = "Ha cometido 3 errores 3 veces, vuelve al principio";
             const string ErrorOutsideStatRange = "El valor esta fuera del rango solicitado";
             const string ErrorOvercameStartErrorLimit = "Se ha superado el limite de errores en el menu principal, el programa finalizara por ello";
             const string StartingMenu = "1. Iniciar una nueva batalla \n2. Salir \nEscribe el numero de la opcion deseas utilizar: ";
@@ -58,6 +59,10 @@ namespace MataMonstruo
             const string ProvideDamage = "Atac [{0} - {1}]: ";
             const string ProvideDefense = "Reduccion de daño (valor percentual) [{0} - {1}]: ";
             const string ArcherStatAssign = "Proporciona los stats de la arquera";
+            const string BarbarianStatAssign = "Proporciona los stats del barbaro";
+            const string MageStatAssign = "Proporciona los stats del mago";
+            const string DruidStatAssign = "Proporciona los stats del druida";
+            const string MonsterStatAssign = "Proporciona los stats del monstruo";
 
             bool repeated;
             bool repeatedSecondLoop;
@@ -102,7 +107,7 @@ namespace MataMonstruo
                     if (repeated)
                     {
                         errorProvideNumStartMenuCounter++;
-                        Console.WriteLine(ErrorOvercameErrorLimit);
+                        Console.WriteLine(ErrorMenuOptionOutsideRange);
                     }
                     repeated = true;
                     if (errorProvideNumStartMenuCounter < AllowedErrors)
@@ -116,10 +121,6 @@ namespace MataMonstruo
 
                 if (menuOption == StartGameOption)
                 {
-                    barbarianHP = 0;
-                    barbarianDamage = 0;
-                    barbarianDefense = 0;
-                    barbarianSkillCooldown = 0;
                     mageHP = 0;
                     mageDamage = 0;
                     mageDefense = 0;
@@ -137,18 +138,22 @@ namespace MataMonstruo
                         archerDamage = 0;
                         archerDefense = 0;
                         archerSkillCooldown = 0;
-                        Console.WriteLine(MenuSpliter);
                         if (repeated)
                         {
                             errorProvideAllStatsCounter++;
-                            Console.WriteLine(ErrorMenuOptionOutsideRange);
+                            Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
                         }
-                        Console.WriteLine(ArcherStatAssign);
+                        if (errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(ArcherStatAssign);
+                        }
                         repeated = true;
                         repeatedSecondLoop = false;
                         errorProvideStatsCounter = 0;
-                        while ((archerHP<ArcherMinHP || archerHP>ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while ((archerHP < ArcherMinHP || archerHP > ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
+                            
                             if (repeatedSecondLoop)
                             {
                                 Console.WriteLine(ErrorOutsideStatRange);
@@ -161,12 +166,12 @@ namespace MataMonstruo
                                 archerHP = Convert.ToInt32(Console.ReadLine());
                             }
                         }
-                        if(errorProvideStatsCounter < AllowedErrors)
+                        if (errorProvideStatsCounter < AllowedErrors)
                         {
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((archerDamage<ArcherMinDamage || archerDamage>ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while ((archerDamage < ArcherMinDamage || archerDamage > ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -201,6 +206,88 @@ namespace MataMonstruo
                         }
                         Console.WriteLine(MenuSpliter);
                     }
+
+                    repeated = false;
+                    if(errorProvideAllStatsCounter < AllowedErrors)
+                    {
+                        errorProvideAllStatsCounter = 0;
+                    }
+                    while (errorProvideAllStatsCounter < AllowedErrors && (barbarianDefense < ArcherMinDefense || barbarianDefense > ArcherMaxDefense))
+                    {
+                        barbarianHP = 0;
+                        barbarianDamage = 0;
+                        barbarianDefense = 0;
+                        barbarianSkillCooldown = 0;
+                        if (repeated)
+                        {
+                            errorProvideAllStatsCounter++;
+                            Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                        }
+                        if(errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(BarbarianStatAssign);
+                        }
+                        
+                        repeated = true;
+                        repeatedSecondLoop = false;
+                        errorProvideStatsCounter = 0;
+                        while ((barbarianHP < BarbarianMinHP || barbarianHP > BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
+                                barbarianHP = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((barbarianDamage < BarbarianMinDamage || barbarianDamage > BarbarianMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
+                                barbarianDamage = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((barbarianDefense < BarbarianMinDefense || barbarianDefense > BarbarianMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
+                                barbarianDefense = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        Console.WriteLine(MenuSpliter);
+                    }
+
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);
             if (errorProvideNumStartMenuCounter==AllowedErrors)

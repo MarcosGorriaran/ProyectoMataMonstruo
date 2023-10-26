@@ -379,7 +379,88 @@ namespace MataMonstruo
                         }
                         Console.WriteLine(MenuSpliter);
                     }
+                    
+                    //Asignacion de stats druida
+                    repeated = false;
+                    if (errorProvideAllStatsCounter < AllowedErrors)
+                    {
+                        errorProvideAllStatsCounter = 0;
+                    }
+                    while (errorProvideAllStatsCounter < AllowedErrors && (druidDefense < DruidMinDefense || druidDefense > DruidMaxDefense))
+                    {
+                        druidHP = 0;
+                        druidDamage = 0;
+                        druidDefense = 0;
+                        druidSkillCooldown = 0;
+                        if (repeated)
+                        {
+                            errorProvideAllStatsCounter++;
+                            Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                        }
+                        if (errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(DruidStatAssign);
+                        }
 
+                        repeated = true;
+                        repeatedSecondLoop = false;
+                        errorProvideStatsCounter = 0;
+                        while ((druidHP < DruidMinHP || druidHP > DruidMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideHP, DruidMinHP, DruidMaxHP);
+                                druidHP = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((druidDamage < DruidMinDamage || druidDamage > DruidMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDamage, DruidMinDamage, DruidMaxDamage);
+                                druidDamage = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        if (errorProvideStatsCounter < AllowedErrors)
+                        {
+                            errorProvideStatsCounter = 0;
+                        }
+                        repeatedSecondLoop = false;
+                        while ((druidDefense < DruidMinDefense || druidDefense > DruidMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        {
+                            if (repeatedSecondLoop)
+                            {
+                                Console.WriteLine(ErrorOutsideStatRange);
+                                errorProvideStatsCounter++;
+                            }
+                            repeatedSecondLoop = true;
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDefense, DruidMinDefense, DruidMaxDefense);
+                                druidDefense = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+                        Console.WriteLine(MenuSpliter);
+                    }
 
                 }
             }while (menuOption!=ExitGameOption && errorProvideNumStartMenuCounter<AllowedErrors);

@@ -63,36 +63,36 @@ namespace MataMonstruo
             bool repeatedSecondLoop;
             int menuOption = 0;
             int errorProvideNumStartMenuCounter;
-            int errorProvideAllStatsCounter= 0;
+            int errorProvideAllStatsCounter;
             int errorProvideStatsCounter;
             //ArcherStats
             int archerHP;
             int archerDamage;
-            int archerDefense;
+            int archerDefense = 0;
             int archerTurnDefense;
-            int archerSkillCooldown = 0;
+            int archerSkillCooldown;
             //BarbarianStats
             int barbarianHP;
             int barbarianDamage;
-            int barbarianDefense;
+            int barbarianDefense = 0;
             int barbarianTurnDefense;
             int barbarianSkillCooldown = 0;
             //MageStats
             int mageHP;
             int mageDamage;
-            int mageDefense;
+            int mageDefense = 0;
             int mageTurnDefense;
             int mageSkillCooldown = 0;
             //DruidStats
             int druidHP;
             int druidDamage;
-            int druidDefense;
+            int druidDefense = 0;
             int druidTurnDefense;
             int druidSkillCooldown = 0;
             //MonsterStats
             int monsterHP;
             int monsterDamage;
-            int monsterDefense;
+            int monsterDefense = 0;
             do
             {
                 repeated = false;
@@ -102,7 +102,7 @@ namespace MataMonstruo
                     if (repeated)
                     {
                         errorProvideNumStartMenuCounter++;
-                        Console.WriteLine(ErrorMenuOptionOutsideRange);
+                        Console.WriteLine(ErrorOvercameErrorLimit);
                     }
                     repeated = true;
                     if (errorProvideNumStartMenuCounter < AllowedErrors)
@@ -116,10 +116,6 @@ namespace MataMonstruo
 
                 if (menuOption == StartGameOption)
                 {
-                    archerHP = 0;
-                    archerDamage = 0;
-                    archerDefense = 0;
-                    archerSkillCooldown = 0;
                     barbarianHP = 0;
                     barbarianDamage = 0;
                     barbarianDefense = 0;
@@ -134,8 +130,13 @@ namespace MataMonstruo
                     druidSkillCooldown = 0;
 
                     repeated = false;
-                    while (errorProvideAllStatsCounter < AllowedErrors)
+                    errorProvideAllStatsCounter = 0;
+                    while (errorProvideAllStatsCounter < AllowedErrors && (archerDefense < ArcherMinDefense || archerDefense > ArcherMaxDefense))
                     {
+                        archerHP = 0;
+                        archerDamage = 0;
+                        archerDefense = 0;
+                        archerSkillCooldown = 0;
                         Console.WriteLine(MenuSpliter);
                         if (repeated)
                         {
@@ -146,7 +147,7 @@ namespace MataMonstruo
                         repeated = true;
                         repeatedSecondLoop = false;
                         errorProvideStatsCounter = 0;
-                        while ((archerHP<ArcherMinHP || archerHP>ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors)
+                        while ((archerHP<ArcherMinHP || archerHP>ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -154,15 +155,18 @@ namespace MataMonstruo
                                 errorProvideStatsCounter++;
                             }
                             repeatedSecondLoop = true;
-                            Console.Write(ProvideHP,ArcherMinHP,ArcherMaxHP);
-                            archerHP = Convert.ToInt32(Console.ReadLine());
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideHP, ArcherMinHP, ArcherMaxHP);
+                                archerHP = Convert.ToInt32(Console.ReadLine());
+                            }
                         }
                         if(errorProvideStatsCounter < AllowedErrors)
                         {
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((archerDamage<ArcherMinDamage || archerDamage>ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                        while ((archerDamage<ArcherMinDamage || archerDamage>ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -170,15 +174,18 @@ namespace MataMonstruo
                                 errorProvideStatsCounter++;
                             }
                             repeatedSecondLoop = true;
-                            Console.Write(ProvideDamage,ArcherMinDamage,ArcherMaxDamage);
-                            archerDamage = Convert.ToInt32(Console.ReadLine());
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
+                                archerDamage = Convert.ToInt32(Console.ReadLine());
+                            }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
                         {
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((archerDefense < ArcherMinDefense || archerDefense > ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                        while ((archerDefense < ArcherMinDefense || archerDefense > ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -186,8 +193,11 @@ namespace MataMonstruo
                                 errorProvideStatsCounter++;
                             }
                             repeatedSecondLoop = true;
-                            Console.Write(ProvideDefense,ArcherMinDefense,ArcherMaxDefense);
-                            archerDamage = Convert.ToInt32(Console.ReadLine());
+                            if (errorProvideStatsCounter < AllowedErrors)
+                            {
+                                Console.Write(ProvideDefense, ArcherMinDefense, ArcherMaxDefense);
+                                archerDefense = Convert.ToInt32(Console.ReadLine());
+                            }
                         }
                         Console.WriteLine(MenuSpliter);
                     }

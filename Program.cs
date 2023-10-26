@@ -84,6 +84,22 @@ namespace MataMonstruo
             const string BarbarianTurn = "Es el turno del barbaro";
             const string MageTurn = "Es el turno del mago";
             const string DruidTurn = "Es el turno del druida";
+            const string ArcherAttackMsg = "La arquera lanza una flecha al monstruo causando {0} puntos de daño, al monstruo le queda {1} puntos de vida";
+            const string ArcherProtectsMsg = "La arquera se prepara para el impacto del siguiente ataque";
+            const string ArcherSkill = "La arquera immobiliza al monstruo con una flecha en la pierna, el monstruo es incapaz de moverse por dos turnos";
+            const string BarbarianAttackMsg = "El barbaro se avalanza con su hacha e impacta, causando {0} puntos de daño, al monstruo le queda {1} puntos de vida";
+            const string BarbarianProtectsMsg = "El barbaro se prepara para recivir el impacto del siguiente ataque";
+            const string BarbarianSkill = "El barbaro toma una postura defensiva impecable, en los proximos 3 turnos su defensa es perfecta y no puede recivir daño";
+            const string MageAttack = "El mago prepara y lanza un rayo magico al monstruo causando {0} puntos de daño, al monstruo le queda {1} puntos de vida";
+            const string MageProtects = "El mago se prepara para el impacto del siguiente ataque";
+            const string MageSkill = "El mago decide tirar logica por la ventana y grita 'FIREBALL AND ONLY FIREBALL' y lanza una tormenta de bolas de fuego causando {0}, al monstruo le queda {1} puntos de vida";
+            const string DruidAttack = "El druida da un mamporro con su baston al monstruo causando {0} puntos de daño, al monstruo le queda {1} puntos de vida";
+            const string DruidProtects = "El druida se prepara para el impacto del siguiente ataque";
+            const string DruidSkill = "El druida prepara un hechizo curativo que envuelve a todos los aventureros que aun quedan en pie y todos estos son sanados {0} puntos de salud";
+            const string MonsterAttacks = "El monstruo lanza un zarpazo, alcanzando a todos los miembros del grupo";
+            const string MonsterArcherDamage = "La arquera recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string MonsterBarbarianDamage = "El barbaro recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string MonsterMageDamage = "La arquera recive {0} puntos de daño, ahora posee {1} puntos de salud";
 
             bool repeated;
             bool repeatedSecondLoop;
@@ -802,19 +818,24 @@ namespace MataMonstruo
                             {
                                 if (archerTurnHP>DeathValue)
                                 {
-                                    archerTurnHP -= (monsterDamage * archerTurnDefense) / PercentageTop;
+                                    archerTurnHP -= monsterDamage - ((monsterDamage * archerTurnDefense) / PercentageTop);
+                                    Console.WriteLine(MonsterArcherDamage, monsterDamage - ((monsterDamage * archerTurnDefense) / PercentageTop), archerTurnHP);
                                 }
                                 if (barbarianTurnHP > DeathValue)
                                 {
-                                    barbarianTurnHP -= (monsterDamage * barbarianTurnDefense) / PercentageTop;
+                                    barbarianTurnHP -= monsterDamage - ((monsterDamage * barbarianTurnDefense) / PercentageTop);
+                                    Console.WriteLine(MonsterBarbarianDamage, monsterDamage - ((monsterDamage * barbarianTurnDefense) / PercentageTop), barbarianTurnHP);
+
                                 }
                                 if (mageTurnHP > DeathValue)
                                 {
-                                    mageTurnHP -= (monsterDamage * mageTurnDefense) / PercentageTop;
+                                    mageTurnHP -= monsterDamage-((monsterDamage * mageTurnDefense) / PercentageTop);
+                                    Console.WriteLine(MonsterMageDamage, monsterDamage - ((monsterDamage * mageTurnDefense) / PercentageTop), mageTurnHP);
                                 }
                                 if (druidTurnHP > DeathValue)
                                 {
-                                    druidTurnHP -= (monsterDamage * druidTurnDefense) / PercentageTop;
+                                    druidTurnHP -= monsterDamage-((monsterDamage * druidTurnDefense) / PercentageTop);
+                                    Console.WriteLine(MonsterMageDamage, monsterDamage - ((monsterDamage * druidTurnDefense) / PercentageTop), druidTurnHP);
                                 }
                             } else if(errorProvideNumFightMenuCounter < AllowedErrors)
                             {

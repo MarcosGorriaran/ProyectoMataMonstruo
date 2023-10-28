@@ -9,9 +9,9 @@
  */
 using System;
 
-namespace MataMonstruo
+namespace GameProject
 {
-    class Execute
+    class GorriaranMarcosCode
     {
         public static void Main()
         {

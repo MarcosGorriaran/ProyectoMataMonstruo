@@ -1,6 +1,6 @@
 ﻿/**
  * Author: Gorriaran Caamaño Marcos Facundo
- * Date: 26/10/2023 V1.1
+ * Date: 28/10/2023 V1.2
  * Descripcion: Juego en el que el usuario al elegir jugar a traves de un menu tendra que
  * asignar los stats de los heroes que controlara y del monstruo que se enfrentara.
  * La lucha va por turnos y finaliza cuando todos los miembros de un lado caigan.
@@ -76,6 +76,11 @@ namespace MataMonstruo
             const string FightMenu = "1. Atacar \n2. Defenderse \n3. Habilidad especial, tiempo de espera {0} \nElige una de las acciones listadas: ";
             const string MenuSpliter = "--------------------------";
             const string FightIcon = "   |\\                     /)\r\n /\\_\\\\__               (_//\r\n|   `>\\-`     _._       //`)\r\n \\ /` \\\\  _.-`:::`-._  //\r\n  `    \\|`    :::    `|/\r\n        |     :::     |\r\n        |.....:::.....|\r\n        |:::::::::::::|\r\n        |     :::     |\r\n        \\     :::     /\r\n         \\    :::    /\r\n          `-. ::: .-'\r\n           //`:::`\\\\\r\n          //   '   \\\\\r\n         |/         \\\\";
+            const string ArcherIcon = "          4$$-.                          \r\n           4   \".                                        \r\n           4    ^.                                       \r\n           4     $                                       \r\n           4     'b                                      \r\n           4      \"b.                                    \r\n           4        $                                    \r\n           4        $r                                   \r\n           4        $F                                   \r\n-$b========4========$b====*P=-                           \r\n           4       *$$F                                  \r\n           4        $$\"                                  \r\n           4       .$F                                   \r\n           4       dP                                    \r\n           4      F                                      \r\n           4     @                                       \r\n           4    .                                        \r\n           J.                                            \r\n          '$$ ";
+            const string BarbarianIcon = "                                           _.gd8888888bp._\r\n                                        .g88888888888888888p.\r\n                                      .d8888P\"\"       \"\"Y8888b.\r\n                                      \"Y8P\"               \"Y8P'\r\n                                         `.               ,'\r\n                                           \\     .-.     /\r\n                                            \\   (___)   /\r\n .------------------._______________________:__________j\r\n/                   |                      |           |`-.,_\r\n\\###################|######################|###########|,-'`\r\n `------------------'                       :    ___   l\r\n                                            /   (   )   \\\r\n                                           /     `-'     \\\r\n                                         ,'               `.\r\n                                      .d8b.               .d8b.\r\n                                      \"Y8888p..       ,.d8888P\"\r\n                                        \"Y88888888888888888P\"\r\n                                           \"\"YY8888888PP\"\"";
+            const string MageIcon = "                (                           )\r\n          ) )( (                           ( ) )( (\r\n       ( ( ( )  ) )                     ( (   (  ) )(\r\n      ) )     ,,\\\\\\                     ///,,       ) (\r\n   (  ((    (\\\\\\\\//                     \\\\////)      )\r\n    ) )    (-(__//                       \\\\__)-)     (\r\n   (((   ((-(__||                         ||__)-))    ) )\r\n  ) )   ((-(-(_||           ```\\__        ||_)-)-))   ((\r\n  ((   ((-(-(/(/\\\\        ''; 9.- `      //\\)\\)-)-))    )\r\n   )   (-(-(/(/(/\\\\      '';;;;-\\~      //\\)\\)\\)-)-)   (   )\r\n(  (   ((-(-(/(/(/\\======,:;:;:;:,======/\\)\\)\\)-)-))   )\r\n    )  '(((-(/(/(/(//////:%%%%%%%:\\\\\\\\\\\\)\\)\\)\\)-)))`  ( (\r\n   ((   '((-(/(/(/('uuuu:WWWWWWWWW:uuuu`)\\)\\)\\)-))`    )\r\n     ))  '((-(/(/(/('|||:wwwwwwwww:|||')\\)\\)\\)-))`    ((\r\n  (   ((   '((((/(/('uuu:WWWWWWWWW:uuu`)\\)\\))))`     ))\r\n        ))   '':::UUUUUU:wwwwwwwww:UUUUUU:::``     ((   )\r\n          ((      '''''''\\uuuuuuuu/``````         ))\r\n           ))            `JJJJJJJJJ`           ((\r\n             ((            LLLLLLLLLLL         ))\r\n               ))         ///|||||||\\\\\\       ((\r\n                 ))      (/(/(/(^)\\)\\)\\)       ((\r\n                  ((                           ))\r\n                    ((                       ((\r\n                      ( )( ))( ( ( ) )( ) (()";
+            const string DruidIcon = "        ,\r\n        }`-.   ,          ,\r\n        \\ \\ '-' \\      .-'{\r\n        _} .  | ,`\\   /  ' ;    .-;\\\r\n       {    \\ |    | / `/  '-.,/ ; |\r\n       { -- -.  '  '`-, .--._.' ;  \\__\r\n        \\     \\ | '  /  |`.    ;    _,`\\\r\n         '. '-     ' `_- '.`;  ; ,-`_.-'\r\n     ,--.  \\    `   /` '--'  `;.` (`  _\r\n  .--.\\  '._) '-. \\ \\ `-.    ;     `-';|  \r\n  '. -. '         __ '.  ;  ;     _,-' /\r\n   { __'.\\  ' '-,/; `-'   ';`.- `   .-'\r\n    '-.  `-._'  | `;     ;`'   .-'`\r\n      <_ -'   ` .\\  `;  ;     (_.'`\\\r\n      _.;-\"``\"'-._'. `:;  ___, _.-' |\r\n  .-'\\'. '.` \\ \\_,_`\\ ;##`   `';  _.'\r\n /_'._\\ \\  \\__;#####./###.      \\`\r\n \\.' .'`/\"`/ (#######)###::.. _.'\r\n  '.' .'  ; , |:.  `|()##`\"\"\"`\r\n    `'-../__/_\\::   /O()()o\r\n             ()'._.'`()()'";
+            const string MonsterIcon = "                 ___====-_  _-====___\r\n           _--^^^#####//      \\\\#####^^^--_\r\n        _-^##########// (    ) \\\\##########^-_\r\n       -############//  |\\^^/|  \\\\############-\r\n     _/############//   (@::@)   \\\\############\\_\r\n    /#############((     \\\\//     ))#############\\\r\n   -###############\\\\    (oo)    //###############-\r\n  -#################\\\\  / VV \\  //#################-\r\n -###################\\\\/      \\//###################-\r\n_#/|##########/\\######(   /\\   )######/\\##########|\\#_\r\n|/ |#/\\#/\\#/\\/  \\#/\\##\\  |  |  /##/\\#/  \\/\\#/\\#/\\#| \\|\r\n`  |/  V  V  `   V  \\#\\| |  | |/#/  V   '  V  V  \\|  '\r\n   `   `  `      `   / | |  | | \\   '      '  '   '\r\n                    (  | |  | |  )\r\n                   __\\ | |  | | /__\r\n                  (vvv(VVV)(VVV)vvv)";
             const string ProvideHP = "Vida [{0} - {1}]: ";
             const string ProvideDamage = "Ataque [{0} - {1}]: ";
             const string ProvideDefense = "Reduccion de daño (valor percentual) [{0} - {1}]: ";
@@ -101,11 +106,19 @@ namespace MataMonstruo
             const string DruidAttack = "El druida da un mamporro con su baston al monstruo causando {0} puntos de daño, al monstruo le queda {1} puntos de vida";
             const string DruidProtects = "El druida se prepara para el impacto del siguiente ataque";
             const string DruidSkill = "El druida prepara un hechizo curativo que envuelve a todos los aventureros que aun quedan en pie y todos estos son sanados {0} puntos de salud";
+            const string DruidHealsArcher = "La arquera ahora posee {0} puntos de salud";
+            const string DruidHealsBarbarian = "El barbaro ahora posee {0} puntos de salud";
+            const string DruidHealsMage = "El mago ahora posee {0} puntos de salud";
+            const string DruidHealsDruid = "El druida ahora posee {0} puntos de salud";
             const string MonsterAttacks = "El monstruo lanza un zarpazo, alcanzando a todos los miembros del grupo";
             const string MonsterArcherDamage = "La arquera recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string ArcherDead = "La arquera cae en combate";
             const string MonsterBarbarianDamage = "El barbaro recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string BarbarianDead = "El barbaro cae en combate";
             const string MonsterMageDamage = "El mago recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string MageDead = "El mago cae en combate";
             const string MonsterDruidDamage = "El druid recive {0} puntos de daño, ahora posee {1} puntos de salud";
+            const string DruidDead = "El druida cae en combate";
             const string MonsterIsStuned = "El monstruo aun sigue siendo incapaz de moverse del impacto de la arquera";
             const string HeroesWin = "Los heroes consiguen derrotar al monstruo";
             const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
@@ -624,6 +637,7 @@ namespace MataMonstruo
                                 archerTurnDefense = archerDefense;
                                 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(ArcherIcon);
                                 Console.WriteLine(ArcherTurn);
                                 Console.Write(FightMenu, archerSkillCooldown==0 ? SkillReady : archerSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
@@ -679,6 +693,7 @@ namespace MataMonstruo
                                 barbarianTurnDefense = barbarianDefense;
 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(BarbarianIcon);
                                 Console.WriteLine(BarbarianTurn);
                                 Console.Write(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : barbarianSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
@@ -739,6 +754,7 @@ namespace MataMonstruo
                                 mageTurnDefense = mageDefense;
 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(MageIcon);
                                 Console.WriteLine(MageTurn);
                                 Console.Write(FightMenu, mageSkillCooldown == 0 ? SkillReady : mageSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
@@ -794,6 +810,7 @@ namespace MataMonstruo
                                 druidTurnDefense = druidDefense;
 
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(DruidIcon);
                                 Console.WriteLine(DruidTurn);
                                 Console.Write(FightMenu, druidSkillCooldown == 0 ? SkillReady : druidSkillCooldown);
                                 fightOption = Convert.ToInt32(Console.ReadLine());
@@ -822,8 +839,9 @@ namespace MataMonstruo
                                                 archerTurnHP += DruidHealingAmount;
                                                 if(archerTurnHP > archerHP)
                                                 {
-                                                    archerTurnHP = archerHP;
+                                                    archerTurnHP = archerHP;   
                                                 }
+                                                Console.WriteLine(DruidHealsArcher, archerTurnHP);
                                             }
                                             if (barbarianTurnHP > DeathValue)
                                             {
@@ -831,21 +849,25 @@ namespace MataMonstruo
                                                 if (barbarianTurnHP > barbarianHP)
                                                 {
                                                     barbarianTurnHP = barbarianHP;
+                                                    
                                                 }
+                                                Console.WriteLine(DruidHealsBarbarian, barbarianTurnHP);
                                             }
                                             if (mageTurnHP > DeathValue)
                                             {
                                                 mageTurnHP += DruidHealingAmount;
                                                 if (mageTurnHP > mageHP)
                                                 {
-                                                    mageTurnHP = mageHP;
+                                                    mageTurnHP = mageHP; 
                                                 }
+                                                Console.WriteLine(DruidHealsMage, mageTurnHP);
                                             }
                                             druidTurnHP += DruidHealingAmount;
                                             if (druidTurnHP > druidHP)
                                             {
                                                 druidTurnHP = druidHP;
                                             }
+                                            Console.WriteLine(DruidHealsDruid, druidTurnHP);
                                             druidSkillCooldown = GlobalSpecialSkillCooldown;
                                         }
                                         break;
@@ -868,32 +890,50 @@ namespace MataMonstruo
                             if (errorProvideNumFightMenuCounter < AllowedErrors && monsterTurnHP > DeathValue && monsterStun<=0)
                             {
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(MonsterIcon);
                                 Console.WriteLine(MonsterAttacks);
                                 if (archerTurnHP>DeathValue)
                                 {
                                     archerTurnHP -= monsterDamage - ((monsterDamage * archerTurnDefense) / PercentageTop);
                                     Console.WriteLine(MonsterArcherDamage, monsterDamage - ((monsterDamage * archerTurnDefense) / PercentageTop), archerTurnHP);
+                                    if (archerTurnHP <= DeathValue)
+                                    {
+                                        Console.WriteLine(ArcherDead);
+                                    }
                                 }
                                 if (barbarianTurnHP > DeathValue)
                                 {
                                     barbarianTurnHP -= monsterDamage - ((monsterDamage * barbarianTurnDefense) / PercentageTop);
                                     Console.WriteLine(MonsterBarbarianDamage, monsterDamage - ((monsterDamage * barbarianTurnDefense) / PercentageTop), barbarianTurnHP);
+                                    if (barbarianTurnHP <= DeathValue)
+                                    {
+                                        Console.WriteLine(BarbarianDead);
+                                    }
 
                                 }
                                 if (mageTurnHP > DeathValue)
                                 {
                                     mageTurnHP -= monsterDamage-((monsterDamage * mageTurnDefense) / PercentageTop);
                                     Console.WriteLine(MonsterMageDamage, monsterDamage - ((monsterDamage * mageTurnDefense) / PercentageTop), mageTurnHP);
+                                    if (mageTurnHP <= DeathValue)
+                                    {
+                                        Console.WriteLine(MageDead);
+                                    }
                                 }
                                 if (druidTurnHP > DeathValue)
                                 {
                                     druidTurnHP -= monsterDamage-((monsterDamage * druidTurnDefense) / PercentageTop);
                                     Console.WriteLine(MonsterDruidDamage, monsterDamage - ((monsterDamage * druidTurnDefense) / PercentageTop), druidTurnHP);
+                                    if (druidTurnHP <= DeathValue)
+                                    {
+                                        Console.WriteLine(DruidDead);
+                                    }
                                 }
                                 Console.WriteLine(MenuSpliter);
                             } else if(errorProvideNumFightMenuCounter < AllowedErrors && monsterTurnHP > DeathValue && monsterStun>0)
                             {
                                 Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(MonsterIcon);
                                 monsterStun--;
                                 Console.WriteLine(MonsterIsStuned);
                                 Console.WriteLine(MenuSpliter);
@@ -903,7 +943,7 @@ namespace MataMonstruo
                         {
                             Console.WriteLine(HeroesWin);
                         }
-                        else if(archerTurnHP > DeathValue && barbarianTurnHP > DeathValue && mageTurnHP > DeathValue && druidTurnHP > DeathValue)
+                        else if(archerTurnHP <= DeathValue && barbarianTurnHP <= DeathValue && mageTurnHP <= DeathValue && druidTurnHP <= DeathValue)
                         {
                             Console.WriteLine(MonsterWins);
                         }

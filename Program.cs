@@ -74,6 +74,7 @@ namespace MataMonstruo
             const string ErrorChoosenUnderCooldown = "La habilidad aun estaba bajo tiempo de espera, el heroe es incapaz de utilizarlo";
             const string StartingMenu = "1. Iniciar una nueva batalla \n2. Salir \nEscribe el numero de la opcion deseas utilizar: ";
             const string FightMenu = "1. Atacar \n2. Defenderse \n3. Habilidad especial, tiempo de espera {0} \nElige una de las acciones listadas: ";
+            const string AnounceTurn = "Turno {0}:";
             const string MenuSpliter = "--------------------------";
             const string FightIcon = "   |\\                     /)\r\n /\\_\\\\__               (_//\r\n|   `>\\-`     _._       //`)\r\n \\ /` \\\\  _.-`:::`-._  //\r\n  `    \\|`    :::    `|/\r\n        |     :::     |\r\n        |.....:::.....|\r\n        |:::::::::::::|\r\n        |     :::     |\r\n        \\     :::     /\r\n         \\    :::    /\r\n          `-. ::: .-'\r\n           //`:::`\\\\\r\n          //   '   \\\\\r\n         |/         \\\\";
             const string ArcherIcon = "          4$$-.                          \r\n           4   \".                                        \r\n           4    ^.                                       \r\n           4     $                                       \r\n           4     'b                                      \r\n           4      \"b.                                    \r\n           4        $                                    \r\n           4        $r                                   \r\n           4        $F                                   \r\n-$b========4========$b====*P=-                           \r\n           4       *$$F                                  \r\n           4        $$\"                                  \r\n           4       .$F                                   \r\n           4       dP                                    \r\n           4      F                                      \r\n           4     @                                       \r\n           4    .                                        \r\n           J.                                            \r\n          '$$ ";
@@ -132,6 +133,7 @@ namespace MataMonstruo
             int errorProvideAllStatsCounter;
             int errorProvideStatsCounter;
             int errorProvideNumFightMenuCounter;
+            int turnTracker;
             //ArcherStats
             int archerHP;
             int archerTurnHP;
@@ -623,10 +625,13 @@ namespace MataMonstruo
                         mageTurnHP = mageHP;
                         druidTurnHP = druidHP;
                         monsterTurnHP = monsterHP;
+                        turnTracker = 0;
 
                         Console.WriteLine(FightIcon);
                         do
                         {
+                            turnTracker++;
+                            Console.WriteLine(AnounceTurn, turnTracker);
                             //ArcherTurn
                             errorProvideNumFightMenuCounter = 0;
                             fightOption = 0;

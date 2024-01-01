@@ -66,6 +66,8 @@ namespace GameProject
             const int MonsterMaxDamage = 400;
             const int MonsterMinDefense = 20;
             const int MonsterMaxDefense = 30;
+            const string LineJumper = "\n";
+            const string ReplaceIcon = "{0}";
             const string ErrorMenuOptionOutsideRange = "Opcion seleccionado en el menu esta fuera del rango permitido, elige una de las opciones que se muestran en pantalla";
             const string ErrorOvercameErrorLimit = "Se ha superado el limite de errores, debera de reintroducir los valores en este apartado";
             const string ErrorOvercameSecondErrorLimit = "Ha cometido 3 errores 3 veces, vuelve al principio";
@@ -73,8 +75,9 @@ namespace GameProject
             const string ErrorOvercameStartErrorLimit = "Se ha superado el limite de errores en el menu principal, el programa finalizara por ello";
             const string ErrorOvercameFightErrorLimit = "Ha cometido demasiados errores, debera volver al menu principal y empezar de zero.";
             const string ErrorChoosenUnderCooldown = "La habilidad aun estaba bajo tiempo de espera, el heroe es incapaz de utilizarlo";
-            const string StartingMenu = "1. Iniciar una nueva batalla \n2. Salir \nEscribe el numero de la opcion deseas utilizar: ";
-            const string FightMenu = "1. Atacar \n2. Defenderse \n3. Habilidad especial, tiempo de espera {0} \nElige una de las acciones listadas: ";
+            const string GeneralAskInputMsg = "Escribe el numero de la opcion deseas utilizar: ";
+            const string StartingMenu = "Iniciar una nueva batalla\nSalir";
+            const string FightMenu = "Atacar \nDefenderse \nHabilidad especial, tiempo de espera {0}";
             const string AnounceTurn = "Turno {0}:";
             const string MenuSpliter = "--------------------------";
             const string FightIcon = "   |\\                     /)\r\n /\\_\\\\__               (_//\r\n|   `>\\-`     _._       //`)\r\n \\ /` \\\\  _.-`:::`-._  //\r\n  `    \\|`    :::    `|/\r\n        |     :::     |\r\n        |.....:::.....|\r\n        |:::::::::::::|\r\n        |     :::     |\r\n        \\     :::     /\r\n         \\    :::    /\r\n          `-. ::: .-'\r\n           //`:::`\\\\\r\n          //   '   \\\\\r\n         |/         \\\\";
@@ -170,6 +173,8 @@ namespace GameProject
             int monsterDamage;
             int monsterDefense = 0;
             int monsterStun = 0;
+            string formatedMenu;
+
             do
             {
                 repeated = false;
@@ -185,8 +190,7 @@ namespace GameProject
                     if (errorProvideNumStartMenuCounter < AllowedErrors)
                     {
                         Console.WriteLine(MenuSpliter);
-                        Console.Write(StartingMenu);
-                        menuOption = Convert.ToInt32(Console.ReadLine());
+                        menuOption = BuildMenu(StartingMenu.Split(LineJumper),GeneralAskInputMsg);
                         Console.WriteLine(MenuSpliter);
                     }
                 } while ((menuOption < MinMenusOption || menuOption > MaxStartingMenuOpt) && errorProvideNumStartMenuCounter<AllowedErrors);
@@ -643,10 +647,8 @@ namespace GameProject
                                 archerTurnDefense = archerDefense;
                                 
                                 Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(ArcherIcon);
-                                Console.WriteLine(ArcherTurn);
-                                Console.Write(FightMenu, archerSkillCooldown==0 ? SkillReady : archerSkillCooldown);
-                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                formatedMenu = FightMenu.Replace(ReplaceIcon, archerSkillCooldown == 0 ? SkillReady : $"{archerSkillCooldown}");
+                                fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{ArcherIcon}{LineJumper}{ArcherTurn}");
                                 switch (fightOption)
                                 {
                                     case AtackOption:
@@ -699,10 +701,8 @@ namespace GameProject
                                 barbarianTurnDefense = barbarianDefense;
 
                                 Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(BarbarianIcon);
-                                Console.WriteLine(BarbarianTurn);
-                                Console.Write(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : barbarianSkillCooldown);
-                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                formatedMenu = FightMenu.Replace(ReplaceIcon, barbarianSkillCooldown == 0 ? SkillReady : $"{barbarianSkillCooldown}");
+                                fightOption = BuildMenu(formatedMenu.Split(LineJumper),GeneralAskInputMsg,$"{BarbarianIcon}{LineJumper}{BarbarianTurn}");
                                 switch (fightOption)
                                 {
                                     case AtackOption:
@@ -758,12 +758,9 @@ namespace GameProject
                             {
                                 choosenOnCooldown = false;
                                 mageTurnDefense = mageDefense;
-
                                 Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(MageIcon);
-                                Console.WriteLine(MageTurn);
-                                Console.Write(FightMenu, mageSkillCooldown == 0 ? SkillReady : mageSkillCooldown);
-                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                formatedMenu = FightMenu.Replace(ReplaceIcon, mageSkillCooldown == 0 ? SkillReady : $"{mageSkillCooldown}");
+                                fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{MageIcon}{LineJumper}{MageTurn}");
                                 switch (fightOption)
                                 {
                                     case AtackOption:
@@ -816,10 +813,8 @@ namespace GameProject
                                 druidTurnDefense = druidDefense;
 
                                 Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(DruidIcon);
-                                Console.WriteLine(DruidTurn);
-                                Console.Write(FightMenu, druidSkillCooldown == 0 ? SkillReady : druidSkillCooldown);
-                                fightOption = Convert.ToInt32(Console.ReadLine());
+                                formatedMenu = FightMenu.Replace(ReplaceIcon, druidSkillCooldown == 0 ? SkillReady : $"{druidSkillCooldown}");
+                                fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{DruidIcon}{LineJumper}{DruidTurn}");
                                 switch (fightOption)
                                 {
                                     case AtackOption:
@@ -964,6 +959,22 @@ namespace GameProject
             {
                 Console.WriteLine(ErrorOvercameStartErrorLimit);
             }
+        }
+
+        public static int BuildMenu(string[] options, string askmsg = "", string msg="", string wordSpliter=".")
+        {
+            int option;
+
+            if (!string.IsNullOrEmpty(msg))
+            {
+                Console.WriteLine(msg);
+            }
+            for(int i = 0; i < options.Length; i++)
+            {
+                Console.WriteLine($"{i+1}{wordSpliter} {options[i]}");
+            }
+            Console.Write(askmsg);
+            return Convert.ToInt32(Console.ReadLine());
         }
     }
 }

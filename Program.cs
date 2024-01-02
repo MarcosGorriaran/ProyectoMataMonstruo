@@ -138,6 +138,7 @@ namespace GameProject
             int errorProvideStatsCounter;
             int errorProvideNumFightMenuCounter;
             int turnTracker;
+            int damageAmount;
             //ArcherStats
             int archerHP;
             int archerTurnHP;
@@ -652,11 +653,12 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        monsterTurnHP -= archerDamage-((archerDamage * monsterDefense) / PercentageTop);
-                                        Console.WriteLine(ArcherAttackMsg, archerDamage, archerDamage - ((archerDamage * monsterDefense) / PercentageTop), monsterTurnHP);
+                                        damageAmount = CalcAttackDamage(archerDamage, monsterDefense);
+                                        monsterTurnHP -= damageAmount;
+                                        Console.WriteLine(ArcherAttackMsg, archerDamage, damageAmount, monsterTurnHP);
                                         break;
                                     case DefendOption:
-                                        archerTurnDefense+= archerDefense;
+                                        DefenseAction(ref archerTurnDefense, archerTurnDefense+archerDefense);
                                         Console.WriteLine(ArcherProtectsMsg);
                                         break;
                                     case SkillOption:
@@ -706,11 +708,12 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        monsterTurnHP -= barbarianDamage-((barbarianDamage * monsterDefense) / PercentageTop);
-                                        Console.WriteLine(BarbarianAttackMsg, barbarianDamage, barbarianDamage - ((barbarianDamage * monsterDefense) / PercentageTop),monsterTurnHP);
+                                        damageAmount = CalcAttackDamage(barbarianDamage, monsterDefense);
+                                        monsterTurnHP -= damageAmount;
+                                        Console.WriteLine(BarbarianAttackMsg, barbarianDamage, damageAmount,monsterTurnHP);
                                         break;
                                     case DefendOption:
-                                        barbarianTurnDefense += barbarianDefense;
+                                        DefenseAction(ref barbarianTurnDefense, barbarianTurnDefense+barbarianDefense);
                                         Console.WriteLine(BarbarianProtectsMsg);
                                         break;
                                     case SkillOption:
@@ -736,7 +739,7 @@ namespace GameProject
                                 {
                                     if (barbarianPerfectDefense > 0)
                                     {
-                                        barbarianTurnDefense = PercentageTop;
+                                        DefenseAction(ref barbarianTurnDefense, PercentageTop);
                                         barbarianPerfectDefense--;
                                     }
                                     if (barbarianSkillCooldown > 0)
@@ -764,11 +767,12 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        monsterTurnHP -= mageDamage-((mageDamage * monsterDefense) / PercentageTop);
-                                        Console.WriteLine(MageAttack, mageDamage, mageDamage - ((mageDamage * monsterDefense) / PercentageTop), monsterTurnHP);
+                                        damageAmount = CalcAttackDamage(mageDamage, monsterDefense);
+                                        monsterTurnHP -= damageAmount;
+                                        Console.WriteLine(MageAttack, mageDamage, damageAmount, monsterTurnHP);
                                         break;
                                     case DefendOption:
-                                        mageTurnDefense += mageDefense;
+                                        DefenseAction(ref mageTurnDefense, mageTurnDefense+mageDefense);
                                         Console.WriteLine(MageProtects);
                                         break;
                                     case SkillOption:
@@ -780,9 +784,10 @@ namespace GameProject
                                         }
                                         else
                                         {
-                                            monsterTurnHP -= (mageDamage*MageSuperAttackMult)-(((mageDamage * MageSuperAttackMult)) * monsterDefense / PercentageTop);
+                                            damageAmount = CalcAttackDamage(mageDamage*MageSuperAttackMult, monsterDefense);
+                                            monsterTurnHP -= damageAmount;
                                             mageSkillCooldown = GlobalSpecialSkillCooldown;
-                                            Console.WriteLine(MageSkill, mageDamage*MageSuperAttackMult, (mageDamage * MageSuperAttackMult) - (((mageDamage * MageSuperAttackMult))*monsterDefense / PercentageTop),monsterTurnHP);
+                                            Console.WriteLine(MageSkill, mageDamage*MageSuperAttackMult, damageAmount,monsterTurnHP);
                                         }
                                         break;
                                     default:
@@ -818,11 +823,12 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        monsterTurnHP -= druidDamage-((druidDamage * monsterDefense) / PercentageTop);
-                                        Console.WriteLine(DruidAttack, druidDamage, druidDamage - ((druidDamage * monsterDefense) / PercentageTop),monsterTurnHP);
+                                        damageAmount = CalcAttackDamage(druidDamage, monsterDefense);
+                                        monsterTurnHP -= damageAmount;
+                                        Console.WriteLine(DruidAttack, druidDamage, damageAmount ,monsterTurnHP);
                                         break;
                                     case DefendOption:
-                                        druidTurnDefense += druidDefense;
+                                        DefenseAction(ref druidTurnDefense, druidTurnDefense+druidDefense);
                                         Console.WriteLine(DruidProtects);
                                         break;
                                     case SkillOption:
@@ -837,37 +843,20 @@ namespace GameProject
                                             Console.WriteLine(DruidSkill , DruidHealingAmount);
                                             if(archerTurnHP > DeathValue)
                                             {
-                                                archerTurnHP += DruidHealingAmount;
-                                                if(archerTurnHP > archerHP)
-                                                {
-                                                    archerTurnHP = archerHP;   
-                                                }
+                                                HealTarget(ref archerTurnHP,DruidHealingAmount, archerHP);
                                                 Console.WriteLine(DruidHealsArcher, archerTurnHP);
                                             }
                                             if (barbarianTurnHP > DeathValue)
                                             {
-                                                barbarianTurnHP += DruidHealingAmount;
-                                                if (barbarianTurnHP > barbarianHP)
-                                                {
-                                                    barbarianTurnHP = barbarianHP;
-                                                    
-                                                }
+                                                HealTarget(ref barbarianTurnHP, DruidHealingAmount, barbarianHP);
                                                 Console.WriteLine(DruidHealsBarbarian, barbarianTurnHP);
                                             }
                                             if (mageTurnHP > DeathValue)
                                             {
-                                                mageTurnHP += DruidHealingAmount;
-                                                if (mageTurnHP > mageHP)
-                                                {
-                                                    mageTurnHP = mageHP; 
-                                                }
+                                                HealTarget(ref mageTurnHP, DruidHealingAmount, mageHP);
                                                 Console.WriteLine(DruidHealsMage, mageTurnHP);
                                             }
-                                            druidTurnHP += DruidHealingAmount;
-                                            if (druidTurnHP > druidHP)
-                                            {
-                                                druidTurnHP = druidHP;
-                                            }
+                                            HealTarget(ref druidTurnHP, DruidHealingAmount, druidHP);
                                             Console.WriteLine(DruidHealsDruid, druidTurnHP);
                                             druidSkillCooldown = GlobalSpecialSkillCooldown;
                                         }
@@ -895,8 +884,9 @@ namespace GameProject
                                 Console.WriteLine(MonsterAttacks);
                                 if (archerTurnHP>DeathValue)
                                 {
-                                    archerTurnHP -= monsterDamage - ((monsterDamage * archerTurnDefense) / PercentageTop);
-                                    Console.WriteLine(MonsterArcherDamage, monsterDamage, monsterDamage - ((monsterDamage * archerTurnDefense) / PercentageTop), archerTurnHP);
+                                    damageAmount = CalcAttackDamage(monsterDamage, archerTurnDefense);
+                                    archerTurnHP -= damageAmount;
+                                    Console.WriteLine(MonsterArcherDamage, monsterDamage, damageAmount, archerTurnHP);
                                     if (archerTurnHP <= DeathValue)
                                     {
                                         Console.WriteLine(ArcherDead);
@@ -904,8 +894,9 @@ namespace GameProject
                                 }
                                 if (barbarianTurnHP > DeathValue)
                                 {
-                                    barbarianTurnHP -= monsterDamage - ((monsterDamage * barbarianTurnDefense) / PercentageTop);
-                                    Console.WriteLine(MonsterBarbarianDamage, monsterDamage, monsterDamage - ((monsterDamage * barbarianTurnDefense) / PercentageTop), barbarianTurnHP);
+                                    damageAmount = CalcAttackDamage(monsterDamage, barbarianTurnDefense);
+                                    barbarianTurnHP -= damageAmount;
+                                    Console.WriteLine(MonsterBarbarianDamage, monsterDamage, damageAmount, barbarianTurnHP);
                                     if (barbarianTurnHP <= DeathValue)
                                     {
                                         Console.WriteLine(BarbarianDead);
@@ -914,8 +905,9 @@ namespace GameProject
                                 }
                                 if (mageTurnHP > DeathValue)
                                 {
-                                    mageTurnHP -= monsterDamage-((monsterDamage * mageTurnDefense) / PercentageTop);
-                                    Console.WriteLine(MonsterMageDamage, monsterDamage, monsterDamage - ((monsterDamage * mageTurnDefense) / PercentageTop), mageTurnHP);
+                                    damageAmount = CalcAttackDamage(monsterDamage,mageTurnDefense);
+                                    mageTurnHP -= damageAmount;
+                                    Console.WriteLine(MonsterMageDamage, monsterDamage, damageAmount, mageTurnHP);
                                     if (mageTurnHP <= DeathValue)
                                     {
                                         Console.WriteLine(MageDead);
@@ -923,8 +915,9 @@ namespace GameProject
                                 }
                                 if (druidTurnHP > DeathValue)
                                 {
-                                    druidTurnHP -= monsterDamage-((monsterDamage * druidTurnDefense) / PercentageTop);
-                                    Console.WriteLine(MonsterDruidDamage,monsterDamage ,monsterDamage - ((monsterDamage * druidTurnDefense) / PercentageTop), druidTurnHP);
+                                    damageAmount = CalcAttackDamage(monsterDamage, druidTurnDefense);
+                                    druidTurnHP -= damageAmount;
+                                    Console.WriteLine(MonsterDruidDamage,monsterDamage ,damageAmount, druidTurnHP);
                                     if (druidTurnHP <= DeathValue)
                                     {
                                         Console.WriteLine(DruidDead);
@@ -975,6 +968,24 @@ namespace GameProject
             }
             Console.Write(askmsg);
             return Convert.ToInt32(Console.ReadLine());
+        }
+
+        public static int CalcAttackDamage(int atackerDamageValue, int targetDefenseValue)
+        {
+            return atackerDamageValue - ((atackerDamageValue * targetDefenseValue) / 100);
+        }
+        public static void DefenseAction(ref int actorDefense, int newDefenseValue)
+        {
+            actorDefense = newDefenseValue;
+        }
+
+        public static void HealTarget(ref int targetHP,int healingAmount, int targetMaxHP)
+        {
+            targetHP += healingAmount;
+            if(targetHP > targetMaxHP)
+            {
+                targetHP = targetMaxHP;
+            }
         }
     }
 }

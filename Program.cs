@@ -251,8 +251,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideHP, ArcherMinHP, ArcherMaxHP);
-                                archerHP = Convert.ToInt32(Console.ReadLine());
+                                archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -270,8 +269,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
-                                archerDamage = Convert.ToInt32(Console.ReadLine());
+                                archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -290,7 +288,7 @@ namespace GameProject
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
                                 Console.Write(ProvideDefense, ArcherMinDefense, ArcherMaxDefense);
-                                archerDefense = Convert.ToInt32(Console.ReadLine());
+                                archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense);
                             }
                         }
                         Console.WriteLine(MenuSpliter);
@@ -333,8 +331,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
-                                barbarianHP = Convert.ToInt32(Console.ReadLine());
+                                barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -352,8 +349,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
-                                barbarianDamage = Convert.ToInt32(Console.ReadLine());
+                                barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -371,8 +367,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
-                                barbarianDefense = Convert.ToInt32(Console.ReadLine());
+                                barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
                             }
                         }
                         Console.WriteLine(MenuSpliter);
@@ -434,8 +429,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDamage, MageMinDamage, MageMaxDamage);
-                                mageDamage = Convert.ToInt32(Console.ReadLine());
+                                mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -453,8 +447,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDefense, MageMinDefense, MageMaxDefense);
-                                mageDefense = Convert.ToInt32(Console.ReadLine());
+                                mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense);
                             }
                         }
                         Console.WriteLine(MenuSpliter);
@@ -497,8 +490,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideHP, DruidMinHP, DruidMaxHP);
-                                druidHP = Convert.ToInt32(Console.ReadLine());
+                                druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -516,8 +508,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDamage, DruidMinDamage, DruidMaxDamage);
-                                druidDamage = Convert.ToInt32(Console.ReadLine());
+                                druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -535,8 +526,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDefense, DruidMinDefense, DruidMaxDefense);
-                                druidDefense = Convert.ToInt32(Console.ReadLine());
+                                druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense);
                             }
                         }
                         Console.WriteLine(MenuSpliter);
@@ -578,8 +568,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideHP, MonsterMinHP, MonsterMaxHP);
-                                monsterHP = Convert.ToInt32(Console.ReadLine());
+                                monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -597,8 +586,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
-                                monsterDamage = Convert.ToInt32(Console.ReadLine());
+                                monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -616,8 +604,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
-                                monsterDefense = Convert.ToInt32(Console.ReadLine());
+                                monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
                             }
                         }
                         Console.WriteLine(MenuSpliter);
@@ -986,6 +973,11 @@ namespace GameProject
             {
                 targetHP = targetMaxHP;
             }
+        }
+        public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat)
+        {
+            Console.Write(AskMsg, minPosibleStat, maxPosibleStat);
+            return Convert.ToInt32(Console.ReadLine());
         }
     }
 }

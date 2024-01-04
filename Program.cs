@@ -556,7 +556,7 @@ namespace GameProject
                         repeated = true;
                         repeatedSecondLoop = false;
                         errorProvideStatsCounter = 0;
-                        while ((monsterHP < MonsterMinHP || monsterHP > MonsterMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(monsterHP, MonsterMinHP, MonsterMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
 
                             if (repeatedSecondLoop)
@@ -628,7 +628,7 @@ namespace GameProject
                             errorProvideNumFightMenuCounter = 0;
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (archerTurnHP>DeathValue && monsterTurnHP>DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                            while (IsActorAlive(archerTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 archerTurnDefense = archerDefense;
@@ -683,7 +683,7 @@ namespace GameProject
                             }
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (barbarianTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                            while (IsActorAlive(barbarianTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 barbarianTurnDefense = barbarianDefense;
@@ -743,7 +743,7 @@ namespace GameProject
                             }
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (mageTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                            while (IsActorAlive(mageTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 mageTurnDefense = mageDefense;
@@ -798,7 +798,7 @@ namespace GameProject
                             }
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (druidTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                            while (IsActorAlive(druidTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 druidTurnDefense = druidDefense;
@@ -827,17 +827,17 @@ namespace GameProject
                                         else
                                         {
                                             Console.WriteLine(DruidSkill , DruidHealingAmount);
-                                            if(archerTurnHP > DeathValue)
+                                            if(IsActorAlive(archerTurnHP))
                                             {
                                                 HealTarget(ref archerTurnHP,DruidHealingAmount, archerHP);
                                                 Console.WriteLine(DruidHealsArcher, archerTurnHP);
                                             }
-                                            if (barbarianTurnHP > DeathValue)
+                                            if (IsActorAlive(barbarianTurnHP))
                                             {
                                                 HealTarget(ref barbarianTurnHP, DruidHealingAmount, barbarianHP);
                                                 Console.WriteLine(DruidHealsBarbarian, barbarianTurnHP);
                                             }
-                                            if (mageTurnHP > DeathValue)
+                                            if (IsActorAlive(mageTurnHP))
                                             {
                                                 HealTarget(ref mageTurnHP, DruidHealingAmount, mageHP);
                                                 Console.WriteLine(DruidHealsMage, mageTurnHP);
@@ -863,54 +863,54 @@ namespace GameProject
                             }
 
                             //MonsterTurn
-                            if (errorProvideNumFightMenuCounter < AllowedErrors && monsterTurnHP > DeathValue && monsterStun<=0)
+                            if (errorProvideNumFightMenuCounter < AllowedErrors && IsActorAlive(monsterTurnHP) && monsterStun<=0)
                             {
                                 Console.WriteLine(MenuSpliter);
                                 Console.WriteLine(MonsterIcon);
                                 Console.WriteLine(MonsterAttacks);
-                                if (archerTurnHP>DeathValue)
+                                if (IsActorAlive(archerTurnHP))
                                 {
                                     damageAmount = CalcAttackDamage(monsterDamage, archerTurnDefense);
                                     archerTurnHP -= damageAmount;
                                     Console.WriteLine(MonsterArcherDamage, monsterDamage, damageAmount, archerTurnHP);
-                                    if (archerTurnHP <= DeathValue)
+                                    if (!IsActorAlive(archerTurnHP))
                                     {
                                         Console.WriteLine(ArcherDead);
                                     }
                                 }
-                                if (barbarianTurnHP > DeathValue)
+                                if (IsActorAlive(barbarianTurnHP))
                                 {
                                     damageAmount = CalcAttackDamage(monsterDamage, barbarianTurnDefense);
                                     barbarianTurnHP -= damageAmount;
                                     Console.WriteLine(MonsterBarbarianDamage, monsterDamage, damageAmount, barbarianTurnHP);
-                                    if (barbarianTurnHP <= DeathValue)
+                                    if (!IsActorAlive(barbarianTurnHP))
                                     {
                                         Console.WriteLine(BarbarianDead);
                                     }
 
                                 }
-                                if (mageTurnHP > DeathValue)
+                                if (IsActorAlive(mageTurnHP))
                                 {
                                     damageAmount = CalcAttackDamage(monsterDamage,mageTurnDefense);
                                     mageTurnHP -= damageAmount;
                                     Console.WriteLine(MonsterMageDamage, monsterDamage, damageAmount, mageTurnHP);
-                                    if (mageTurnHP <= DeathValue)
+                                    if (!IsActorAlive(mageTurnHP))
                                     {
                                         Console.WriteLine(MageDead);
                                     }
                                 }
-                                if (druidTurnHP > DeathValue)
+                                if (IsActorAlive(druidTurnHP))
                                 {
                                     damageAmount = CalcAttackDamage(monsterDamage, druidTurnDefense);
                                     druidTurnHP -= damageAmount;
                                     Console.WriteLine(MonsterDruidDamage,monsterDamage ,damageAmount, druidTurnHP);
-                                    if (druidTurnHP <= DeathValue)
+                                    if (!IsActorAlive(druidTurnHP))
                                     {
                                         Console.WriteLine(DruidDead);
                                     }
                                 }
                                 Console.WriteLine(MenuSpliter);
-                            } else if(errorProvideNumFightMenuCounter < AllowedErrors && monsterTurnHP > DeathValue && monsterStun>0)
+                            } else if(errorProvideNumFightMenuCounter < AllowedErrors && IsActorAlive(monsterTurnHP) && monsterStun>0)
                             {
                                 Console.WriteLine(MenuSpliter);
                                 Console.WriteLine(MonsterIcon);
@@ -918,12 +918,12 @@ namespace GameProject
                                 Console.WriteLine(MonsterIsStuned);
                                 Console.WriteLine(MenuSpliter);
                             }
-                        } while (monsterTurnHP>DeathValue && (archerTurnHP>DeathValue || barbarianTurnHP>DeathValue || mageTurnHP>DeathValue || druidTurnHP>DeathValue) && errorProvideNumFightMenuCounter<AllowedErrors);
-                        if (monsterTurnHP <= DeathValue)
+                        } while (IsActorAlive(monsterTurnHP) && (AreActorGroupDead(new int[] {archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP})) && errorProvideNumFightMenuCounter<AllowedErrors);
+                        if (!IsActorAlive(monsterTurnHP))
                         {
                             Console.WriteLine(HeroesWin);
                         }
-                        else if(archerTurnHP <= DeathValue && barbarianTurnHP <= DeathValue && mageTurnHP <= DeathValue && druidTurnHP <= DeathValue)
+                        else if(!IsActorAlive(archerTurnHP) && !IsActorAlive(barbarianTurnHP) && !IsActorAlive(mageTurnHP) && !IsActorAlive(druidTurnHP))
                         {
                             Console.WriteLine(MonsterWins);
                         }
@@ -992,6 +992,21 @@ namespace GameProject
         public static bool InRange(int checkValue, int smallRangeValue, int bigRangeValue)
         {
             return checkValue >= smallRangeValue && checkValue <= bigRangeValue;
+        }
+        public static bool IsActorAlive(int actorHP)
+        {
+            return actorHP > 0;
+        }
+        public static bool AreActorGroupDead(int[] actorsHP)
+        {
+            for (int i = 0; i < actorsHP.Length; i++)
+            {
+                if (IsActorAlive(actorsHP[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

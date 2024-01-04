@@ -194,7 +194,7 @@ namespace GameProject
                         menuOption = BuildMenu(StartingMenu.Split(LineJumper),GeneralAskInputMsg);
                         Console.WriteLine(MenuSpliter);
                     }
-                } while ((menuOption < MinMenusOption || menuOption > MaxStartingMenuOpt) && errorProvideNumStartMenuCounter<AllowedErrors);
+                } while (!InRange(menuOption, MinMenusOption, MaxStartingMenuOpt) && errorProvideNumStartMenuCounter<AllowedErrors);
 
                 if (menuOption == StartGameOption)
                 {
@@ -221,7 +221,7 @@ namespace GameProject
                     //Asignacion stats arquera
                     repeated = false;
                     errorProvideAllStatsCounter = 0;
-                    while (errorProvideAllStatsCounter < AllowedErrors && (archerDefense < ArcherMinDefense || archerDefense > ArcherMaxDefense))
+                    while (errorProvideAllStatsCounter < AllowedErrors && !InRange(archerDefense, ArcherMinDefense, ArcherMaxDefense))
                     {
                         archerHP = 0;
                         archerDamage = 0;
@@ -240,7 +240,7 @@ namespace GameProject
                         repeated = true;
                         repeatedSecondLoop = false;
                         errorProvideStatsCounter = 0;
-                        while ((archerHP < ArcherMinHP || archerHP > ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(archerHP, ArcherMinHP, ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             
                             if (repeatedSecondLoop)
@@ -259,7 +259,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((archerDamage < ArcherMinDamage || archerDamage > ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(archerDamage, ArcherMinDamage, ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -277,7 +277,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((archerDefense < ArcherMinDefense || archerDefense > ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(archerDefense, ArcherMinDefense, ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -300,7 +300,7 @@ namespace GameProject
                     {
                         errorProvideAllStatsCounter = 0;
                     }
-                    while (errorProvideAllStatsCounter < AllowedErrors && (barbarianDefense < BarbarianMinDefense || barbarianDefense > BarbarianMaxDefense))
+                    while (errorProvideAllStatsCounter < AllowedErrors && !InRange(barbarianDefense,BarbarianMinDefense, BarbarianMaxDefense))
                     {
                         barbarianHP = 0;
                         barbarianDamage = 0;
@@ -320,7 +320,7 @@ namespace GameProject
                         repeated = true;
                         repeatedSecondLoop = false;
                         errorProvideStatsCounter = 0;
-                        while ((barbarianHP < BarbarianMinHP || barbarianHP > BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(barbarianHP, BarbarianMinHP, BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             
                             if (repeatedSecondLoop)
@@ -339,7 +339,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((barbarianDamage < BarbarianMinDamage || barbarianDamage > BarbarianMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(barbarianDamage, BarbarianMinDamage, BarbarianMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -357,7 +357,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((barbarianDefense < BarbarianMinDefense || barbarianDefense > BarbarianMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -379,7 +379,7 @@ namespace GameProject
                     {
                         errorProvideAllStatsCounter = 0;
                     }
-                    while (errorProvideAllStatsCounter < AllowedErrors && (mageDefense < MageMinDefense || mageDefense > MageMaxDefense))
+                    while (errorProvideAllStatsCounter < AllowedErrors && !InRange(mageDefense, MageMinDefense, MageMaxDefense))
                     {
                         mageHP = 0;
                         mageDamage = 0;
@@ -410,8 +410,7 @@ namespace GameProject
                             repeatedSecondLoop = true;
                             if (errorProvideStatsCounter < AllowedErrors)
                             {
-                                Console.Write(ProvideHP, MageMinHP, MageMaxHP);
-                                mageHP = Convert.ToInt32(Console.ReadLine());
+                                mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP);
                             }
                         }
                         if (errorProvideStatsCounter < AllowedErrors)
@@ -419,7 +418,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((mageDamage < MageMinDamage || mageDamage > MageMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(mageDamage, MageMinDamage, MageMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -437,7 +436,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((mageDefense < MageMinDefense || mageDefense > MageMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(mageDefense, MageMinDefense, MageMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -459,7 +458,7 @@ namespace GameProject
                     {
                         errorProvideAllStatsCounter = 0;
                     }
-                    while (errorProvideAllStatsCounter < AllowedErrors && (druidDefense < DruidMinDefense || druidDefense > DruidMaxDefense))
+                    while (errorProvideAllStatsCounter < AllowedErrors && !InRange(druidDefense, DruidMinDefense, DruidMaxDefense))
                     {
                         druidHP = 0;
                         druidDamage = 0;
@@ -479,7 +478,7 @@ namespace GameProject
                         repeated = true;
                         repeatedSecondLoop = false;
                         errorProvideStatsCounter = 0;
-                        while ((druidHP < DruidMinHP || druidHP > DruidMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(druidHP, DruidMinHP, DruidMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
 
                             if (repeatedSecondLoop)
@@ -498,7 +497,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((druidDamage < DruidMinDamage || druidDamage > DruidMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(druidDamage, DruidMinDamage, DruidMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -516,7 +515,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((druidDefense < DruidMinDefense || druidDefense > DruidMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(druidDefense, DruidMinDefense, DruidMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -538,7 +537,7 @@ namespace GameProject
                     {
                         errorProvideAllStatsCounter = 0;
                     }
-                    while (errorProvideAllStatsCounter < AllowedErrors && (monsterDefense < MonsterMinDefense || monsterDefense > MonsterMaxDefense))
+                    while (errorProvideAllStatsCounter < AllowedErrors && !InRange(monsterDefense, MonsterMinDefense, MonsterMaxDefense))
                     {
                         monsterHP = 0;
                         monsterDamage = 0;
@@ -576,7 +575,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((monsterDamage < MonsterMinDamage || monsterDamage > MonsterMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(monsterDamage, MonsterMinDamage, MonsterMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -594,7 +593,7 @@ namespace GameProject
                             errorProvideStatsCounter = 0;
                         }
                         repeatedSecondLoop = false;
-                        while ((monsterDefense < MonsterMinDefense || monsterDefense > MonsterMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
+                        while (!InRange(monsterDefense, MonsterMinDefense, MonsterMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                         {
                             if (repeatedSecondLoop)
                             {
@@ -629,7 +628,7 @@ namespace GameProject
                             errorProvideNumFightMenuCounter = 0;
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (archerTurnHP>DeathValue && monsterTurnHP>DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
+                            while (archerTurnHP>DeathValue && monsterTurnHP>DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 archerTurnDefense = archerDefense;
@@ -667,7 +666,7 @@ namespace GameProject
                                         errorProvideNumFightMenuCounter++;
                                         break;
                                 }
-                                if (!choosenOnCooldown && fightOption <= MaxFightMenuOpt && fightOption <= MinMenusOption)
+                                if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                 {
                                     if (archerSkillCooldown > 0)
                                     {
@@ -684,7 +683,7 @@ namespace GameProject
                             }
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (barbarianTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
+                            while (barbarianTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 barbarianTurnDefense = barbarianDefense;
@@ -722,7 +721,7 @@ namespace GameProject
                                         Console.WriteLine(ErrorOutsideStatRange);
                                         break;
                                 }
-                                if(!choosenOnCooldown && fightOption<=MaxFightMenuOpt && fightOption>=MinMenusOption)
+                                if(!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                 {
                                     if (barbarianPerfectDefense > 0)
                                     {
@@ -744,7 +743,7 @@ namespace GameProject
                             }
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (mageTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
+                            while (mageTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 mageTurnDefense = mageDefense;
@@ -782,7 +781,7 @@ namespace GameProject
                                         Console.WriteLine(ErrorMenuOptionOutsideRange);
                                         break;
                                 }
-                                if (!choosenOnCooldown && fightOption <= MaxFightMenuOpt && fightOption <= MinMenusOption)
+                                if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                 {
                                     if (mageSkillCooldown > 0)
                                     {
@@ -799,7 +798,7 @@ namespace GameProject
                             }
                             fightOption = 0;
                             choosenOnCooldown = true;
-                            while (druidTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (fightOption > MaxFightMenuOpt || fightOption < MinMenusOption || choosenOnCooldown))
+                            while (druidTurnHP > DeathValue && monsterTurnHP > DeathValue && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                             {
                                 choosenOnCooldown = false;
                                 druidTurnDefense = druidDefense;
@@ -853,7 +852,7 @@ namespace GameProject
                                         Console.WriteLine(ErrorMenuOptionOutsideRange);
                                         break;
                                 }
-                                if (!choosenOnCooldown && fightOption <= MaxFightMenuOpt && fightOption <= MinMenusOption)
+                                if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                 {
                                     if (druidSkillCooldown > 0)
                                     {
@@ -941,7 +940,18 @@ namespace GameProject
             }
         }
 
-        public static int BuildMenu(string[] options, string askmsg = "", string msg="", string wordSpliter=".")
+        
+        public static int BuildMenu(string[] options, string askmsg)
+        {
+            int option;
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {options[i]}");
+            }
+            Console.Write(askmsg);
+            return Convert.ToInt32(Console.ReadLine());
+        }
+        public static int BuildMenu(string[] options, string askmsg, string msg)
         {
             int option;
 
@@ -951,7 +961,7 @@ namespace GameProject
             }
             for(int i = 0; i < options.Length; i++)
             {
-                Console.WriteLine($"{i+1}{wordSpliter} {options[i]}");
+                Console.WriteLine($"{i+1}. {options[i]}");
             }
             Console.Write(askmsg);
             return Convert.ToInt32(Console.ReadLine());
@@ -978,6 +988,10 @@ namespace GameProject
         {
             Console.Write(AskMsg, minPosibleStat, maxPosibleStat);
             return Convert.ToInt32(Console.ReadLine());
+        }
+        public static bool InRange(int checkValue, int smallRangeValue, int bigRangeValue)
+        {
+            return checkValue >= smallRangeValue && checkValue <= bigRangeValue;
         }
     }
 }

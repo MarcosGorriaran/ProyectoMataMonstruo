@@ -762,6 +762,8 @@ namespace GameProject
                         {
                             turnTracker++;
                             Console.WriteLine(AnounceTurn, turnTracker);
+                            ShowValuesDesc(new int[] {archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP},new string[] { "Placeholder0", "Placeholder1", "Placeholder2", "Placeholder3"}, "PlaceholderMsg {0}: {1}");
+
                             //ArcherTurn
                             errorProvideNumFightMenuCounter = 0;
                             fightOption = 0;
@@ -1155,6 +1157,32 @@ namespace GameProject
         {
             Random rng = new Random();
             return rng.Next(minValue, maxValue+1);
+        }
+        public static void ShowValuesDesc(int[] values, string[] characterPerValue, string mainMsg)
+        {
+            ReorderDesc(ref values,ref characterPerValue);
+            for(int i = 0; i < values.Length; i++)
+            {
+                Console.WriteLine(mainMsg, characterPerValue[i], values[i]);
+            }
+        }
+        public static void ReorderDesc(ref int[] values, ref string[]valuesMsg)
+        {
+            for(int i = 0; i<values.Length-1; i++) 
+            {
+                for(int j = i; j<values.Length; j++)
+                {
+                    if (values[j] > values[i])
+                    {
+                        int aux = values[j];
+                        values[j] = values[i];
+                        values[i] = aux;
+                        string sAux = valuesMsg[j];
+                        valuesMsg[j] = valuesMsg[i];
+                        valuesMsg[i] = sAux;
+                    }
+                }
+            }
         }
     }
 }

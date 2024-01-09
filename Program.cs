@@ -31,6 +31,11 @@ namespace GameProject
             const int DefendOption = 2;
             const int SkillOption = 3;
             const int PercentageTop = 100;
+            const int FailChance = 5;
+            const int CritChance = 10;
+            const int FailResponse = -1;
+            const int HitResponse = 0;
+            const int CritResponse = 1;
             //ArcherStatsLimit
             const int ArcherMinHP = 1500;
             const int ArcherMaxHP = 2000;
@@ -111,6 +116,7 @@ namespace GameProject
             const string MageTurn = "Es el turno del mago";
             const string DruidTurn = "Es el turno del druida";
             const string ArcherAttackMsg = "La arquera lanza una flecha al monstruo causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
+            const string ArcherCritsMsg = "La arquera lanza una flecha a un punto critico del monstruo causando {0} puntos de daño, el monstruo se defiende, solo causando {}";
             const string ArcherProtectsMsg = "La arquera se prepara para el impacto del siguiente ataque";
             const string ArcherSkill = "La arquera immobiliza al monstruo con una flecha en la pierna, el monstruo es incapaz de moverse por dos turnos";
             const string BarbarianAttackMsg = "El barbaro se avalanza con su hacha e impacta, causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
@@ -152,6 +158,7 @@ namespace GameProject
             int errorProvideNumFightMenuCounter;
             int turnTracker;
             int damageAmount;
+            int critRollNumber;
             //ArcherStats
             int archerHP;
             int archerTurnHP;
@@ -783,7 +790,8 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        damageAmount = CalcAttackDamage(archerDamage, monsterDefense);
+                                        critRollNumber = CritFail(FailChance, CritChance)
+                                        damageAmount = AttackOption(archerDamage, monsterDefense);
                                         monsterTurnHP -= damageAmount;
                                         Console.WriteLine(ArcherAttackMsg, archerDamage, damageAmount, monsterTurnHP);
                                         break;
@@ -838,7 +846,7 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        damageAmount = CalcAttackDamage(barbarianDamage, monsterDefense);
+                                        damageAmount = AttackOption(barbarianDamage, monsterDefense);
                                         monsterTurnHP -= damageAmount;
                                         Console.WriteLine(BarbarianAttackMsg, barbarianDamage, damageAmount,monsterTurnHP);
                                         break;
@@ -897,7 +905,7 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        damageAmount = CalcAttackDamage(mageDamage, monsterDefense);
+                                        damageAmount = AttackOption(mageDamage, monsterDefense);
                                         monsterTurnHP -= damageAmount;
                                         Console.WriteLine(MageAttack, mageDamage, damageAmount, monsterTurnHP);
                                         break;
@@ -953,7 +961,7 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        damageAmount = CalcAttackDamage(druidDamage, monsterDefense);
+                                        damageAmount = AttackOption(druidDamage,monsterDefense);
                                         monsterTurnHP -= damageAmount;
                                         Console.WriteLine(DruidAttack, druidDamage, damageAmount ,monsterTurnHP);
                                         break;
@@ -1116,6 +1124,21 @@ namespace GameProject
         {
             return atackerDamageValue - ((atackerDamageValue * targetDefenseValue) / 100);
         }
+        public static int AttackOption(int attackerDMG, int targetDefense)
+        {
+            switch (CritFail(5, 10))
+            {
+                case -1:
+                    return 0;
+                    break;
+                case 1:
+                    return CalcAttackDamage(attackerDMG*2, targetDefense);
+                    break;
+                default:
+                    return CalcAttackDamage(attackerDMG, targetDefense);
+                    break;
+            }
+        }
         public static void DefenseAction(ref int actorDefense, int newDefenseValue)
         {
             actorDefense = newDefenseValue;
@@ -1128,6 +1151,19 @@ namespace GameProject
             {
                 targetHP = targetMaxHP;
             }
+        }
+        public static int CritFail(int chanceFail, int chanceCrit)
+        {
+            int rngValue = GenerateRandomValue(0, 100);
+
+            if(rngValue <= chanceFail)
+            {
+                return -1;
+            }else if (rngValue>=(100-chanceCrit))
+            {
+                return 1;
+            }
+            return 0;
         }
         public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat)
         {

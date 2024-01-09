@@ -136,6 +136,7 @@ namespace GameProject
             const string MonsterDruidDamage = "El druida recive {0} puntos de daño, el druida se defiende, solo causando {1} puntos de daño, al druida le queda {2} puntos de vida";
             const string DruidDead = "El druida cae en combate";
             const string MonsterIsStuned = "El monstruo aun sigue siendo incapaz de moverse del impacto de la arquera";
+            const string ShowHealthMsg = "La salud de {0} es: {1}";
             const string HeroesWin = "Los heroes consiguen derrotar al monstruo";
             const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
 
@@ -187,6 +188,10 @@ namespace GameProject
             int monsterDefense = 0;
             int monsterStun = 0;
             string formatedMenu;
+            string archerName = "ArcherPlaceholderName";
+            string barbarianName = "BarbarianPlaceholderName";
+            string mageName = "MagePlaceholderName";
+            string druidName = "DruidPlaceholderName";
             
             do
             {
@@ -762,6 +767,7 @@ namespace GameProject
                         {
                             turnTracker++;
                             Console.WriteLine(AnounceTurn, turnTracker);
+
                             //ArcherTurn
                             errorProvideNumFightMenuCounter = 0;
                             fightOption = 0;
@@ -1056,6 +1062,7 @@ namespace GameProject
                                 Console.WriteLine(MonsterIsStuned);
                                 Console.WriteLine(MenuSpliter);
                             }
+                            ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg);
                         } while (IsActorAlive(monsterTurnHP) && (!AreActorGroupDead(new int[] {archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP})) && errorProvideNumFightMenuCounter<AllowedErrors);
                         if (!IsActorAlive(monsterTurnHP))
                         {
@@ -1155,6 +1162,32 @@ namespace GameProject
         {
             Random rng = new Random();
             return rng.Next(minValue, maxValue+1);
+        }
+        public static void ShowValuesDesc(int[] values, string[] characterPerValue, string mainMsg)
+        {
+            ReorderDesc(ref values,ref characterPerValue);
+            for(int i = 0; i < values.Length; i++)
+            {
+                Console.WriteLine(mainMsg, characterPerValue[i], values[i]);
+            }
+        }
+        public static void ReorderDesc(ref int[] values, ref string[]valuesMsg)
+        {
+            for(int i = 0; i<values.Length-1; i++) 
+            {
+                for(int j = i; j<values.Length; j++)
+                {
+                    if (values[j] > values[i])
+                    {
+                        int aux = values[j];
+                        values[j] = values[i];
+                        values[i] = aux;
+                        string sAux = valuesMsg[j];
+                        valuesMsg[j] = valuesMsg[i];
+                        valuesMsg[i] = sAux;
+                    }
+                }
+            }
         }
     }
 }

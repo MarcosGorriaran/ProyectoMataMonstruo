@@ -136,6 +136,7 @@ namespace GameProject
             const string MonsterDruidDamage = "El druida recive {0} puntos de daño, el druida se defiende, solo causando {1} puntos de daño, al druida le queda {2} puntos de vida";
             const string DruidDead = "El druida cae en combate";
             const string MonsterIsStuned = "El monstruo aun sigue siendo incapaz de moverse del impacto de la arquera";
+            const string ShowHealthMsg = "La salud de {0} es: {1}";
             const string HeroesWin = "Los heroes consiguen derrotar al monstruo";
             const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
 
@@ -187,6 +188,10 @@ namespace GameProject
             int monsterDefense = 0;
             int monsterStun = 0;
             string formatedMenu;
+            string archerName = "ArcherPlaceholderName";
+            string barbarianName = "BarbarianPlaceholderName";
+            string mageName = "MagePlaceholderName";
+            string druidName = "DruidPlaceholderName";
             
             do
             {
@@ -762,7 +767,6 @@ namespace GameProject
                         {
                             turnTracker++;
                             Console.WriteLine(AnounceTurn, turnTracker);
-                            ShowValuesDesc(new int[] {archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP},new string[] { "Placeholder0", "Placeholder1", "Placeholder2", "Placeholder3"}, "PlaceholderMsg {0}: {1}");
 
                             //ArcherTurn
                             errorProvideNumFightMenuCounter = 0;
@@ -1058,6 +1062,7 @@ namespace GameProject
                                 Console.WriteLine(MonsterIsStuned);
                                 Console.WriteLine(MenuSpliter);
                             }
+                            ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg);
                         } while (IsActorAlive(monsterTurnHP) && (!AreActorGroupDead(new int[] {archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP})) && errorProvideNumFightMenuCounter<AllowedErrors);
                         if (!IsActorAlive(monsterTurnHP))
                         {

@@ -33,9 +33,9 @@ namespace GameProject
             const int PercentageTop = 100;
             const int FailChance = 5;
             const int CritChance = 10;
-            const int FailResponse = -1;
-            const int HitResponse = 0;
-            const int CritResponse = 1;
+            const int FailResponse = 0;
+            const int HitResponse = 1;
+            const int CritResponse = 2;
             //ArcherStatsLimit
             const int ArcherMinHP = 1500;
             const int ArcherMaxHP = 2000;
@@ -115,17 +115,25 @@ namespace GameProject
             const string BarbarianTurn = "Es el turno del barbaro";
             const string MageTurn = "Es el turno del mago";
             const string DruidTurn = "Es el turno del druida";
-            const string ArcherAttackMsg = "La arquera lanza una flecha al monstruo causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
-            const string ArcherCritsMsg = "La arquera lanza una flecha a un punto critico del monstruo causando {0} puntos de daño, el monstruo se defiende, solo causando {}";
+            const string GeneralAttackSection = "causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
+            const string ArcherAttackMsg = "La arquera lanza una flecha al monstruo ";
+            const string ArcherCritsMsg = "La arquera lanza una flecha a un punto critico del monstruo ";
+            const string ArcherMissMsg = "La arquera falla su tiro, ";
             const string ArcherProtectsMsg = "La arquera se prepara para el impacto del siguiente ataque";
             const string ArcherSkill = "La arquera immobiliza al monstruo con una flecha en la pierna, el monstruo es incapaz de moverse por dos turnos";
-            const string BarbarianAttackMsg = "El barbaro se avalanza con su hacha e impacta, causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
+            const string BarbarianAttackMsg = "El barbaro se avalanza con su hacha e impacta, ";
+            const string BarbarianCritsMsg = "El barbaro causa un ataque brutal con su hacha, ";
+            const string BarbarianMissMsg = "El barbaro se avalanza al monstruo con su hacha y NAT 1... Sip falla, ";
             const string BarbarianProtectsMsg = "El barbaro se prepara para recivir el impacto del siguiente ataque";
             const string BarbarianSkill = "El barbaro toma una postura defensiva impecable, en los proximos 3 turnos su defensa es perfecta y no puede recivir daño";
-            const string MageAttack = "El mago prepara y lanza un rayo magico al monstruo causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
+            const string MageAttackMsg = "El mago prepara y lanza un rayo magico al monstruo ";
+            const string MageCritsMsg = "El mago prepara y lanza un rayo magico directo al ojo ";
+            const string MageMissMsg = "El mago intenta hacer kaboom pero le sale kaploom, fallando el ataque. ";
             const string MageProtects = "El mago se prepara para el impacto del siguiente ataque";
-            const string MageSkill = "El mago decide tirar logica por la ventana y grita 'FIREBALL AND ONLY FIREBALL' y lanza una tormenta de bolas de fuego causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
-            const string DruidAttack = "El druida da un mamporro con su baston al monstruo causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
+            const string MageSkill = "El mago decide tirar logica por la ventana y grita 'FIREBALL AND ONLY FIREBALL' y lanza una tormenta de bolas de fuego ";
+            const string DruidAttackMsg = "El druida da un mamporro con su baston al monstruo ";
+            const string DruidCritsMsg = "El druida le da un mamporrazo en la cabeza al monstruo ";
+            const string DruidMissMsg = "El druida intenta dar un mamporro con su baston pero no hace nada mas que enfadar mas al monstruo. ";
             const string DruidProtects = "El druida se prepara para el impacto del siguiente ataque";
             const string DruidSkill = "El druida prepara un hechizo curativo que envuelve a todos los aventureros que aun quedan en pie y todos estos son sanados {0} puntos de salud";
             const string DruidHealsArcher = "La arquera ahora posee {0} puntos de salud";
@@ -790,10 +798,13 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        critRollNumber = CritFail(FailChance, CritChance)
-                                        damageAmount = AttackOption(archerDamage, monsterDefense);
-                                        monsterTurnHP -= damageAmount;
-                                        Console.WriteLine(ArcherAttackMsg, archerDamage, damageAmount, monsterTurnHP);
+                                        critRollNumber = CritFail(FailChance, CritChance);
+                                        AttackOption(archerDamage*critRollNumber, monsterDefense,ref monsterTurnHP, critRollNumber switch
+                                        {
+                                            FailResponse => ArcherMissMsg,
+                                            CritResponse => ArcherCritsMsg,
+                                            _ => ArcherAttackMsg
+                                        }+GeneralAttackSection);
                                         break;
                                     case DefendOption:
                                         DefenseAction(ref archerTurnDefense, archerTurnDefense+archerDefense);
@@ -846,9 +857,13 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        damageAmount = AttackOption(barbarianDamage, monsterDefense);
-                                        monsterTurnHP -= damageAmount;
-                                        Console.WriteLine(BarbarianAttackMsg, barbarianDamage, damageAmount,monsterTurnHP);
+                                        critRollNumber = CritFail(FailChance, CritChance);
+                                        AttackOption(barbarianDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
+                                        {
+                                            FailResponse => BarbarianMissMsg,
+                                            CritResponse => BarbarianCritsMsg,
+                                            _ => BarbarianAttackMsg
+                                        } + GeneralAttackSection);
                                         break;
                                     case DefendOption:
                                         DefenseAction(ref barbarianTurnDefense, barbarianTurnDefense+barbarianDefense);
@@ -905,9 +920,13 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        damageAmount = AttackOption(mageDamage, monsterDefense);
-                                        monsterTurnHP -= damageAmount;
-                                        Console.WriteLine(MageAttack, mageDamage, damageAmount, monsterTurnHP);
+                                        critRollNumber = CritFail(FailChance, CritChance);
+                                        AttackOption(mageDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
+                                        {
+                                            FailResponse => MageMissMsg,
+                                            CritResponse => MageCritsMsg,
+                                            _ => MageAttackMsg,
+                                        } + GeneralAttackSection);
                                         break;
                                     case DefendOption:
                                         DefenseAction(ref mageTurnDefense, mageTurnDefense+mageDefense);
@@ -922,10 +941,8 @@ namespace GameProject
                                         }
                                         else
                                         {
-                                            damageAmount = CalcAttackDamage(mageDamage*MageSuperAttackMult, monsterDefense);
-                                            monsterTurnHP -= damageAmount;
-                                            mageSkillCooldown = GlobalSpecialSkillCooldown;
-                                            Console.WriteLine(MageSkill, mageDamage*MageSuperAttackMult, damageAmount,monsterTurnHP);
+                                            mageSkillCooldown = GlobalSpecialSkillCooldown;;
+                                            AttackOption(mageDamage*MageSuperAttackMult, monsterDefense, ref monsterTurnHP, MageSkill+GeneralAttackSection);
                                         }
                                         break;
                                     default:
@@ -961,9 +978,13 @@ namespace GameProject
                                 switch (fightOption)
                                 {
                                     case AtackOption:
-                                        damageAmount = AttackOption(druidDamage,monsterDefense);
-                                        monsterTurnHP -= damageAmount;
-                                        Console.WriteLine(DruidAttack, druidDamage, damageAmount ,monsterTurnHP);
+                                        critRollNumber = CritFail(FailChance, CritChance);
+                                        AttackOption(druidDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
+                                        {
+                                            FailResponse => DruidMissMsg,
+                                            CritResponse => DruidCritsMsg,
+                                            _ => DruidAttackMsg,
+                                        } + GeneralAttackSection);
                                         break;
                                     case DefendOption:
                                         DefenseAction(ref druidTurnDefense, druidTurnDefense+druidDefense);
@@ -1124,20 +1145,11 @@ namespace GameProject
         {
             return atackerDamageValue - ((atackerDamageValue * targetDefenseValue) / 100);
         }
-        public static int AttackOption(int attackerDMG, int targetDefense)
+        public static void AttackOption(int attackerDMG, int targetDefense, ref int targetHP, string msg)
         {
-            switch (CritFail(5, 10))
-            {
-                case -1:
-                    return 0;
-                    break;
-                case 1:
-                    return CalcAttackDamage(attackerDMG*2, targetDefense);
-                    break;
-                default:
-                    return CalcAttackDamage(attackerDMG, targetDefense);
-                    break;
-            }
+            int damageAmount = CalcAttackDamage(attackerDMG, targetDefense);
+            targetHP -= damageAmount;
+            Console.WriteLine(msg, attackerDMG, damageAmount, targetHP);
         }
         public static void DefenseAction(ref int actorDefense, int newDefenseValue)
         {
@@ -1158,12 +1170,12 @@ namespace GameProject
 
             if(rngValue <= chanceFail)
             {
-                return -1;
+                return 0;
             }else if (rngValue>=(100-chanceCrit))
             {
-                return 1;
+                return 2;
             }
-            return 0;
+            return 1;
         }
         public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat)
         {

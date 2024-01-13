@@ -78,7 +78,7 @@ namespace GameProject
             const string LineJumper = "\n";
             const string ReplaceIcon = "{0}";
             const string ErrorMenuOptionOutsideRange = "Opcion seleccionado en el menu esta fuera del rango permitido, elige una de las opciones que se muestran en pantalla";
-            const string ErrorOvercameErrorLimit = "Se ha superado el limite de errores, debera de reintroducir los valores en este apartado";
+            const string ErrorOvercameErrorLimit = "Se ha superado el limite de errores, se asignara el stat minimo en este apartado";
             const string ErrorOvercameSecondErrorLimit = "Ha cometido 3 errores 3 veces, vuelve al principio";
             const string ErrorOutsideStatRange = "El valor esta fuera del rango solicitado";
             const string ErrorOvercameStartErrorLimit = "Se ha superado el limite de errores en el menu principal, el programa finalizara por ello";
@@ -155,7 +155,6 @@ namespace GameProject
             const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
 
             bool repeated;
-            bool repeatedSecondLoop;
             bool choosenOnCooldown = false;
             int fightOption = 0;
             int dificultyOption;
@@ -340,236 +339,223 @@ namespace GameProject
                         case CustomModeOption:
                             //Asignacion stats arquera
                             repeated = false;
-                            while (errorProvideAllStatsCounter < AllowedErrors && !InRange(archerDefense, ArcherMinDefense, ArcherMaxDefense))
+                          
+                            repeated = false;
+                            errorProvideStatsCounter = 0;
+                            while (!InRange(archerHP, ArcherMinHP, ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors)
                             {
-                                archerHP = 0;
-                                archerDamage = 0;
-                                archerDefense = 0;
-                                archerSkillCooldown = 0;
+
                                 if (repeated)
                                 {
-                                    errorProvideAllStatsCounter++;
-                                    Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
-                                }
-                                if (errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    Console.WriteLine(MenuSpliter);
-                                    Console.WriteLine(ArcherStatAssign);
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
                                 }
                                 repeated = true;
-                                repeatedSecondLoop = false;
-                                errorProvideStatsCounter = 0;
-                                while (!InRange(archerHP, ArcherMinHP, ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP);
-                                    }
-                                }
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    errorProvideStatsCounter = 0;
+                                    archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP);
                                 }
-                                repeatedSecondLoop = false;
-                                while (!InRange(archerDamage, ArcherMinDamage, ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
-                                    }
-                                }
-                                if (errorProvideStatsCounter < AllowedErrors)
-                                {
-                                    errorProvideStatsCounter = 0;
-                                }
-                                repeatedSecondLoop = false;
-                                while (!InRange(archerDefense, ArcherMinDefense, ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        Console.Write(ProvideDefense, ArcherMinDefense, ArcherMaxDefense);
-                                        archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense);
-                                    }
-                                }
-                                Console.WriteLine(MenuSpliter);
                             }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                archerHP = ArcherMinHP;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(archerDamage, ArcherMinDamage, ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                archerDamage = ArcherMinDamage;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(archerDefense, ArcherMinDefense, ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    Console.Write(ProvideDefense, ArcherMinDefense, ArcherMaxDefense);
+                                    archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                archerDefense = ArcherMinDefense;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+                            Console.WriteLine(MenuSpliter);
+                            
 
                             //Asignacion de stats barbaro
                             repeated = false;
-                            if (errorProvideAllStatsCounter < AllowedErrors)
+                            errorProvideStatsCounter = 0;
+                            while (!InRange(barbarianHP, BarbarianMinHP, BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors)
                             {
-                                errorProvideAllStatsCounter = 0;
-                            }
-                            while (errorProvideAllStatsCounter < AllowedErrors && !InRange(barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense))
-                            {
-                                barbarianHP = 0;
-                                barbarianDamage = 0;
-                                barbarianDefense = 0;
-                                barbarianSkillCooldown = 0;
+
                                 if (repeated)
                                 {
-                                    errorProvideAllStatsCounter++;
-                                    Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
                                 }
-                                if (errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    Console.WriteLine(MenuSpliter);
-                                    Console.WriteLine(BarbarianStatAssign);
-                                }
-
                                 repeated = true;
-                                repeatedSecondLoop = false;
-                                errorProvideStatsCounter = 0;
-                                while (!InRange(barbarianHP, BarbarianMinHP, BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
-                                    }
-                                }
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    errorProvideStatsCounter = 0;
+                                    barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
                                 }
-                                repeatedSecondLoop = false;
-                                while (!InRange(barbarianDamage, BarbarianMinDamage, BarbarianMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
-                                    }
-                                }
-                                if (errorProvideStatsCounter < AllowedErrors)
-                                {
-                                    errorProvideStatsCounter = 0;
-                                }
-                                repeatedSecondLoop = false;
-                                while (!InRange(barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
-                                    }
-                                }
-                                Console.WriteLine(MenuSpliter);
                             }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                barbarianHP = BarbarianMinHP;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(barbarianDamage, BarbarianMinDamage, BarbarianMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                barbarianDamage = BarbarianMinDamage;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                barbarianDefense = BarbarianMinDefense;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            Console.WriteLine(MenuSpliter);
 
                             //Asignacion de stats mago
                             repeated = false;
+                            
+                            mageHP = 0;
+                            mageDamage = 0;
+                            mageDefense = 0;
+                            mageSkillCooldown = 0;
+                            if (repeated)
+                            {
+                                errorProvideAllStatsCounter++;
+                                Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                            }
                             if (errorProvideAllStatsCounter < AllowedErrors)
                             {
-                                errorProvideAllStatsCounter = 0;
+                                Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(MageStatAssign);
                             }
-                            while (errorProvideAllStatsCounter < AllowedErrors && !InRange(mageDefense, MageMinDefense, MageMaxDefense))
+
+                            repeated = false;
+                            errorProvideStatsCounter = 0;
+                            while ((mageHP < MageMinHP || mageHP > MageMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
                             {
-                                mageHP = 0;
-                                mageDamage = 0;
-                                mageDefense = 0;
-                                mageSkillCooldown = 0;
+
                                 if (repeated)
                                 {
-                                    errorProvideAllStatsCounter++;
-                                    Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
                                 }
-                                if (errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    Console.WriteLine(MenuSpliter);
-                                    Console.WriteLine(MageStatAssign);
-                                }
-
                                 repeated = true;
-                                repeatedSecondLoop = false;
-                                errorProvideStatsCounter = 0;
-                                while ((mageHP < MageMinHP || mageHP > MageMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP);
-                                    }
-                                }
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    errorProvideStatsCounter = 0;
+                                    mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP);
                                 }
-                                repeatedSecondLoop = false;
-                                while (!InRange(mageDamage, MageMinDamage, MageMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage);
-                                    }
-                                }
-                                if (errorProvideStatsCounter < AllowedErrors)
-                                {
-                                    errorProvideStatsCounter = 0;
-                                }
-                                repeatedSecondLoop = false;
-                                while (!InRange(mageDefense, MageMinDefense, MageMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense);
-                                    }
-                                }
-                                Console.WriteLine(MenuSpliter);
                             }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                mageHP = MageMinHP;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(mageDamage, MageMinDamage, MageMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                mageDamage = MageMinDamage;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(mageDefense, MageMinDefense, MageMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                mageDefense = MageMinDefense;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+                            Console.WriteLine(MenuSpliter);
+                            
 
                             //Asignacion de stats druida
                             repeated = false;
@@ -577,156 +563,166 @@ namespace GameProject
                             {
                                 errorProvideAllStatsCounter = 0;
                             }
-                            while (errorProvideAllStatsCounter < AllowedErrors && !InRange(druidDefense, DruidMinDefense, DruidMaxDefense))
+                            druidHP = 0;
+                            druidDamage = 0;
+                            druidDefense = 0;
+                            druidSkillCooldown = 0;
+                            if (repeated)
                             {
-                                druidHP = 0;
-                                druidDamage = 0;
-                                druidDefense = 0;
-                                druidSkillCooldown = 0;
-                                if (repeated)
-                                {
-                                    errorProvideAllStatsCounter++;
-                                    Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
-                                }
-                                if (errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    Console.WriteLine(MenuSpliter);
-                                    Console.WriteLine(DruidStatAssign);
-                                }
-
-                                repeated = true;
-                                repeatedSecondLoop = false;
-                                errorProvideStatsCounter = 0;
-                                while (!InRange(druidHP, DruidMinHP, DruidMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP);
-                                    }
-                                }
-                                if (errorProvideStatsCounter < AllowedErrors)
-                                {
-                                    errorProvideStatsCounter = 0;
-                                }
-                                repeatedSecondLoop = false;
-                                while (!InRange(druidDamage, DruidMinDamage, DruidMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage);
-                                    }
-                                }
-                                if (errorProvideStatsCounter < AllowedErrors)
-                                {
-                                    errorProvideStatsCounter = 0;
-                                }
-                                repeatedSecondLoop = false;
-                                while (!InRange(druidDefense, DruidMinDefense, DruidMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense);
-                                    }
-                                }
-                                Console.WriteLine(MenuSpliter);
+                                errorProvideAllStatsCounter++;
+                                Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
                             }
-
-                            //Asignacion de stats monstruo
-                            repeated = false;
                             if (errorProvideAllStatsCounter < AllowedErrors)
                             {
-                                errorProvideAllStatsCounter = 0;
+                                Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(DruidStatAssign);
                             }
-                            while (errorProvideAllStatsCounter < AllowedErrors && !InRange(monsterDefense, MonsterMinDefense, MonsterMaxDefense))
+
+                            repeated = false;
+                            errorProvideStatsCounter = 0;
+                            while (!InRange(druidHP, DruidMinHP, DruidMaxHP) && errorProvideStatsCounter < AllowedErrors)
                             {
-                                monsterHP = 0;
-                                monsterDamage = 0;
-                                monsterDefense = 0;
+
                                 if (repeated)
                                 {
-                                    errorProvideAllStatsCounter++;
-                                    Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
                                 }
-                                if (errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    Console.WriteLine(MenuSpliter);
-                                    Console.WriteLine(MonsterStatAssign);
-                                }
-
                                 repeated = true;
-                                repeatedSecondLoop = false;
-                                errorProvideStatsCounter = 0;
-                                while (!InRange(monsterHP, MonsterMinHP, MonsterMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP);
-                                    }
-                                }
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    errorProvideStatsCounter = 0;
+                                    druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP);
                                 }
-                                repeatedSecondLoop = false;
-                                while (!InRange(monsterDamage, MonsterMinDamage, MonsterMaxDamage) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
-                                    }
-                                }
-                                if (errorProvideStatsCounter < AllowedErrors)
-                                {
-                                    errorProvideStatsCounter = 0;
-                                }
-                                repeatedSecondLoop = false;
-                                while (!InRange(monsterDefense, MonsterMinDefense, MonsterMaxDefense) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
-                                {
-                                    if (repeatedSecondLoop)
-                                    {
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        errorProvideStatsCounter++;
-                                    }
-                                    repeatedSecondLoop = true;
-                                    if (errorProvideStatsCounter < AllowedErrors)
-                                    {
-                                        monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
-                                    }
-                                }
-                                Console.WriteLine(MenuSpliter);
                             }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                druidHP = DruidMinHP;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(druidDamage, DruidMinDamage, DruidMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                druidDamage = DruidMinDamage;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(druidDefense, DruidMinDefense, DruidMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                druidHP = DruidMinHP;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+                            Console.WriteLine(MenuSpliter);
+                            
+                            //Asignacion de stats monstruo
+                            monsterHP = 0;
+                            monsterDamage = 0;
+                            monsterDefense = 0;
+                            if (repeated)
+                            {
+                                errorProvideAllStatsCounter++;
+                                Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
+                            }
+                            if (errorProvideAllStatsCounter < AllowedErrors)
+                            {
+                                Console.WriteLine(MenuSpliter);
+                                Console.WriteLine(MonsterStatAssign);
+                            }
+
+                            repeated = true;
+                            repeated = false;
+                            errorProvideStatsCounter = 0;
+                            while (!InRange(monsterHP, MonsterMinHP, MonsterMaxHP) && errorProvideStatsCounter < AllowedErrors)
+                            {
+
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                monsterHP = MonsterMinHP;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(monsterDamage, MonsterMinDamage, MonsterMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                monsterDamage = MonsterMinDamage;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+
+                            errorProvideStatsCounter = 0;
+                            repeated = false;
+                            while (!InRange(monsterDefense, MonsterMinDefense, MonsterMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            {
+                                if (repeated)
+                                {
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    errorProvideStatsCounter++;
+                                }
+                                repeated = true;
+                                if (errorProvideStatsCounter < AllowedErrors)
+                                {
+                                    monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
+                                }
+                            }
+                            if (errorProvideStatsCounter >= AllowedErrors)
+                            {
+                                monsterDefense = MonsterMinDefense;
+                                Console.WriteLine(ErrorOvercameErrorLimit);
+                            }
+                            Console.WriteLine(MenuSpliter);
                             break;
                         case RandomModeOption:
                             Console.WriteLine(MenuSpliter);

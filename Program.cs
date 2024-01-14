@@ -717,6 +717,7 @@ namespace GameProject
                                     monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
                                 }
                             }
+
                             if (errorProvideStatsCounter >= AllowedErrors)
                             {
                                 monsterDefense = MonsterMinDefense;

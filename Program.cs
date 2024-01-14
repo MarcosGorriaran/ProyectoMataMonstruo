@@ -34,9 +34,9 @@ namespace GameProject
             const int FailChance = 5;
             const int CritChance = 10;
             const int FailResponse = 0;
-            const int HitResponse = 1;
+            const int AmountCharacters = 4;
             const int CritResponse = 2;
-            //ArcherStatsLimit
+            //ArcherConstants
             const int ArcherMinHP = 1500;
             const int ArcherMaxHP = 2000;
             const int ArcherMinDamage = 180;
@@ -44,7 +44,8 @@ namespace GameProject
             const int ArcherMinDefense = 25;
             const int ArcherMaxDefense = 40;
             const int ArcherStunDuration = 2;
-            //BarbarianStatsLimit
+            const int ArcherNameLocation = 0;
+            //BarbarianConstants
             const int BarbarianMinHP = 3000;
             const int BarbarianMaxHP = 3750;
             const int BarbarianMinDamage = 150;
@@ -52,7 +53,8 @@ namespace GameProject
             const int BarbarianMinDefense = 35;
             const int BarbarianMaxDefense = 45;
             const int BarbarianPerfectDefenseDuration = 3;
-            //MageStatsLimit
+            const int BarbariaNameLocation = 1;
+            //MageConstants
             const int MageMinHP = 1000;
             const int MageMaxHP = 1500;
             const int MageMinDamage = 300;
@@ -60,6 +62,7 @@ namespace GameProject
             const int MageMinDefense = 20;
             const int MageMaxDefense = 35;
             const int MageSuperAttackMult = 3;
+            const int MageNameLocation = 2;
             //DruidStatsLimit
             const int DruidMinHP = 2000;
             const int DruidMaxHP = 2500;
@@ -68,6 +71,7 @@ namespace GameProject
             const int DruidMinDefense = 25;
             const int DruidMaxDefense = 40;
             const int DruidHealingAmount = 500;
+            const int DruidNameLocation = 3;
             //MonsterStatsLimit
             const int MonsterMinHP = 9000;
             const int MonsterMaxHP = 12000;
@@ -75,6 +79,7 @@ namespace GameProject
             const int MonsterMaxDamage = 400;
             const int MonsterMinDefense = 20;
             const int MonsterMaxDefense = 30;
+            const char CharacterSpliter = ',';
             const string LineJumper = "\n";
             const string ReplaceIcon = "{0}";
             const string ErrorMenuOptionOutsideRange = "Opcion seleccionado en el menu esta fuera del rango permitido, elige una de las opciones que se muestran en pantalla";
@@ -84,6 +89,8 @@ namespace GameProject
             const string ErrorOvercameStartErrorLimit = "Se ha superado el limite de errores en el menu principal, el programa finalizara por ello";
             const string ErrorOvercameFightErrorLimit = "Ha cometido demasiados errores, el turno de {0} se saltara";
             const string ErrorChoosenUnderCooldown = "La habilidad aun estaba bajo tiempo de espera, el heroe es incapaz de utilizarlo";
+            const string ErrorTooManyNames = "Solo hay {0} personajes a nombrar y hay {1} nombres en la lista proporcionada, vuelve a introducir los nombres.";
+            const string ErrorFewNames = "Hay {0} personajes a nombrar y hay {1} nombres en la lista proporcionada, vuelve a introducir los nombres.";
             const string GeneralAskInputMsg = "Escribe el numero de la opcion deseas utilizar: ";
             const string StartingMenu = "Iniciar una nueva batalla\nSalir";
             const string StatAssignMenu = "Facil\nDificil\nPersonalizado\nStats random";
@@ -101,6 +108,7 @@ namespace GameProject
             const string ProvideDefense = "Reduccion de daño (valor percentual) [{0} - {1}]: ";
             const string SkillReady = "Listo";
             const string AskStatAssignMethod = "Elige la dificultad";
+            const string AskCharactersName = "Introduce el nombre de la arquera, barbaro, mago y druida del grupo: ";
             const string ShowArcherStats = "Stats de la arquera:";
             const string ShowBarbarianStats = "Stats del barbaro:";
             const string ShowMageStats = "Stats del mago:";
@@ -206,6 +214,7 @@ namespace GameProject
             string barbarianName = "BarbarianPlaceholderName";
             string mageName = "MagePlaceholderName";
             string druidName = "DruidPlaceholderName";
+            string[] nameStore;
 
             do
             {
@@ -229,6 +238,21 @@ namespace GameProject
 
                 if (menuOption == StartGameOption)
                 {
+                    repeated = false;
+                    do
+                    {
+                        nameStore = AskGroupParameters(CharacterSpliter, AskCharactersName);
+                        repeated = nameStore.Length != AmountCharacters;
+                        if (repeated)
+                        {
+                            Console.WriteLine(nameStore.Length < AmountCharacters ? ErrorFewNames : ErrorTooManyNames, AmountCharacters, nameStore.Length);
+                        }
+                    } while (repeated);
+                    archerName = nameStore[ArcherNameLocation];
+                    barbarianName = nameStore[BarbariaNameLocation];
+                    mageName = nameStore[MageNameLocation];
+                    druidName = nameStore[DruidNameLocation];
+
                     repeated = false;
                     do
                     {
@@ -1195,6 +1219,16 @@ namespace GameProject
         {
             Random rng = new Random();
             return rng.Next(minValue, maxValue + 1);
+        }
+        public static string[] AskGroupParameters(char wordSpliter, string msg)
+        {
+            Console.Write(msg);
+            string[] names = Console.ReadLine().Split(wordSpliter);
+            for(int i = 0; i< names.Length; i++)
+            {
+                names[i] = names[i].Trim();
+            }
+            return names;
         }
         public static void ShowValuesDesc(int[] values, string[] characterPerValue, string mainMsg)
         {

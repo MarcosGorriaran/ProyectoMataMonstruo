@@ -109,45 +109,30 @@ namespace GameProject
             const string SkillReady = "Listo";
             const string AskStatAssignMethod = "Elige la dificultad";
             const string AskCharactersName = "Introduce el nombre de la arquera, barbaro, mago y druida del grupo: ";
-            const string ShowArcherStats = "Stats de la arquera:";
-            const string ShowBarbarianStats = "Stats del barbaro:";
-            const string ShowMageStats = "Stats del mago:";
-            const string ShowDruidStats = "Stats del druida:";
+            const string ShowCharacterStats = "Stats de {0}: ";
             const string ShowMonsterStats = "Stats del monstruo:";
-            const string ArcherStatAssign = "Proporciona los stats de la arquera";
-            const string BarbarianStatAssign = "Proporciona los stats del barbaro";
-            const string MageStatAssign = "Proporciona los stats del mago";
-            const string DruidStatAssign = "Proporciona los stats del druida";
+            const string CharacterStatAssign = "Proporciona los stats de {0}";
             const string MonsterStatAssign = "Proporciona los stats del monstruo";
-            const string ArcherTurn = "Es el turno de la arquera";
-            const string BarbarianTurn = "Es el turno del barbaro";
-            const string MageTurn = "Es el turno del mago";
-            const string DruidTurn = "Es el turno del druida";
+            const string CharacterTurn = "Es el turno de {0}";
+            const string CharacterDefends = "{0} se prepara para el impacto del siguiente ataque";
             const string GeneralAttackSection = "causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
-            const string ArcherAttackMsg = "La arquera lanza una flecha al monstruo ";
-            const string ArcherCritsMsg = "La arquera lanza una flecha a un punto critico del monstruo ";
-            const string ArcherMissMsg = "La arquera falla su tiro, ";
-            const string ArcherProtectsMsg = "La arquera se prepara para el impacto del siguiente ataque";
-            const string ArcherSkill = "La arquera immobiliza al monstruo con una flecha en la pierna, el monstruo es incapaz de moverse por dos turnos";
-            const string BarbarianAttackMsg = "El barbaro se avalanza con su hacha e impacta, ";
-            const string BarbarianCritsMsg = "El barbaro causa un ataque brutal con su hacha, ";
-            const string BarbarianMissMsg = "El barbaro se avalanza al monstruo con su hacha y NAT 1... Sip falla, ";
-            const string BarbarianProtectsMsg = "El barbaro se prepara para recivir el impacto del siguiente ataque";
-            const string BarbarianSkill = "El barbaro toma una postura defensiva impecable, en los proximos 3 turnos su defensa es perfecta y no puede recivir daño";
-            const string MageAttackMsg = "El mago prepara y lanza un rayo magico al monstruo ";
-            const string MageCritsMsg = "El mago prepara y lanza un rayo magico directo al ojo ";
-            const string MageMissMsg = "El mago intenta hacer kaboom pero le sale kaploom, fallando el ataque. ";
-            const string MageProtects = "El mago se prepara para el impacto del siguiente ataque";
-            const string MageSkill = "El mago decide tirar logica por la ventana y grita 'FIREBALL AND ONLY FIREBALL' y lanza una tormenta de bolas de fuego ";
-            const string DruidAttackMsg = "El druida da un mamporro con su baston al monstruo ";
-            const string DruidCritsMsg = "El druida le da un mamporrazo en la cabeza al monstruo ";
-            const string DruidMissMsg = "El druida intenta dar un mamporro con su baston pero no hace nada mas que enfadar mas al monstruo. ";
-            const string DruidProtects = "El druida se prepara para el impacto del siguiente ataque";
-            const string DruidSkill = "El druida prepara un hechizo curativo que envuelve a todos los aventureros que aun quedan en pie y todos estos son sanados {0} puntos de salud";
-            const string DruidHealsArcher = "La arquera ahora posee {0} puntos de salud";
-            const string DruidHealsBarbarian = "El barbaro ahora posee {0} puntos de salud";
-            const string DruidHealsMage = "El mago ahora posee {0} puntos de salud";
-            const string DruidHealsDruid = "El druida ahora posee {0} puntos de salud";
+            const string ArcherAttackMsg = "{0} lanza una flecha al monstruo ";
+            const string ArcherCritsMsg = "{0} lanza una flecha a un punto critico del monstruo ";
+            const string ArcherMissMsg = "{0} falla su tiro, ";
+            const string ArcherSkill = "{0} immobiliza al monstruo con una flecha en la pierna, el monstruo es incapaz de moverse por dos turnos";
+            const string BarbarianAttackMsg = "{0} se avalanza con su hacha e impacta, ";
+            const string BarbarianCritsMsg = "{0} causa un ataque brutal con su hacha, ";
+            const string BarbarianMissMsg = "{0} se avalanza al monstruo con su hacha y NAT 1... Sip falla, ";
+            const string BarbarianSkill = "{0} toma una postura defensiva impecable, en los proximos 3 turnos su defensa es perfecta y no puede recivir daño";
+            const string MageAttackMsg = "{0} prepara y lanza un rayo magico al monstruo ";
+            const string MageCritsMsg = "{0} prepara y lanza un rayo magico directo al ojo ";
+            const string MageMissMsg = "{0} intenta hacer kaboom pero le sale kaploom, fallando el ataque. ";
+            const string MageSkill = "{0} decide tirar logica por la ventana y grita 'FIREBALL AND ONLY FIREBALL' y lanza una tormenta de bolas de fuego ";
+            const string DruidAttackMsg = "{0} da un mamporro con su baston al monstruo ";
+            const string DruidCritsMsg = "{0} le da un mamporrazo en la cabeza al monstruo ";
+            const string DruidMissMsg = "{0} intenta dar un mamporro con su baston pero no hace nada mas que enfadar mas al monstruo. ";
+            const string DruidSkill = "{0} prepara un hechizo curativo que envuelve a todos los aventureros que aun quedan en pie y todos estos son sanados {0} puntos de salud";
+            const string DruidHealsCharacters = "{0} ahora posee {1} puntos de salud";
             const string MonsterAttacks = "El monstruo lanza un zarpazo, alcanzando a todos los miembros del grupo";
             const string MonsterArcherDamage = "La arquera recive {0} puntos de daño,la arquera se defiende, solo causando {1} puntos de daño, a la arquera le queda {2} puntos de vida";
             const string ArcherDead = "La arquera cae en combate";
@@ -210,10 +195,10 @@ namespace GameProject
             int monsterDefense = 0;
             int monsterStun = 0;
             string formatedMenu;
-            string archerName = "ArcherPlaceholderName";
-            string barbarianName = "BarbarianPlaceholderName";
-            string mageName = "MagePlaceholderName";
-            string druidName = "DruidPlaceholderName";
+            string archerName;
+            string barbarianName;
+            string mageName;
+            string druidName;
             string[] nameStore;
 
             do
@@ -290,28 +275,28 @@ namespace GameProject
                     {
                         case EasyModeOption:
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowArcherStats);
+                            Console.WriteLine(ShowCharacterStats, archerName);
                             archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP, ArcherMaxHP);
                             archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage, ArcherMaxDamage);
                             archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense, ArcherMaxDefense);
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowBarbarianStats);
+                            Console.WriteLine(ShowCharacterStats, barbarianName);
                             barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP, BarbarianMaxHP);
                             barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage, BarbarianMaxDamage);
                             barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense, BarbarianMaxDefense);
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowMageStats);
+                            Console.WriteLine(ShowCharacterStats, mageName);
                             mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP, MageMaxHP);
                             mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage, MageMaxDamage);
                             mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense, MageMaxDefense);
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowDruidStats);
+                            Console.WriteLine(ShowCharacterStats, druidName);
                             druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP, DruidMinHP);
                             druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage, DruidMaxDamage);
                             druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense, DruidMaxDefense);
@@ -326,28 +311,28 @@ namespace GameProject
                             break;
                         case HardModeOption:
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowArcherStats);
+                            Console.WriteLine(ShowCharacterStats, archerName);
                             archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP, ArcherMinHP);
                             archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage, ArcherMinDamage);
                             archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense, ArcherMinDefense);
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowBarbarianStats);
+                            Console.WriteLine(ShowCharacterStats, barbarianName);
                             barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP, BarbarianMinHP);
                             barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage, BarbarianMinDamage);
                             barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense, BarbarianMinDefense);
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowMageStats);
+                            Console.WriteLine(ShowCharacterStats, mageName);
                             mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP, MageMinHP);
                             mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage, MageMinDamage);
                             mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense, MageMinDefense);
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowDruidStats);
+                            Console.WriteLine(ShowCharacterStats, druidName);
                             druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP, DruidMinHP);
                             druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage, DruidMinDamage);
                             druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense, DruidMinDefense);
@@ -362,8 +347,8 @@ namespace GameProject
                             break;
                         case CustomModeOption:
                             //Asignacion stats arquera
-                            repeated = false;
-                          
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(CharacterStatAssign, archerName);
                             repeated = false;
                             errorProvideStatsCounter = 0;
                             while (!InRange(archerHP, ArcherMinHP, ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors)
@@ -428,9 +413,11 @@ namespace GameProject
                                 Console.WriteLine(ErrorOvercameErrorLimit);
                             }
                             Console.WriteLine(MenuSpliter);
-                            
+
 
                             //Asignacion de stats barbaro
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(CharacterStatAssign, barbarianName);
                             repeated = false;
                             errorProvideStatsCounter = 0;
                             while (!InRange(barbarianHP, BarbarianMinHP, BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors)
@@ -498,23 +485,8 @@ namespace GameProject
                             Console.WriteLine(MenuSpliter);
 
                             //Asignacion de stats mago
-                            repeated = false;
-                            
-                            mageHP = 0;
-                            mageDamage = 0;
-                            mageDefense = 0;
-                            mageSkillCooldown = 0;
-                            if (repeated)
-                            {
-                                errorProvideAllStatsCounter++;
-                                Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
-                            }
-                            if (errorProvideAllStatsCounter < AllowedErrors)
-                            {
-                                Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(MageStatAssign);
-                            }
-
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(CharacterStatAssign, mageName);
                             repeated = false;
                             errorProvideStatsCounter = 0;
                             while ((mageHP < MageMinHP || mageHP > MageMaxHP) && errorProvideStatsCounter < AllowedErrors && errorProvideAllStatsCounter < AllowedErrors)
@@ -579,29 +551,11 @@ namespace GameProject
                                 Console.WriteLine(ErrorOvercameErrorLimit);
                             }
                             Console.WriteLine(MenuSpliter);
-                            
+
 
                             //Asignacion de stats druida
-                            repeated = false;
-                            if (errorProvideAllStatsCounter < AllowedErrors)
-                            {
-                                errorProvideAllStatsCounter = 0;
-                            }
-                            druidHP = 0;
-                            druidDamage = 0;
-                            druidDefense = 0;
-                            druidSkillCooldown = 0;
-                            if (repeated)
-                            {
-                                errorProvideAllStatsCounter++;
-                                Console.WriteLine(errorProvideAllStatsCounter < AllowedErrors ? ErrorOvercameErrorLimit : ErrorOvercameSecondErrorLimit);
-                            }
-                            if (errorProvideAllStatsCounter < AllowedErrors)
-                            {
-                                Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(DruidStatAssign);
-                            }
-
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(CharacterStatAssign, druidName);
                             repeated = false;
                             errorProvideStatsCounter = 0;
                             while (!InRange(druidHP, DruidMinHP, DruidMaxHP) && errorProvideStatsCounter < AllowedErrors)
@@ -751,28 +705,28 @@ namespace GameProject
                             break;
                         case RandomModeOption:
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowArcherStats);
+                            Console.WriteLine(ShowCharacterStats, archerName);
                             archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP, GenerateRandomValue(ArcherMinHP, ArcherMaxHP));
                             archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage, GenerateRandomValue(ArcherMinDamage, ArcherMaxHP));
                             archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense, GenerateRandomValue(ArcherMinDefense, ArcherMaxDefense));
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowBarbarianStats);
+                            Console.WriteLine(ShowCharacterStats, barbarianName);
                             barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP, GenerateRandomValue(BarbarianMinHP, BarbarianMaxHP));
                             barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage, GenerateRandomValue(BarbarianMinDamage, BarbarianMaxDamage));
                             barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense, GenerateRandomValue(BarbarianMinDefense, BarbarianMaxDefense));
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowMageStats);
+                            Console.WriteLine(ShowCharacterStats, mageName);
                             mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP, GenerateRandomValue(MageMinHP, MageMaxHP));
                             mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage, GenerateRandomValue(MageMinDamage, MageMaxDamage));
                             mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense, GenerateRandomValue(MageMinDefense, MageMaxDefense));
                             Console.WriteLine(MenuSpliter);
 
                             Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowDruidStats);
+                            Console.WriteLine(ShowCharacterStats, druidName);
                             druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP, GenerateRandomValue(DruidMinHP, DruidMaxHP));
                             druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage, GenerateRandomValue(DruidMinDamage, DruidMaxDamage));
                             druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense, GenerateRandomValue(DruidMinDefense, DruidMaxDefense));
@@ -789,333 +743,331 @@ namespace GameProject
 
 
                     //Start of Combat
-                    if (errorProvideAllStatsCounter < AllowedErrors)
+                    archerTurnHP = archerHP;
+                    barbarianTurnHP = barbarianHP;
+                    mageTurnHP = mageHP;
+                    druidTurnHP = druidHP;
+                    monsterTurnHP = monsterHP;
+                    turnTracker = 0;
+
+                    Console.WriteLine(FightIcon);
+                    do
                     {
-                        archerTurnHP = archerHP;
-                        barbarianTurnHP = barbarianHP;
-                        mageTurnHP = mageHP;
-                        druidTurnHP = druidHP;
-                        monsterTurnHP = monsterHP;
-                        turnTracker = 0;
+                        turnTracker++;
+                        Console.WriteLine(AnounceTurn, turnTracker);
 
-                        Console.WriteLine(FightIcon);
-                        do
+                        //ArcherTurn
+                        errorProvideNumFightMenuCounter = 0;
+                        fightOption = 0;
+                        choosenOnCooldown = true;
+                        while (IsActorAlive(archerTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                         {
-                            turnTracker++;
-                            Console.WriteLine(AnounceTurn, turnTracker);
+                            choosenOnCooldown = false;
+                            archerTurnDefense = archerDefense;
 
-                            //ArcherTurn
-                            errorProvideNumFightMenuCounter = 0;
-                            fightOption = 0;
-                            choosenOnCooldown = true;
-                            while (IsActorAlive(archerTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                            Console.WriteLine(MenuSpliter);
+                            formatedMenu = FormatString(FightMenu, archerSkillCooldown == 0 ? SkillReady : $"{archerSkillCooldown}");
+                            fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{ArcherIcon}{LineJumper}{FormatString(CharacterTurn, archerName)}");
+                            switch (fightOption)
                             {
-                                choosenOnCooldown = false;
-                                archerTurnDefense = archerDefense;
-
-                                Console.WriteLine(MenuSpliter);
-                                formatedMenu = FightMenu.Replace(ReplaceIcon, archerSkillCooldown == 0 ? SkillReady : $"{archerSkillCooldown}");
-                                fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{ArcherIcon}{LineJumper}{ArcherTurn}");
-                                switch (fightOption)
-                                {
-                                    case AtackOption:
-                                        critRollNumber = CritFail(FailChance, CritChance);
-                                        AttackOption(archerDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
-                                        {
-                                            FailResponse => ArcherMissMsg,
-                                            CritResponse => ArcherCritsMsg,
-                                            _ => ArcherAttackMsg
-                                        } + GeneralAttackSection);
-                                        break;
-                                    case DefendOption:
-                                        DefenseAction(ref archerTurnDefense, archerTurnDefense + archerDefense);
-                                        Console.WriteLine(ArcherProtectsMsg);
-                                        break;
-                                    case SkillOption:
-                                        if (archerSkillCooldown > 0)
-                                        {
-                                            choosenOnCooldown = true;
-                                            errorProvideNumFightMenuCounter++;
-                                            Console.WriteLine(ErrorChoosenUnderCooldown);
-                                        }
-                                        else
-                                        {
-                                            monsterStun = ArcherStunDuration;
-                                            archerSkillCooldown = GlobalSpecialSkillCooldown;
-                                            Console.WriteLine(ArcherSkill);
-                                        }
-                                        break;
-                                    default:
-                                        Console.WriteLine(ErrorMenuOptionOutsideRange);
-                                        errorProvideNumFightMenuCounter++;
-                                        break;
-                                }
-                                if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
-                                {
+                                case AtackOption:
+                                    critRollNumber = CritFail(FailChance, CritChance);
+                                    AttackOption(archerDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                    {
+                                        FailResponse => ArcherMissMsg,
+                                        CritResponse => ArcherCritsMsg,
+                                        _ => ArcherAttackMsg
+                                    },archerName) + GeneralAttackSection);
+                                    break;
+                                case DefendOption:
+                                    DefenseAction(ref archerTurnDefense, archerTurnDefense + archerDefense);
+                                    Console.WriteLine(CharacterDefends, archerName);
+                                    break;
+                                case SkillOption:
                                     if (archerSkillCooldown > 0)
                                     {
-                                        archerSkillCooldown--;
-                                    }
-                                }
-                                if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, "ArcherPlaceholderName");
-                                Console.WriteLine(MenuSpliter);
-                            }
-
-
-                            //BarbarianTurn
-                            errorProvideNumFightMenuCounter = 0;
-                            fightOption = 0;
-                            choosenOnCooldown = true;
-                            while (IsActorAlive(barbarianTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
-                            {
-                                choosenOnCooldown = false;
-                                barbarianTurnDefense = barbarianDefense;
-
-                                Console.WriteLine(MenuSpliter);
-                                formatedMenu = FightMenu.Replace(ReplaceIcon, barbarianSkillCooldown == 0 ? SkillReady : $"{barbarianSkillCooldown}");
-                                fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{BarbarianIcon}{LineJumper}{BarbarianTurn}");
-                                switch (fightOption)
-                                {
-                                    case AtackOption:
-                                        critRollNumber = CritFail(FailChance, CritChance);
-                                        AttackOption(barbarianDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
-                                        {
-                                            FailResponse => BarbarianMissMsg,
-                                            CritResponse => BarbarianCritsMsg,
-                                            _ => BarbarianAttackMsg
-                                        } + GeneralAttackSection);
-                                        break;
-                                    case DefendOption:
-                                        DefenseAction(ref barbarianTurnDefense, barbarianTurnDefense + barbarianDefense);
-                                        Console.WriteLine(BarbarianProtectsMsg);
-                                        break;
-                                    case SkillOption:
-                                        if (barbarianSkillCooldown > 0)
-                                        {
-                                            choosenOnCooldown = true;
-                                            errorProvideNumFightMenuCounter++;
-                                            Console.WriteLine(ErrorChoosenUnderCooldown);
-                                        }
-                                        else
-                                        {
-                                            barbarianPerfectDefense = BarbarianPerfectDefenseDuration;
-                                            barbarianSkillCooldown = GlobalSpecialSkillCooldown;
-                                            Console.WriteLine(BarbarianSkill);
-                                        }
-                                        break;
-                                    default:
+                                        choosenOnCooldown = true;
                                         errorProvideNumFightMenuCounter++;
-                                        Console.WriteLine(ErrorOutsideStatRange);
-                                        break;
-                                }
-                                if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
-                                {
-                                    if (barbarianPerfectDefense > 0)
-                                    {
-                                        DefenseAction(ref barbarianTurnDefense, PercentageTop);
-                                        barbarianPerfectDefense--;
+                                        Console.WriteLine(ErrorChoosenUnderCooldown);
                                     }
+                                    else
+                                    {
+                                        monsterStun = ArcherStunDuration;
+                                        archerSkillCooldown = GlobalSpecialSkillCooldown;
+                                        Console.WriteLine(ArcherSkill, archerName);
+                                    }
+                                    break;
+                                default:
+                                    Console.WriteLine(ErrorMenuOptionOutsideRange);
+                                    errorProvideNumFightMenuCounter++;
+                                    break;
+                            }
+                            if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                            {
+                                if (archerSkillCooldown > 0)
+                                {
+                                    archerSkillCooldown--;
+                                }
+                            }
+                            if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, barbarianName);
+                            Console.WriteLine(MenuSpliter);
+                        }
+
+
+                        //BarbarianTurn
+                        errorProvideNumFightMenuCounter = 0;
+                        fightOption = 0;
+                        choosenOnCooldown = true;
+                        while (IsActorAlive(barbarianTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                        {
+                            choosenOnCooldown = false;
+                            barbarianTurnDefense = barbarianDefense;
+
+                            Console.WriteLine(MenuSpliter);
+                            formatedMenu = FormatString(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : $"{barbarianSkillCooldown}");
+                            fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{BarbarianIcon}{LineJumper}{FormatString(CharacterTurn, barbarianName)}");
+                            switch (fightOption)
+                            {
+                                case AtackOption:
+                                    critRollNumber = CritFail(FailChance, CritChance);
+                                    AttackOption(barbarianDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                    {
+                                        FailResponse => BarbarianMissMsg,
+                                        CritResponse => BarbarianCritsMsg,
+                                        _ => BarbarianAttackMsg
+                                    },archerName) + GeneralAttackSection);
+                                    break;
+                                case DefendOption:
+                                    DefenseAction(ref barbarianTurnDefense, barbarianTurnDefense + barbarianDefense);
+                                    Console.WriteLine(CharacterDefends, barbarianName);
+                                    break;
+                                case SkillOption:
                                     if (barbarianSkillCooldown > 0)
                                     {
-                                        barbarianSkillCooldown--;
-                                    }
-                                }
-                                if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, "BarbarianPlaceholderName");
-                                Console.WriteLine(MenuSpliter);
-                            }
-
-
-                            //MageTurn
-                            errorProvideNumFightMenuCounter = 0;
-                            fightOption = 0;
-                            choosenOnCooldown = true;
-                            while (IsActorAlive(mageTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
-                            {
-                                choosenOnCooldown = false;
-                                mageTurnDefense = mageDefense;
-                                Console.WriteLine(MenuSpliter);
-                                formatedMenu = FightMenu.Replace(ReplaceIcon, mageSkillCooldown == 0 ? SkillReady : $"{mageSkillCooldown}");
-                                fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{MageIcon}{LineJumper}{MageTurn}");
-                                switch (fightOption)
-                                {
-                                    case AtackOption:
-                                        critRollNumber = CritFail(FailChance, CritChance);
-                                        AttackOption(mageDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
-                                        {
-                                            FailResponse => MageMissMsg,
-                                            CritResponse => MageCritsMsg,
-                                            _ => MageAttackMsg,
-                                        } + GeneralAttackSection);
-                                        break;
-                                    case DefendOption:
-                                        DefenseAction(ref mageTurnDefense, mageTurnDefense + mageDefense);
-                                        Console.WriteLine(MageProtects);
-                                        break;
-                                    case SkillOption:
-                                        if (mageSkillCooldown > 0)
-                                        {
-                                            choosenOnCooldown = true;
-                                            errorProvideNumFightMenuCounter++;
-                                            Console.WriteLine(ErrorChoosenUnderCooldown);
-                                        }
-                                        else
-                                        {
-                                            mageSkillCooldown = GlobalSpecialSkillCooldown; ;
-                                            AttackOption(mageDamage * MageSuperAttackMult, monsterDefense, ref monsterTurnHP, MageSkill + GeneralAttackSection);
-                                        }
-                                        break;
-                                    default:
+                                        choosenOnCooldown = true;
                                         errorProvideNumFightMenuCounter++;
-                                        Console.WriteLine(ErrorMenuOptionOutsideRange);
-                                        break;
-                                }
-                                if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                                        Console.WriteLine(ErrorChoosenUnderCooldown);
+                                    }
+                                    else
+                                    {
+                                        barbarianPerfectDefense = BarbarianPerfectDefenseDuration;
+                                        barbarianSkillCooldown = GlobalSpecialSkillCooldown;
+                                        Console.WriteLine(BarbarianSkill, barbarianName);
+                                    }
+                                    break;
+                                default:
+                                    errorProvideNumFightMenuCounter++;
+                                    Console.WriteLine(ErrorOutsideStatRange);
+                                    break;
+                            }
+                            if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                            {
+                                if (barbarianPerfectDefense > 0)
                                 {
+                                    DefenseAction(ref barbarianTurnDefense, PercentageTop);
+                                    barbarianPerfectDefense--;
+                                }
+                                if (barbarianSkillCooldown > 0)
+                                {
+                                    barbarianSkillCooldown--;
+                                }
+                            }
+                            if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, barbarianName);
+                            Console.WriteLine(MenuSpliter);
+                        }
+
+
+                        //MageTurn
+                        errorProvideNumFightMenuCounter = 0;
+                        fightOption = 0;
+                        choosenOnCooldown = true;
+                        while (IsActorAlive(mageTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                        {
+                            choosenOnCooldown = false;
+                            mageTurnDefense = mageDefense;
+                            Console.WriteLine(MenuSpliter);
+                            formatedMenu = FormatString(FightMenu, mageSkillCooldown == 0 ? SkillReady : $"{mageSkillCooldown}");
+                            fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{MageIcon}{LineJumper}{FormatString(CharacterTurn, mageName)}");
+                            switch (fightOption)
+                            {
+                                case AtackOption:
+                                    critRollNumber = CritFail(FailChance, CritChance);
+                                    AttackOption(mageDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                    {
+                                        FailResponse => MageMissMsg,
+                                        CritResponse => MageCritsMsg,
+                                        _ => MageAttackMsg,
+                                    },mageName) + GeneralAttackSection);
+                                    break;
+                                case DefendOption:
+                                    DefenseAction(ref mageTurnDefense, mageTurnDefense + mageDefense);
+                                    Console.WriteLine(CharacterDefends, mageName);
+                                    break;
+                                case SkillOption:
                                     if (mageSkillCooldown > 0)
                                     {
-                                        mageSkillCooldown--;
-                                    }
-                                }
-                                if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, "MagePlaceholderName");
-                                Console.WriteLine(MenuSpliter);
-                            }
-
-
-                            //DruidTurn
-                            errorProvideNumFightMenuCounter = 0;
-                            fightOption = 0;
-                            choosenOnCooldown = true;
-                            while (IsActorAlive(druidTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
-                            {
-                                choosenOnCooldown = false;
-                                druidTurnDefense = druidDefense;
-
-                                Console.WriteLine(MenuSpliter);
-                                formatedMenu = FightMenu.Replace(ReplaceIcon, druidSkillCooldown == 0 ? SkillReady : $"{druidSkillCooldown}");
-                                fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{DruidIcon}{LineJumper}{DruidTurn}");
-                                switch (fightOption)
-                                {
-                                    case AtackOption:
-                                        critRollNumber = CritFail(FailChance, CritChance);
-                                        AttackOption(druidDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
-                                        {
-                                            FailResponse => DruidMissMsg,
-                                            CritResponse => DruidCritsMsg,
-                                            _ => DruidAttackMsg,
-                                        } + GeneralAttackSection);
-                                        break;
-                                    case DefendOption:
-                                        DefenseAction(ref druidTurnDefense, druidTurnDefense + druidDefense);
-                                        Console.WriteLine(DruidProtects);
-                                        break;
-                                    case SkillOption:
-                                        if (druidSkillCooldown > 0)
-                                        {
-                                            choosenOnCooldown = true;
-                                            errorProvideNumFightMenuCounter++;
-                                            Console.WriteLine(choosenOnCooldown);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine(DruidSkill, DruidHealingAmount);
-                                            if (IsActorAlive(archerTurnHP))
-                                            {
-                                                HealTarget(ref archerTurnHP, DruidHealingAmount, archerHP);
-                                                Console.WriteLine(DruidHealsArcher, archerTurnHP);
-                                            }
-                                            if (IsActorAlive(barbarianTurnHP))
-                                            {
-                                                HealTarget(ref barbarianTurnHP, DruidHealingAmount, barbarianHP);
-                                                Console.WriteLine(DruidHealsBarbarian, barbarianTurnHP);
-                                            }
-                                            if (IsActorAlive(mageTurnHP))
-                                            {
-                                                HealTarget(ref mageTurnHP, DruidHealingAmount, mageHP);
-                                                Console.WriteLine(DruidHealsMage, mageTurnHP);
-                                            }
-                                            HealTarget(ref druidTurnHP, DruidHealingAmount, druidHP);
-                                            Console.WriteLine(DruidHealsDruid, druidTurnHP);
-                                            druidSkillCooldown = GlobalSpecialSkillCooldown;
-                                        }
-                                        break;
-                                    default:
+                                        choosenOnCooldown = true;
                                         errorProvideNumFightMenuCounter++;
-                                        Console.WriteLine(ErrorMenuOptionOutsideRange);
-                                        break;
-                                }
-                                if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                                        Console.WriteLine(ErrorChoosenUnderCooldown);
+                                    }
+                                    else
+                                    {
+                                        mageSkillCooldown = GlobalSpecialSkillCooldown; ;
+                                        AttackOption(mageDamage * MageSuperAttackMult, monsterDefense, ref monsterTurnHP, FormatString(MageSkill, mageName) + GeneralAttackSection); ;
+                                    }
+                                    break;
+                                default:
+                                    errorProvideNumFightMenuCounter++;
+                                    Console.WriteLine(ErrorMenuOptionOutsideRange);
+                                    break;
+                            }
+                            if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                            {
+                                if (mageSkillCooldown > 0)
                                 {
+                                    mageSkillCooldown--;
+                                }
+                            }
+                            if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, mageName);
+                            Console.WriteLine(MenuSpliter);
+                        }
+
+
+                        //DruidTurn
+                        errorProvideNumFightMenuCounter = 0;
+                        fightOption = 0;
+                        choosenOnCooldown = true;
+                        while (IsActorAlive(druidTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                        {
+                            choosenOnCooldown = false;
+                            druidTurnDefense = druidDefense;
+
+                            Console.WriteLine(MenuSpliter);
+                            formatedMenu = FormatString(FightMenu, druidSkillCooldown == 0 ? SkillReady : $"{druidSkillCooldown}");
+                            fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{DruidIcon}{LineJumper}{FormatString(CharacterTurn, druidName)}");
+                            switch (fightOption)
+                            {
+                                case AtackOption:
+                                    critRollNumber = CritFail(FailChance, CritChance);
+                                    AttackOption(druidDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
+                                    {
+                                        FailResponse => DruidMissMsg,
+                                        CritResponse => DruidCritsMsg,
+                                        _ => DruidAttackMsg,
+                                    } + GeneralAttackSection);
+                                    break;
+                                case DefendOption:
+                                    DefenseAction(ref druidTurnDefense, druidTurnDefense + druidDefense);
+                                    Console.WriteLine(CharacterDefends, druidName);
+                                    break;
+                                case SkillOption:
                                     if (druidSkillCooldown > 0)
                                     {
-                                        druidSkillCooldown--;
+                                        choosenOnCooldown = true;
+                                        errorProvideNumFightMenuCounter++;
+                                        Console.WriteLine(choosenOnCooldown);
                                     }
-                                }
-                                if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, "DruidPlaceholderName");
-                                Console.WriteLine(MenuSpliter);
+                                    else
+                                    {
+                                        Console.WriteLine(DruidSkill, DruidHealingAmount);
+                                        if (IsActorAlive(archerTurnHP))
+                                        {
+                                            HealTarget(ref archerTurnHP, DruidHealingAmount, archerHP);
+                                            Console.WriteLine(DruidHealsCharacters, archerName, archerTurnHP);
+                                        }
+                                        if (IsActorAlive(barbarianTurnHP))
+                                        {
+                                            HealTarget(ref barbarianTurnHP, DruidHealingAmount, barbarianHP);
+                                            Console.WriteLine(DruidHealsCharacters, barbarianName, barbarianTurnHP);
+                                        }
+                                        if (IsActorAlive(mageTurnHP))
+                                        {
+                                            HealTarget(ref mageTurnHP, DruidHealingAmount, mageHP);
+                                            Console.WriteLine(DruidHealsCharacters,mageName ,mageTurnHP);
+                                        }
+                                        HealTarget(ref druidTurnHP, DruidHealingAmount, druidHP);
+                                        Console.WriteLine(DruidHealsCharacters, druidName, druidTurnHP);
+                                        druidSkillCooldown = GlobalSpecialSkillCooldown;
+                                    }
+                                    break;
+                                default:
+                                    errorProvideNumFightMenuCounter++;
+                                    Console.WriteLine(ErrorMenuOptionOutsideRange);
+                                    break;
                             }
-
-
-                            //MonsterTurn
-                            if (IsActorAlive(monsterTurnHP) && monsterStun <= 0)
+                            if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                             {
-                                Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(MonsterIcon);
-                                Console.WriteLine(MonsterAttacks);
-                                if (IsActorAlive(archerTurnHP))
+                                if (druidSkillCooldown > 0)
                                 {
-                                    damageAmount = CalcAttackDamage(monsterDamage, archerTurnDefense);
-                                    archerTurnHP -= damageAmount;
-                                    Console.WriteLine(MonsterArcherDamage, monsterDamage, damageAmount, archerTurnHP);
-                                    if (!IsActorAlive(archerTurnHP))
-                                    {
-                                        Console.WriteLine(ArcherDead);
-                                    }
+                                    druidSkillCooldown--;
                                 }
-                                if (IsActorAlive(barbarianTurnHP))
-                                {
-                                    damageAmount = CalcAttackDamage(monsterDamage, barbarianTurnDefense);
-                                    barbarianTurnHP -= damageAmount;
-                                    Console.WriteLine(MonsterBarbarianDamage, monsterDamage, damageAmount, barbarianTurnHP);
-                                    if (!IsActorAlive(barbarianTurnHP))
-                                    {
-                                        Console.WriteLine(BarbarianDead);
-                                    }
+                            }
+                            if (errorProvideNumFightMenuCounter >= AllowedErrors) Console.WriteLine(ErrorOvercameFightErrorLimit, druidName);
+                            Console.WriteLine(MenuSpliter);
+                        }
 
-                                }
-                                if (IsActorAlive(mageTurnHP))
-                                {
-                                    damageAmount = CalcAttackDamage(monsterDamage, mageTurnDefense);
-                                    mageTurnHP -= damageAmount;
-                                    Console.WriteLine(MonsterMageDamage, monsterDamage, damageAmount, mageTurnHP);
-                                    if (!IsActorAlive(mageTurnHP))
-                                    {
-                                        Console.WriteLine(MageDead);
-                                    }
-                                }
-                                if (IsActorAlive(druidTurnHP))
-                                {
-                                    damageAmount = CalcAttackDamage(monsterDamage, druidTurnDefense);
-                                    druidTurnHP -= damageAmount;
-                                    Console.WriteLine(MonsterDruidDamage, monsterDamage, damageAmount, druidTurnHP);
-                                    if (!IsActorAlive(druidTurnHP))
-                                    {
-                                        Console.WriteLine(DruidDead);
-                                    }
-                                }
-                                Console.WriteLine(MenuSpliter);
-                            }
-                            else if (IsActorAlive(monsterTurnHP) && monsterStun > 0)
+
+                        //MonsterTurn
+                        if (IsActorAlive(monsterTurnHP) && monsterStun <= 0)
+                        {
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(MonsterIcon);
+                            Console.WriteLine(MonsterAttacks);
+                            if (IsActorAlive(archerTurnHP))
                             {
-                                Console.WriteLine(MenuSpliter);
-                                Console.WriteLine(MonsterIcon);
-                                monsterStun--;
-                                Console.WriteLine(MonsterIsStuned);
-                                Console.WriteLine(MenuSpliter);
+                                damageAmount = CalcAttackDamage(monsterDamage, archerTurnDefense);
+                                archerTurnHP -= damageAmount;
+                                Console.WriteLine(MonsterArcherDamage, monsterDamage, damageAmount, archerTurnHP);
+                                if (!IsActorAlive(archerTurnHP))
+                                {
+                                    Console.WriteLine(ArcherDead);
+                                }
                             }
-                            ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg);
-                        } while (IsActorAlive(monsterTurnHP) && (!AreActorGroupDead(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP })));
-                        Console.WriteLine(!IsActorAlive(monsterTurnHP) ? HeroesWin : MonsterWins);
-                    }
+                            if (IsActorAlive(barbarianTurnHP))
+                            {
+                                damageAmount = CalcAttackDamage(monsterDamage, barbarianTurnDefense);
+                                barbarianTurnHP -= damageAmount;
+                                Console.WriteLine(MonsterBarbarianDamage, monsterDamage, damageAmount, barbarianTurnHP);
+                                if (!IsActorAlive(barbarianTurnHP))
+                                {
+                                    Console.WriteLine(BarbarianDead);
+                                }
+
+                            }
+                            if (IsActorAlive(mageTurnHP))
+                            {
+                                damageAmount = CalcAttackDamage(monsterDamage, mageTurnDefense);
+                                mageTurnHP -= damageAmount;
+                                Console.WriteLine(MonsterMageDamage, monsterDamage, damageAmount, mageTurnHP);
+                                if (!IsActorAlive(mageTurnHP))
+                                {
+                                    Console.WriteLine(MageDead);
+                                }
+                            }
+                            if (IsActorAlive(druidTurnHP))
+                            {
+                                damageAmount = CalcAttackDamage(monsterDamage, druidTurnDefense);
+                                druidTurnHP -= damageAmount;
+                                Console.WriteLine(MonsterDruidDamage, monsterDamage, damageAmount, druidTurnHP);
+                                if (!IsActorAlive(druidTurnHP))
+                                {
+                                    Console.WriteLine(DruidDead);
+                                }
+                            }
+                            Console.WriteLine(MenuSpliter);
+                        }
+                        else if (IsActorAlive(monsterTurnHP) && monsterStun > 0)
+                        {
+                            Console.WriteLine(MenuSpliter);
+                            Console.WriteLine(MonsterIcon);
+                            monsterStun--;
+                            Console.WriteLine(MonsterIsStuned);
+                            Console.WriteLine(MenuSpliter);
+                        }
+                        ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg);
+                    } while (IsActorAlive(monsterTurnHP) && (!AreActorGroupDead(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP })));
+                    Console.WriteLine(!IsActorAlive(monsterTurnHP) ? HeroesWin : MonsterWins);
+                    
                 }
             } while (menuOption != ExitGameOption && errorProvideNumStartMenuCounter < AllowedErrors);
             if (errorProvideNumStartMenuCounter == AllowedErrors)
@@ -1149,6 +1101,16 @@ namespace GameProject
             }
             Console.Write(askmsg);
             return Convert.ToInt32(Console.ReadLine());
+        }
+        public static string FormatString(string text, params string[] args)
+        {
+            string searchTarget;
+            for(int i = 0; i < args.Length; i++)
+            {
+                searchTarget = $"{{{i}}}";
+                text.Replace(args[i], searchTarget);
+            }
+            return text;
         }
         public static int CalcAttackDamage(int atackerDamageValue, int targetDefenseValue)
         {

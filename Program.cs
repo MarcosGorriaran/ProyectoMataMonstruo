@@ -134,9 +134,9 @@ namespace GameProject
             const string DruidSkill = "{0} prepara un hechizo curativo que envuelve a todos los aventureros que aun quedan en pie y todos estos son sanados {0} puntos de salud";
             const string DruidHealsCharacters = "{0} ahora posee {1} puntos de salud";
             const string MonsterAttacks = "El monstruo lanza un zarpazo, alcanzando a todos los miembros del grupo";
-            const string MonsterCharDamage = "{3} recive {0} puntos de daño,la arquera se defiende, solo causando {1} puntos de daño, a la arquera le queda {2} puntos de vida";
+            const string MonsterCharDamage = "{3} recive {0} puntos de daño,{3} se defiende, solo causando {1} puntos de daño, a {3} le queda {2} puntos de vida";
             const string CharDead = "{0} cae en combate";
-            const string MonsterIsStuned = "El monstruo aun sigue siendo incapaz de moverse del impacto de la arquera";
+            const string MonsterIsStuned = "El monstruo aun sigue siendo incapaz de moverse del impacto de {0}";
             const string ShowHealthMsg = "La salud de {0} es: {1}";
             const string HeroesWin = "Los heroes consiguen derrotar al monstruo";
             const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
@@ -1055,7 +1055,7 @@ namespace GameProject
                             Console.WriteLine(MenuSpliter);
                             Console.WriteLine(MonsterIcon);
                             monsterStun--;
-                            Console.WriteLine(MonsterIsStuned);
+                            Console.WriteLine(MonsterIsStuned, archerName);
                             Console.WriteLine(MenuSpliter);
                         }
                         ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg);
@@ -1175,6 +1175,18 @@ namespace GameProject
         {
             Random rng = new Random();
             return rng.Next(minValue, maxValue + 1);
+        }
+        public static int PickRandomValue(params int[] values)
+        {
+            return values[GenerateRandomValue(0, values.Length-1)];
+        }
+        public static int SearchIndex(int[] array,int searchTarget)
+        {
+            for(int i = 0; i<array.Length; i++)
+            {
+                if (array[i] == searchTarget) return i;
+            }
+            return -1;
         }
         public static string[] AskGroupParameters(char wordSpliter, string msg)
         {

@@ -134,14 +134,8 @@ namespace GameProject
             const string DruidSkill = "{0} prepara un hechizo curativo que envuelve a todos los aventureros que aun quedan en pie y todos estos son sanados {0} puntos de salud";
             const string DruidHealsCharacters = "{0} ahora posee {1} puntos de salud";
             const string MonsterAttacks = "El monstruo lanza un zarpazo, alcanzando a todos los miembros del grupo";
-            const string MonsterArcherDamage = "La arquera recive {0} puntos de daño,la arquera se defiende, solo causando {1} puntos de daño, a la arquera le queda {2} puntos de vida";
-            const string ArcherDead = "La arquera cae en combate";
-            const string MonsterBarbarianDamage = "El barbaro recive {0} puntos de daño, el barbaro se defiende, solo causando {1} puntos de daño al barbaro, le queda {2} puntos de vida";
-            const string BarbarianDead = "El barbaro cae en combate";
-            const string MonsterMageDamage = "El mago recive {0} puntos de daño, el mago se defiende, solo causando {1} puntos de daño al mago le queda {2} puntos de vida";
-            const string MageDead = "El mago cae en combate";
-            const string MonsterDruidDamage = "El druida recive {0} puntos de daño, el druida se defiende, solo causando {1} puntos de daño, al druida le queda {2} puntos de vida";
-            const string DruidDead = "El druida cae en combate";
+            const string MonsterCharDamage = "{3} recive {0} puntos de daño,la arquera se defiende, solo causando {1} puntos de daño, a la arquera le queda {2} puntos de vida";
+            const string CharDead = "{0} cae en combate";
             const string MonsterIsStuned = "El monstruo aun sigue siendo incapaz de moverse del impacto de la arquera";
             const string ShowHealthMsg = "La salud de {0} es: {1}";
             const string HeroesWin = "Los heroes consiguen derrotar al monstruo";
@@ -1017,20 +1011,20 @@ namespace GameProject
                             {
                                 damageAmount = CalcAttackDamage(monsterDamage, archerTurnDefense);
                                 archerTurnHP -= damageAmount;
-                                Console.WriteLine(MonsterArcherDamage, monsterDamage, damageAmount, archerTurnHP);
+                                Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, archerTurnHP, archerName);
                                 if (!IsActorAlive(archerTurnHP))
                                 {
-                                    Console.WriteLine(ArcherDead);
+                                    Console.WriteLine(CharDead, archerName);
                                 }
                             }
                             if (IsActorAlive(barbarianTurnHP))
                             {
                                 damageAmount = CalcAttackDamage(monsterDamage, barbarianTurnDefense);
                                 barbarianTurnHP -= damageAmount;
-                                Console.WriteLine(MonsterBarbarianDamage, monsterDamage, damageAmount, barbarianTurnHP);
+                                Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, barbarianTurnHP, barbarianName);
                                 if (!IsActorAlive(barbarianTurnHP))
                                 {
-                                    Console.WriteLine(BarbarianDead);
+                                    Console.WriteLine(CharDead, barbarianName);
                                 }
 
                             }
@@ -1038,20 +1032,20 @@ namespace GameProject
                             {
                                 damageAmount = CalcAttackDamage(monsterDamage, mageTurnDefense);
                                 mageTurnHP -= damageAmount;
-                                Console.WriteLine(MonsterMageDamage, monsterDamage, damageAmount, mageTurnHP);
+                                Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, mageTurnHP, mageName);
                                 if (!IsActorAlive(mageTurnHP))
                                 {
-                                    Console.WriteLine(MageDead);
+                                    Console.WriteLine(CharDead, mageName);
                                 }
                             }
                             if (IsActorAlive(druidTurnHP))
                             {
                                 damageAmount = CalcAttackDamage(monsterDamage, druidTurnDefense);
                                 druidTurnHP -= damageAmount;
-                                Console.WriteLine(MonsterDruidDamage, monsterDamage, damageAmount, druidTurnHP);
+                                Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, druidTurnHP, druidName);
                                 if (!IsActorAlive(druidTurnHP))
                                 {
-                                    Console.WriteLine(DruidDead);
+                                    Console.WriteLine(CharDead, druidName);
                                 }
                             }
                             Console.WriteLine(MenuSpliter);
@@ -1105,10 +1099,10 @@ namespace GameProject
         public static string FormatString(string text, params string[] args)
         {
             string searchTarget;
-            for(int i = 0; i < args.Length; i++)
+            for (int i = 0; i < args.Length; i++)
             {
-                searchTarget = $"{{{i}}}";
-                text.Replace(args[i], searchTarget);
+                searchTarget = "{" + i + "}";
+                text = text.Replace(searchTarget, args[i]);
             }
             return text;
         }

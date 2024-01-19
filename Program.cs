@@ -1239,17 +1239,21 @@ namespace GameProject
         }
         public static int CritFail(int chanceFail, int chanceCrit)
         {
-            int rngValue = GenerateRandomValue(0, 100);
+            const int TopPercent = 100;
+            const int FailOutcome = 0;
+            const int HitOutcome = 1;
+            const int CritOutcome = 2;
+            int rngValue = GenerateRandomValue(0, TopPercent);
 
             if (rngValue <= chanceFail)
             {
-                return 0;
+                return FailOutcome;
             }
-            else if (rngValue >= (100 - chanceCrit))
+            else if (rngValue >= (TopPercent - chanceCrit))
             {
-                return 2;
+                return CritOutcome;
             }
-            return 1;
+            return HitOutcome;
         }
         public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat)
         {
@@ -1304,7 +1308,7 @@ namespace GameProject
         public static void ReorderDesc(ref int[] values, ref string[] valuesMsg)
         {
             for (int i = 0; i < values.Length - 1; i++)
-            {
+            { 
                 for (int j = i; j < values.Length; j++)
                 {
                     if (values[j] > values[i])

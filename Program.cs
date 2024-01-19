@@ -221,7 +221,8 @@ namespace GameProject
                     if (errorProvideNumStartMenuCounter < AllowedErrors)
                     {
                         Console.WriteLine(MenuSpliter);
-                        menuOption = BuildMenu(StartingMenu.Split(LineJumper), GeneralAskInputMsg);
+                        Console.Write(BuildMenu(StartingMenu.Split(LineJumper), GeneralAskInputMsg));
+                        menuOption = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(MenuSpliter);
                     }
                 } while (!InRange(menuOption, MinMenusOption, MaxStartingMenuOpt) && errorProvideNumStartMenuCounter < AllowedErrors);
@@ -232,7 +233,8 @@ namespace GameProject
                     repeated = false;
                     do
                     {
-                        nameStore = AskGroupParameters(CharacterSpliter, AskCharactersName);
+                        Console.Write(AskCharactersName);
+                        nameStore = TrimAllStrings(Console.ReadLine().Split(CharacterSpliter));
                         repeated = nameStore.Length != AmountCharacters;
                         if (repeated)
                         {
@@ -253,7 +255,8 @@ namespace GameProject
                         }
                         repeated = true;
                         Console.WriteLine(MenuSpliter);
-                        dificultyOption = BuildMenu(StatAssignMenu.Split(LineJumper), GeneralAskInputMsg, AskStatAssignMethod);
+                        Console.Write(BuildMenu(StatAssignMenu.Split(LineJumper), GeneralAskInputMsg, AskStatAssignMethod));
+                        dificultyOption = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(MenuSpliter);
                     } while (!InRange(dificultyOption, MinMenusOption, MaxStatAssignMenuOpt));
                     archerHP = 0;
@@ -873,7 +876,8 @@ namespace GameProject
 
                                     Console.WriteLine(MenuSpliter);
                                     formatedMenu = FormatString(FightMenu, archerSkillCooldown == 0 ? SkillReady : $"{archerSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{ArcherIcon}{LineJumper}{FormatString(CharacterTurn, archerName)}");
+                                    Console.Write(BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{ArcherIcon}{LineJumper}{FormatString(CharacterTurn, archerName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
@@ -928,7 +932,8 @@ namespace GameProject
 
                                     Console.WriteLine(MenuSpliter);
                                     formatedMenu = FormatString(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : $"{barbarianSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{BarbarianIcon}{LineJumper}{FormatString(CharacterTurn, barbarianName)}");
+                                    Console.Write(BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{BarbarianIcon}{LineJumper}{FormatString(CharacterTurn, barbarianName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
@@ -987,7 +992,8 @@ namespace GameProject
                                     mageTurnDefense = mageDefense;
                                     Console.WriteLine(MenuSpliter);
                                     formatedMenu = FormatString(FightMenu, mageSkillCooldown == 0 ? SkillReady : $"{mageSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{MageIcon}{LineJumper}{FormatString(CharacterTurn, mageName)}");
+                                    Console.Write(BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{MageIcon}{LineJumper}{FormatString(CharacterTurn, mageName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
@@ -1041,7 +1047,8 @@ namespace GameProject
 
                                     Console.WriteLine(MenuSpliter);
                                     formatedMenu = FormatString(FightMenu, druidSkillCooldown == 0 ? SkillReady : $"{druidSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{DruidIcon}{LineJumper}{FormatString(CharacterTurn, druidName)}");
+                                    Console.Write(BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{DruidIcon}{LineJumper}{FormatString(CharacterTurn, druidName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
@@ -1175,30 +1182,28 @@ namespace GameProject
         }
 
 
-        public static int BuildMenu(string[] options, string askmsg)
+        public static string BuildMenu(string[] options, string askmsg)
         {
-            int option;
+            const char LineJumper = '\n';
+            string menu="";
             for (int i = 0; i < options.Length; i++)
             {
-                Console.WriteLine($"{i + 1}. {options[i]}");
+                menu += $"{i + 1}. {options[i]}{LineJumper}";
             }
-            Console.Write(askmsg);
-            return Convert.ToInt32(Console.ReadLine());
+            menu += askmsg;
+            return menu;
         }
-        public static int BuildMenu(string[] options, string askmsg, string msg)
+        public static string BuildMenu(string[] options, string askmsg, string msg)
         {
-            int option;
-
-            if (!string.IsNullOrEmpty(msg))
-            {
-                Console.WriteLine(msg);
-            }
+            const char LineJumper = '\n';
+            string menu = "";
+            menu += msg+LineJumper;
             for (int i = 0; i < options.Length; i++)
             {
-                Console.WriteLine($"{i + 1}. {options[i]}");
+                menu += $"{i + 1}. {options[i]}{LineJumper}";
             }
-            Console.Write(askmsg);
-            return Convert.ToInt32(Console.ReadLine());
+            menu += askmsg;
+            return menu;
         }
         public static string FormatString(string text, params string[] args)
         {
@@ -1280,49 +1285,13 @@ namespace GameProject
             Random rng = new Random();
             return rng.Next(minValue, maxValue + 1);
         }
-        public static string[] RemoveValue(string[] strings, int index)
+        public static string[] TrimAllStrings(string[] texts)
         {
-            string[] result = new string[strings.Length-1];
-            bool found = index==0;
-            for(int i = found ? 1 : 0; i < strings.Length; i++)
+            for(int i = 0; i< texts.Length; i++)
             {
-                
-                result[found ? i-1 : i] = strings[i];
-                if (i+1 == index)
-                {
-                    found = true;
-                    i++;
-                }
+                texts[i] = texts[i].Trim();
             }
-            return result;
-        }
-        public static string[] AddValue(string[] array, string newValue)
-        {
-            string[] result = new string[array.Length+1];
-            for(int i = 0; i<array.Length; i++)
-            {
-                result[i] = array[i];
-            }
-            result[result.Length-1] = newValue;
-            return result;
-        }
-        public static int SearchIndex(string[] array,string searchTarget)
-        {
-            for(int i = 0; i<array.Length; i++)
-            {
-                if (array[i].Equals(searchTarget)) return i;
-            }
-            return -1;
-        }
-        public static string[] AskGroupParameters(char wordSpliter, string msg)
-        {
-            Console.Write(msg);
-            string[] names = Console.ReadLine().Split(wordSpliter);
-            for(int i = 0; i< names.Length; i++)
-            {
-                names[i] = names[i].Trim();
-            }
-            return names;
+            return texts;
         }
         public static void ShowValuesDesc(int[] values, string[] characterPerValue, string mainMsg)
         {

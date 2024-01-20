@@ -39,10 +39,10 @@ namespace GameProject
             //ArcherConstants
             const int ArcherMinHP = 1500;
             const int ArcherMaxHP = 2000;
-            const int ArcherMinDamage = 180;
+            const int ArcherMinDamage = 200;
             const int ArcherMaxDamage = 300;
             const int ArcherMinDefense = 25;
-            const int ArcherMaxDefense = 40;
+            const int ArcherMaxDefense = 35;
             const int ArcherMinAgility = 40;
             const int ArcherMaxAgility = 50;
             const int ArcherStunDuration = 2;
@@ -56,13 +56,13 @@ namespace GameProject
             const int BarbarianMaxDefense = 45;
             const int BarbarianMinAgility = 15;
             const int BarbarianMaxAgility = 30;
-            const int BarbarianPerfectDefenseDuration = 3;
+            const int BarbarianPerfectDefenseDuration = 2;
             const int BarbariaNameLocation = 1;
             //MageConstants
-            const int MageMinHP = 1000;
+            const int MageMinHP = 1100;
             const int MageMaxHP = 1500;
             const int MageMinDamage = 300;
-            const int MageMaxDamage = 350;
+            const int MageMaxDamage = 400;
             const int MageMinDefense = 20;
             const int MageMaxDefense = 35;
             const int MageMinAgility = 20;
@@ -81,9 +81,9 @@ namespace GameProject
             const int DruidHealingAmount = 500;
             const int DruidNameLocation = 3;
             //MonsterStatsLimit
-            const int MonsterMinHP = 9000;
-            const int MonsterMaxHP = 12000;
-            const int MonsterMinDamage = 250;
+            const int MonsterMinHP = 7000;
+            const int MonsterMaxHP = 10000;
+            const int MonsterMinDamage = 300;
             const int MonsterMaxDamage = 400;
             const int MonsterMinDefense = 20;
             const int MonsterMaxDefense = 30;
@@ -91,7 +91,6 @@ namespace GameProject
             const string LineJumper = "\n";
             const string ErrorMenuOptionOutsideRange = "Opcion seleccionado en el menu esta fuera del rango permitido, elige una de las opciones que se muestran en pantalla";
             const string ErrorOvercameErrorLimit = "Se ha superado el limite de errores, se asignara el stat minimo en este apartado";
-            const string ErrorOvercameSecondErrorLimit = "Ha cometido 3 errores 3 veces, vuelve al principio";
             const string ErrorOutsideStatRange = "El valor esta fuera del rango solicitado";
             const string ErrorOvercameStartErrorLimit = "Se ha superado el limite de errores en el menu principal, el programa finalizara por ello";
             const string ErrorOvercameFightErrorLimit = "Ha cometido demasiados errores, el turno de {0} se saltara";
@@ -120,7 +119,6 @@ namespace GameProject
             const string ShowCharacterStats = "Stats de {0}: ";
             const string ShowMonsterStats = "Stats del monstruo:";
             const string CharacterStatAssign = "Proporciona los stats de {0}";
-            const string MonsterStatAssign = "Proporciona los stats del monstruo";
             const string CharacterTurn = "Es el turno de {0}";
             const string CharacterDefends = "{0} se prepara para el impacto del siguiente ataque";
             const string GeneralAttackSection = "causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
@@ -150,8 +148,8 @@ namespace GameProject
             const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
 
             bool repeated;
-            bool choosenOnCooldown = false;
-            int fightOption = 0;
+            bool choosenOnCooldown;
+            int fightOption;
             int dificultyOption;
             int menuOption = 0;
             int errorProvideNumStartMenuCounter;
@@ -165,7 +163,7 @@ namespace GameProject
             int archerHP;
             int archerTurnHP;
             int archerDamage;
-            int archerDefense = 0;
+            int archerDefense;
             int archerTurnDefense = 0;
             int archerAgility = 0;
             int archerSkillCooldown;
@@ -173,32 +171,32 @@ namespace GameProject
             int barbarianHP;
             int barbarianTurnHP;
             int barbarianDamage;
-            int barbarianDefense = 0;
+            int barbarianDefense;
             int barbarianTurnDefense = 0;
             int barbarianAgility = 0;
-            int barbarianSkillCooldown = 0;
+            int barbarianSkillCooldown;
             int barbarianPerfectDefense = 0;
             //MageStats
             int mageHP;
             int mageTurnHP;
             int mageDamage;
-            int mageDefense = 0;
+            int mageDefense;
             int mageTurnDefense = 0;
             int mageAgility = 0;
-            int mageSkillCooldown = 0;
+            int mageSkillCooldown;
             //DruidStats
             int druidHP;
             int druidTurnHP;
             int druidDamage;
-            int druidDefense = 0;
+            int druidDefense;
             int druidTurnDefense = 0;
             int druidAgility = 0;
-            int druidSkillCooldown = 0;
+            int druidSkillCooldown;
             //MonsterStats
             int monsterHP;
             int monsterTurnHP;
             int monsterDamage;
-            int monsterDefense = 0;
+            int monsterDefense;
             int monsterStun = 0;
             string formatedMenu;
             string archerName;
@@ -229,8 +227,7 @@ namespace GameProject
 
                 if (menuOption == StartGameOption)
                 {
-                    string[] nameStore = new string[AmountCharacters];
-                    repeated = false;
+                    string[] nameStore;
                     do
                     {
                         Console.Write(AskCharactersName);
@@ -379,7 +376,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP);
+                                    Console.Write(ProvideHP, ArcherMinHP, ArcherMaxHP);
+                                    archerHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -400,7 +398,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
+                                    Console.Write(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
+                                    archerDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -471,7 +470,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
+                                    Console.Write(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
+                                    barbarianHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -492,7 +492,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
+                                    Console.Write(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
+                                    barbarianDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -513,7 +514,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
+                                    Console.Write(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
+                                    barbarianDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -562,7 +564,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP);
+                                    Console.Write(ProvideHP, MageMinHP, MageMaxHP);
+                                    mageHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -583,7 +586,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage);
+                                    Console.Write(ProvideDamage, MageMinDamage, MageMaxDamage);
+                                    mageDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -604,7 +608,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense);
+                                    Console.Write(ProvideDefense, MageMinDefense, MageMaxDefense);
+                                    mageDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -653,7 +658,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP);
+                                    Console.Write(ProvideHP, DruidMinHP, DruidMaxHP);
+                                    druidHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -674,7 +680,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage);
+                                    Console.Write(ProvideDamage, DruidMinDamage, DruidMaxDamage);
+                                    druidDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -695,7 +702,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense);
+                                    Console.Write(ProvideDefense, DruidMinDefense, DruidMaxDefense);
+                                    druidDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -745,7 +753,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP);
+                                    Console.Write(ProvideHP, MonsterMinHP, MonsterMaxHP);
+                                    monsterHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -766,7 +775,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
+                                    Console.Write(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
+                                    monsterDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -787,7 +797,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
+                                    Console.Write(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
+                                    monsterDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
 
@@ -1169,7 +1180,7 @@ namespace GameProject
                             Console.WriteLine(MonsterIsStuned, archerName);
                             Console.WriteLine(MenuSpliter);
                         }
-                        ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg);
+                        Console.Write(ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg));
                     } while (IsActorAlive(monsterTurnHP) && (!AreActorGroupDead(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP })));
                     Console.WriteLine(!IsActorAlive(monsterTurnHP) ? HeroesWin : MonsterWins);
                     
@@ -1255,11 +1266,6 @@ namespace GameProject
             }
             return HitOutcome;
         }
-        public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat)
-        {
-            Console.Write(AskMsg, minPosibleStat, maxPosibleStat);
-            return Convert.ToInt32(Console.ReadLine());
-        }
         public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat, int autoAssign)
         {
             Console.WriteLine(AskMsg + autoAssign, minPosibleStat, maxPosibleStat);
@@ -1297,13 +1303,16 @@ namespace GameProject
             }
             return texts;
         }
-        public static void ShowValuesDesc(int[] values, string[] characterPerValue, string mainMsg)
+        public static string ShowValuesDesc(int[] values, string[] arg, string mainMsg)
         {
-            ReorderDesc(ref values, ref characterPerValue);
+            ReorderDesc(ref values, ref arg);
+            const char LineJumper = '\n';
+            string result = "";
             for (int i = 0; i < values.Length; i++)
             {
-                Console.WriteLine(mainMsg, characterPerValue[i], values[i]);
+                result += FormatString(mainMsg + LineJumper, arg[i], $"{values[i]}");
             }
+            return result;
         }
         public static void ReorderDesc(ref int[] values, ref string[] valuesMsg)
         {

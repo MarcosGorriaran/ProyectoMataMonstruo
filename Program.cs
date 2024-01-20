@@ -893,12 +893,12 @@ namespace GameProject
                                     {
                                         case AtackOption:
                                             critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(archerDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                            Console.WriteLine(AttackOption(archerDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
                                             {
                                                 FailResponse => ArcherMissMsg,
                                                 CritResponse => ArcherCritsMsg,
                                                 _ => ArcherAttackMsg
-                                            }, archerName) + GeneralAttackSection);
+                                            }, archerName) + GeneralAttackSection));
                                             break;
                                         case DefendOption:
                                             DefenseAction(ref archerTurnDefense, archerTurnDefense + archerDefense);
@@ -949,12 +949,12 @@ namespace GameProject
                                     {
                                         case AtackOption:
                                             critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(barbarianDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                            Console.WriteLine(AttackOption(barbarianDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
                                             {
                                                 FailResponse => BarbarianMissMsg,
                                                 CritResponse => BarbarianCritsMsg,
                                                 _ => BarbarianAttackMsg
-                                            }, archerName) + GeneralAttackSection);
+                                            }, archerName) + GeneralAttackSection));
                                             break;
                                         case DefendOption:
                                             DefenseAction(ref barbarianTurnDefense, barbarianTurnDefense + barbarianDefense);
@@ -1009,12 +1009,12 @@ namespace GameProject
                                     {
                                         case AtackOption:
                                             critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(mageDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                            Console.WriteLine(AttackOption(mageDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
                                             {
                                                 FailResponse => MageMissMsg,
                                                 CritResponse => MageCritsMsg,
                                                 _ => MageAttackMsg,
-                                            }, mageName) + GeneralAttackSection);
+                                            }, mageName) + GeneralAttackSection));
                                             break;
                                         case DefendOption:
                                             DefenseAction(ref mageTurnDefense, mageTurnDefense + mageDefense);
@@ -1030,7 +1030,7 @@ namespace GameProject
                                             else
                                             {
                                                 mageSkillCooldown = GlobalSpecialSkillCooldown; ;
-                                                AttackOption(mageDamage * MageSuperAttackMult, monsterDefense, ref monsterTurnHP, FormatString(MageSkill, mageName) + GeneralAttackSection); ;
+                                                Console.WriteLine(AttackOption(mageDamage * MageSuperAttackMult, monsterDefense, ref monsterTurnHP, FormatString(MageSkill, mageName) + GeneralAttackSection));
                                             }
                                             break;
                                         default:
@@ -1064,12 +1064,12 @@ namespace GameProject
                                     {
                                         case AtackOption:
                                             critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(druidDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
+                                            Console.WriteLine(AttackOption(druidDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
                                             {
                                                 FailResponse => DruidMissMsg,
                                                 CritResponse => DruidCritsMsg,
                                                 _ => DruidAttackMsg,
-                                            } + GeneralAttackSection);
+                                            } + GeneralAttackSection));
                                             break;
                                         case DefendOption:
                                             DefenseAction(ref druidTurnDefense, druidTurnDefense + druidDefense);
@@ -1230,11 +1230,11 @@ namespace GameProject
         {
             return atackerDamageValue - ((atackerDamageValue * targetDefenseValue) / 100);
         }
-        public static void AttackOption(int attackerDMG, int targetDefense, ref int targetHP, string msg)
+        public static string AttackOption(int attackerDMG, int targetDefense, ref int targetHP, string msg)
         {
             int damageAmount = CalcAttackDamage(attackerDMG, targetDefense);
             targetHP -= damageAmount;
-            Console.WriteLine(msg, attackerDMG, damageAmount, targetHP);
+            return FormatString(msg, $"{attackerDMG}", $"{damageAmount}", $"{targetHP}");
         }
         public static void DefenseAction(ref int actorDefense, int newDefenseValue)
         {

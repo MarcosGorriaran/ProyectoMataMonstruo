@@ -17,9 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="MataMonstruoFunctions">
-      <HintPath>..\MataMonstruoFunctions\bin\Debug\net7.0\MataMonstruoFunctions.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\MataMonstruoFunctions\MataMonstruoFunctions.csproj" />
   </ItemGroup>
-
 </Project>

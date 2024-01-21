@@ -814,23 +814,20 @@ namespace GameProject
                     }
                     if (showStatMsgLater)
                     {
-                        Console.WriteLine(MenuSpliter);
                         Console.WriteLine(ShowCharacterStats, archerName);
                         Console.WriteLine(ProvideHP + archerHP, ArcherMinHP, ArcherMaxHP);
                         Console.WriteLine(ProvideDamage + archerDamage, ArcherMinDamage, ArcherMaxDamage);
                         Console.WriteLine(ProvideDefense + archerDefense, ArcherMinDefense, ArcherMaxDefense);
                         Console.WriteLine(ProvideHP + archerAgility, ArcherMinAgility, ArcherMaxAgility);
-
                         Console.WriteLine(MenuSpliter);
+
                         Console.WriteLine(ShowCharacterStats, barbarianName);
-                        Console.WriteLine(ShowCharacterStats, archerName);
                         Console.WriteLine(ProvideHP + barbarianHP, BarbarianMinHP, BarbarianMaxHP);
                         Console.WriteLine(ProvideDamage + barbarianDamage, BarbarianMinDamage, BarbarianMaxDamage);
                         Console.WriteLine(ProvideDefense + barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense);
                         Console.WriteLine(ProvideAgility + barbarianAgility, BarbarianMinAgility, BarbarianMaxAgility);
                         Console.WriteLine(MenuSpliter);
 
-                        Console.WriteLine(MenuSpliter);
                         Console.WriteLine(ShowCharacterStats, mageName);
                         Console.WriteLine(ProvideHP + mageHP, MageMinHP, MageMaxHP);
                         Console.WriteLine(ProvideDamage + mageDamage, MageMinDamage, MageMaxDamage);
@@ -838,7 +835,6 @@ namespace GameProject
                         Console.WriteLine(ProvideAgility + mageAgility, MageMinAgility, MageMaxAgility);
                         Console.WriteLine(MenuSpliter);
 
-                        Console.WriteLine(MenuSpliter);
                         Console.WriteLine(ShowCharacterStats, druidName);
                         Console.WriteLine(ProvideHP + druidHP, DruidMinHP, DruidMaxHP);
                         Console.WriteLine(ProvideDamage + druidDamage, DruidMinDamage, DruidMaxDamage);
@@ -846,7 +842,6 @@ namespace GameProject
                         Console.WriteLine(ProvideAgility + druidAgility, DruidMinAgility, DruidMaxAgility);
                         Console.WriteLine(MenuSpliter);
 
-                        Console.WriteLine(MenuSpliter);
                         Console.WriteLine(ShowMonsterStats);
                         Console.WriteLine(ProvideHP + monsterHP, MonsterMinHP, MonsterMaxHP);
                         Console.WriteLine(ProvideDamage + monsterDamage, MonsterMinDamage, MonsterMaxDamage);
@@ -1090,20 +1085,20 @@ namespace GameProject
                                                 Console.WriteLine(DruidSkill, DruidHealingAmount);
                                                 if (IsActorAlive(archerTurnHP))
                                                 {
-                                                    HealTarget(ref archerTurnHP, DruidHealingAmount, archerHP);
+                                                    archerTurnHP = HealTarget(archerTurnHP, DruidHealingAmount, archerHP);
                                                     Console.WriteLine(DruidHealsCharacters, archerName, archerTurnHP);
                                                 }
                                                 if (IsActorAlive(barbarianTurnHP))
                                                 {
-                                                    HealTarget(ref barbarianTurnHP, DruidHealingAmount, barbarianHP);
+                                                    barbarianTurnHP = HealTarget(barbarianTurnHP, DruidHealingAmount, barbarianHP);
                                                     Console.WriteLine(DruidHealsCharacters, barbarianName, barbarianTurnHP);
                                                 }
                                                 if (IsActorAlive(mageTurnHP))
                                                 {
-                                                    HealTarget(ref mageTurnHP, DruidHealingAmount, mageHP);
+                                                    mageTurnHP = HealTarget(mageTurnHP, DruidHealingAmount, mageHP);
                                                     Console.WriteLine(DruidHealsCharacters, mageName, mageTurnHP);
                                                 }
-                                                HealTarget(ref druidTurnHP, DruidHealingAmount, druidHP);
+                                                druidTurnHP = HealTarget(druidTurnHP, DruidHealingAmount, druidHP);
                                                 Console.WriteLine(DruidHealsCharacters, druidName, druidTurnHP);
                                                 druidSkillCooldown = GlobalSpecialSkillCooldown;
                                             }
@@ -1243,13 +1238,14 @@ namespace GameProject
         {
             actorDefense = newDefenseValue;
         }
-        public static void HealTarget(ref int targetHP, int healingAmount, int targetMaxHP)
+        public static int HealTarget(int targetHP, int healingAmount, int targetMaxHP)
         {
             targetHP += healingAmount;
             if (targetHP > targetMaxHP)
             {
                 targetHP = targetMaxHP;
             }
+            return targetHP;
         }
         public static int CritFail(int chanceFail, int chanceCrit)
         {

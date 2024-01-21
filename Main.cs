@@ -1,6 +1,6 @@
 ﻿/**
  * Author: Gorriaran Caamaño Marcos Facundo
- * Date: 28/10/2023 V1.2
+ * Date: 21/01/2024 V2.0
  * Descripcion: Juego en el que el usuario al elegir jugar a traves de un menu tendra que
  * asignar los stats de los heroes que controlara y del monstruo que se enfrentara.
  * La lucha va por turnos y finaliza cuando todos los miembros de un lado caigan.
@@ -8,6 +8,7 @@
  *  ASCII Drawings: https://www.asciiart.eu
  */
 using System;
+using MataMonstruoFunctions;
 
 namespace GameProject
 {
@@ -39,10 +40,10 @@ namespace GameProject
             //ArcherConstants
             const int ArcherMinHP = 1500;
             const int ArcherMaxHP = 2000;
-            const int ArcherMinDamage = 180;
+            const int ArcherMinDamage = 200;
             const int ArcherMaxDamage = 300;
             const int ArcherMinDefense = 25;
-            const int ArcherMaxDefense = 40;
+            const int ArcherMaxDefense = 35;
             const int ArcherMinAgility = 40;
             const int ArcherMaxAgility = 50;
             const int ArcherStunDuration = 2;
@@ -56,13 +57,13 @@ namespace GameProject
             const int BarbarianMaxDefense = 45;
             const int BarbarianMinAgility = 15;
             const int BarbarianMaxAgility = 30;
-            const int BarbarianPerfectDefenseDuration = 3;
+            const int BarbarianPerfectDefenseDuration = 2;
             const int BarbariaNameLocation = 1;
             //MageConstants
-            const int MageMinHP = 1000;
+            const int MageMinHP = 1100;
             const int MageMaxHP = 1500;
             const int MageMinDamage = 300;
-            const int MageMaxDamage = 350;
+            const int MageMaxDamage = 400;
             const int MageMinDefense = 20;
             const int MageMaxDefense = 35;
             const int MageMinAgility = 20;
@@ -81,9 +82,9 @@ namespace GameProject
             const int DruidHealingAmount = 500;
             const int DruidNameLocation = 3;
             //MonsterStatsLimit
-            const int MonsterMinHP = 9000;
-            const int MonsterMaxHP = 12000;
-            const int MonsterMinDamage = 250;
+            const int MonsterMinHP = 7000;
+            const int MonsterMaxHP = 10000;
+            const int MonsterMinDamage = 300;
             const int MonsterMaxDamage = 400;
             const int MonsterMinDefense = 20;
             const int MonsterMaxDefense = 30;
@@ -91,7 +92,6 @@ namespace GameProject
             const string LineJumper = "\n";
             const string ErrorMenuOptionOutsideRange = "Opcion seleccionado en el menu esta fuera del rango permitido, elige una de las opciones que se muestran en pantalla";
             const string ErrorOvercameErrorLimit = "Se ha superado el limite de errores, se asignara el stat minimo en este apartado";
-            const string ErrorOvercameSecondErrorLimit = "Ha cometido 3 errores 3 veces, vuelve al principio";
             const string ErrorOutsideStatRange = "El valor esta fuera del rango solicitado";
             const string ErrorOvercameStartErrorLimit = "Se ha superado el limite de errores en el menu principal, el programa finalizara por ello";
             const string ErrorOvercameFightErrorLimit = "Ha cometido demasiados errores, el turno de {0} se saltara";
@@ -120,7 +120,6 @@ namespace GameProject
             const string ShowCharacterStats = "Stats de {0}: ";
             const string ShowMonsterStats = "Stats del monstruo:";
             const string CharacterStatAssign = "Proporciona los stats de {0}";
-            const string MonsterStatAssign = "Proporciona los stats del monstruo";
             const string CharacterTurn = "Es el turno de {0}";
             const string CharacterDefends = "{0} se prepara para el impacto del siguiente ataque";
             const string GeneralAttackSection = "causando {0} puntos de daño, el monstruo se defiende, solo causando {1} puntos de daño, al monstruo le queda {2} puntos de vida";
@@ -150,8 +149,8 @@ namespace GameProject
             const string MonsterWins = "Los heroes fallecen intentando luchar al monstruo, tu mision ha sido un fracaso";
 
             bool repeated;
-            bool choosenOnCooldown = false;
-            int fightOption = 0;
+            bool choosenOnCooldown;
+            int fightOption;
             int dificultyOption;
             int menuOption = 0;
             int errorProvideNumStartMenuCounter;
@@ -165,7 +164,7 @@ namespace GameProject
             int archerHP;
             int archerTurnHP;
             int archerDamage;
-            int archerDefense = 0;
+            int archerDefense;
             int archerTurnDefense = 0;
             int archerAgility = 0;
             int archerSkillCooldown;
@@ -173,32 +172,32 @@ namespace GameProject
             int barbarianHP;
             int barbarianTurnHP;
             int barbarianDamage;
-            int barbarianDefense = 0;
+            int barbarianDefense;
             int barbarianTurnDefense = 0;
             int barbarianAgility = 0;
-            int barbarianSkillCooldown = 0;
+            int barbarianSkillCooldown;
             int barbarianPerfectDefense = 0;
             //MageStats
             int mageHP;
             int mageTurnHP;
             int mageDamage;
-            int mageDefense = 0;
+            int mageDefense;
             int mageTurnDefense = 0;
             int mageAgility = 0;
-            int mageSkillCooldown = 0;
+            int mageSkillCooldown;
             //DruidStats
             int druidHP;
             int druidTurnHP;
             int druidDamage;
-            int druidDefense = 0;
+            int druidDefense;
             int druidTurnDefense = 0;
             int druidAgility = 0;
-            int druidSkillCooldown = 0;
+            int druidSkillCooldown;
             //MonsterStats
             int monsterHP;
             int monsterTurnHP;
             int monsterDamage;
-            int monsterDefense = 0;
+            int monsterDefense;
             int monsterStun = 0;
             string formatedMenu;
             string archerName;
@@ -221,18 +220,19 @@ namespace GameProject
                     if (errorProvideNumStartMenuCounter < AllowedErrors)
                     {
                         Console.WriteLine(MenuSpliter);
-                        menuOption = BuildMenu(StartingMenu.Split(LineJumper), GeneralAskInputMsg);
+                        Console.Write(Utilities.BuildMenu(StartingMenu.Split(LineJumper), GeneralAskInputMsg));
+                        menuOption = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(MenuSpliter);
                     }
-                } while (!InRange(menuOption, MinMenusOption, MaxStartingMenuOpt) && errorProvideNumStartMenuCounter < AllowedErrors);
+                } while (!Utilities.InRange(menuOption, MinMenusOption, MaxStartingMenuOpt) && errorProvideNumStartMenuCounter < AllowedErrors);
 
                 if (menuOption == StartGameOption)
                 {
-                    string[] nameStore = new string[AmountCharacters];
-                    repeated = false;
+                    string[] nameStore;
                     do
                     {
-                        nameStore = AskGroupParameters(CharacterSpliter, AskCharactersName);
+                        Console.Write(AskCharactersName);
+                        nameStore = Utilities.TrimAllStrings(Console.ReadLine().Split(CharacterSpliter));
                         repeated = nameStore.Length != AmountCharacters;
                         if (repeated)
                         {
@@ -253,9 +253,10 @@ namespace GameProject
                         }
                         repeated = true;
                         Console.WriteLine(MenuSpliter);
-                        dificultyOption = BuildMenu(StatAssignMenu.Split(LineJumper), GeneralAskInputMsg, AskStatAssignMethod);
+                        Console.Write(Utilities.BuildMenu(StatAssignMenu.Split(LineJumper), GeneralAskInputMsg, AskStatAssignMethod));
+                        dificultyOption = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(MenuSpliter);
-                    } while (!InRange(dificultyOption, MinMenusOption, MaxStatAssignMenuOpt));
+                    } while (!Utilities.InRange(dificultyOption, MinMenusOption, MaxStatAssignMenuOpt));
                     archerHP = 0;
                     archerDamage = 0;
                     archerDefense = 0;
@@ -276,88 +277,63 @@ namespace GameProject
                     monsterDamage = 0;
                     monsterDefense = 0;
                     errorProvideAllStatsCounter = 0;
+                    bool showStatMsgLater = false;
 
                     switch (dificultyOption)
                     {
                         case EasyModeOption:
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, archerName);
-                            archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP, ArcherMaxHP);
-                            archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage, ArcherMaxDamage);
-                            archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense, ArcherMaxDefense);
-                            archerAgility = AskStat(ProvideAgility, ArcherMinAgility, ArcherMaxAgility, ArcherMaxAgility);
-                            Console.WriteLine(MenuSpliter);
+                            showStatMsgLater = true;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, barbarianName);
-                            barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP, BarbarianMaxHP);
-                            barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage, BarbarianMaxDamage);
-                            barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense, BarbarianMaxDefense);
-                            barbarianAgility = AskStat(ProvideAgility, BarbarianMinAgility, BarbarianMaxAgility, BarbarianMaxAgility);
-                            Console.WriteLine(MenuSpliter);
+                            archerHP = ArcherMaxHP;
+                            archerDamage = ArcherMaxDamage;
+                            archerDefense = ArcherMaxDefense;
+                            archerAgility = ArcherMaxAgility;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, mageName);
-                            mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP, MageMaxHP);
-                            mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage, MageMaxDamage);
-                            mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense, MageMaxDefense);
-                            mageAgility = AskStat(ProvideAgility, MageMinAgility, MageMaxAgility, MageMaxAgility);
-                            Console.WriteLine(MenuSpliter);
+                            barbarianHP = BarbarianMaxHP;
+                            barbarianDamage = BarbarianMaxDamage;
+                            barbarianDefense = BarbarianMaxDefense;
+                            barbarianAgility = BarbarianMaxAgility;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, druidName);
-                            druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP, DruidMinHP);
-                            druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage, DruidMaxDamage);
-                            druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense, DruidMaxDefense);
-                            druidAgility = AskStat(ProvideAgility, DruidMinAgility, DruidMaxAgility, DruidMaxAgility);
-                            Console.WriteLine(MenuSpliter);
+                            mageHP = MageMaxHP;
+                            mageDamage = MageMaxDamage;
+                            mageDefense = MageMaxDefense;
+                            mageAgility = MageMaxAgility;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowMonsterStats);
-                            monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP, MonsterMinHP);
-                            monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage, MonsterMinDamage);
-                            monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense, MonsterMinDefense);
-                            Console.WriteLine(MenuSpliter);
+                            druidHP = DruidMaxHP;
+                            druidDamage = DruidMaxDamage;
+                            druidDefense = DruidMaxDefense;
+                            druidAgility = DruidMaxAgility;
+
+                            monsterHP = MonsterMinHP;
+                            monsterDamage = MonsterMinDamage;
+                            monsterDefense = MonsterMinDefense;
                             break;
                         case HardModeOption:
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, archerName);
-                            archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP, ArcherMinHP);
-                            archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage, ArcherMinDamage);
-                            archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense, ArcherMinDefense);
-                            archerAgility = AskStat(ProvideAgility, ArcherMinAgility, ArcherMaxAgility, ArcherMinAgility);
-                            Console.WriteLine(MenuSpliter);
+                            showStatMsgLater = true;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, barbarianName);
-                            barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP, BarbarianMinHP);
-                            barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage, BarbarianMinDamage);
-                            barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense, BarbarianMinDefense);
-                            barbarianAgility = AskStat(ProvideAgility, BarbarianMinAgility, BarbarianMaxAgility, BarbarianMinAgility);
-                            Console.WriteLine(MenuSpliter);
+                            archerHP =  ArcherMinHP;
+                            archerDamage = ArcherMinDamage;
+                            archerDefense = ArcherMinDefense;
+                            archerAgility = ArcherMinAgility;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, mageName);
-                            mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP, MageMinHP);
-                            mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage, MageMinDamage);
-                            mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense, MageMinDefense);
-                            mageAgility = AskStat(ProvideAgility, MageMinAgility, MageMaxAgility, MageMaxAgility);
-                            Console.WriteLine(MenuSpliter);
+                            barbarianHP = BarbarianMinHP;
+                            barbarianDamage = BarbarianMinDamage;
+                            barbarianDefense = BarbarianMinDefense;
+                            barbarianAgility = BarbarianMinAgility;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, druidName);
-                            druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP, DruidMinHP);
-                            druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage, DruidMinDamage);
-                            druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense, DruidMinDefense);
-                            druidAgility = AskStat(ProvideAgility, DruidMinAgility, DruidMaxAgility, DruidMinAgility);
-                            Console.WriteLine(MenuSpliter);
+                            mageHP = MageMinHP;
+                            mageDamage = MageMinDamage;
+                            mageDefense = MageMinDefense;
+                            mageAgility = MageMinAgility;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowMonsterStats);
-                            monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP, MonsterMaxHP);
-                            monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage, MonsterMaxDamage);
-                            monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense, MonsterMinDefense);
-                            Console.WriteLine(MenuSpliter);
+                            druidHP = DruidMinHP;
+                            druidDamage = DruidMinDamage;
+                            druidDefense = DruidMinDefense;
+                            druidAgility = DruidMinAgility;
+
+                            monsterHP = MonsterMaxHP;
+                            monsterDamage = MonsterMaxDamage;
+                            monsterDefense = MonsterMaxDefense;
                             break;
                         case CustomModeOption:
                             //Asignacion stats arquera
@@ -365,7 +341,7 @@ namespace GameProject
                             Console.WriteLine(CharacterStatAssign, archerName);
                             repeated = false;
                             errorProvideStatsCounter = 0;
-                            while (!InRange(archerHP, ArcherMinHP, ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(archerHP, ArcherMinHP, ArcherMaxHP) && errorProvideStatsCounter < AllowedErrors)
                             {
 
                                 if (repeated)
@@ -376,7 +352,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP);
+                                    Console.Write(ProvideHP, ArcherMinHP, ArcherMaxHP);
+                                    archerHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -387,7 +364,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(archerDamage, ArcherMinDamage, ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(archerDamage, ArcherMinDamage, ArcherMaxDamage) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -397,7 +374,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
+                                    Console.Write(ProvideDamage, ArcherMinDamage, ArcherMaxDamage);
+                                    archerDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -407,7 +385,7 @@ namespace GameProject
                             }
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(archerDefense, ArcherMinDefense, ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(archerDefense, ArcherMinDefense, ArcherMaxDefense) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -429,7 +407,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(archerAgility, ArcherMinAgility, ArcherMaxAgility) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(archerAgility, ArcherMinAgility, ArcherMaxAgility) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -457,7 +435,7 @@ namespace GameProject
                             Console.WriteLine(CharacterStatAssign, barbarianName);
                             repeated = false;
                             errorProvideStatsCounter = 0;
-                            while (!InRange(barbarianHP, BarbarianMinHP, BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(barbarianHP, BarbarianMinHP, BarbarianMaxHP) && errorProvideStatsCounter < AllowedErrors)
                             {
 
                                 if (repeated)
@@ -468,7 +446,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
+                                    Console.Write(ProvideHP, BarbarianMinHP, BarbarianMaxHP);
+                                    barbarianHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -479,7 +458,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(barbarianDamage, BarbarianMinDamage, BarbarianMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(barbarianDamage, BarbarianMinDamage, BarbarianMaxDamage) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -489,7 +468,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
+                                    Console.Write(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage);
+                                    barbarianDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -500,7 +480,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -510,7 +490,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
+                                    Console.Write(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense);
+                                    barbarianDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -521,7 +502,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(barbarianAgility, BarbarianMinAgility, BarbarianMaxAgility) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(barbarianAgility, BarbarianMinAgility, BarbarianMaxAgility) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -559,7 +540,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP);
+                                    Console.Write(ProvideHP, MageMinHP, MageMaxHP);
+                                    mageHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -570,7 +552,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(mageDamage, MageMinDamage, MageMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(mageDamage, MageMinDamage, MageMaxDamage) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -580,7 +562,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage);
+                                    Console.Write(ProvideDamage, MageMinDamage, MageMaxDamage);
+                                    mageDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -591,7 +574,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(mageDefense, MageMinDefense, MageMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(mageDefense, MageMinDefense, MageMaxDefense) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -601,7 +584,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense);
+                                    Console.Write(ProvideDefense, MageMinDefense, MageMaxDefense);
+                                    mageDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -612,7 +596,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(mageAgility, MageMinAgility, MageMaxAgility) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(mageAgility, MageMinAgility, MageMaxAgility) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -639,7 +623,7 @@ namespace GameProject
                             Console.WriteLine(CharacterStatAssign, druidName);
                             repeated = false;
                             errorProvideStatsCounter = 0;
-                            while (!InRange(druidHP, DruidMinHP, DruidMaxHP) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(druidHP, DruidMinHP, DruidMaxHP) && errorProvideStatsCounter < AllowedErrors)
                             {
 
                                 if (repeated)
@@ -650,7 +634,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP);
+                                    Console.Write(ProvideHP, DruidMinHP, DruidMaxHP);
+                                    druidHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -661,7 +646,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(druidDamage, DruidMinDamage, DruidMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(druidDamage, DruidMinDamage, DruidMaxDamage) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -671,7 +656,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage);
+                                    Console.Write(ProvideDamage, DruidMinDamage, DruidMaxDamage);
+                                    druidDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -682,7 +668,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(druidDefense, DruidMinDefense, DruidMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(druidDefense, DruidMinDefense, DruidMaxDefense) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -692,7 +678,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense);
+                                    Console.Write(ProvideDefense, DruidMinDefense, DruidMaxDefense);
+                                    druidDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -703,7 +690,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(druidAgility, DruidMinAgility, DruidMaxAgility) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(druidAgility, DruidMinAgility, DruidMaxAgility) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -731,7 +718,7 @@ namespace GameProject
 
                             repeated = false;
                             errorProvideStatsCounter = 0;
-                            while (!InRange(monsterHP, MonsterMinHP, MonsterMaxHP) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(monsterHP, MonsterMinHP, MonsterMaxHP) && errorProvideStatsCounter < AllowedErrors)
                             {
 
                                 if (repeated)
@@ -742,7 +729,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP);
+                                    Console.Write(ProvideHP, MonsterMinHP, MonsterMaxHP);
+                                    monsterHP = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -753,7 +741,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(monsterDamage, MonsterMinDamage, MonsterMaxDamage) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(monsterDamage, MonsterMinDamage, MonsterMaxDamage) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -763,7 +751,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
+                                    Console.Write(ProvideDamage, MonsterMinDamage, MonsterMaxDamage);
+                                    monsterDamage = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
                             if (errorProvideStatsCounter >= AllowedErrors)
@@ -774,7 +763,7 @@ namespace GameProject
 
                             errorProvideStatsCounter = 0;
                             repeated = false;
-                            while (!InRange(monsterDefense, MonsterMinDefense, MonsterMaxDefense) && errorProvideStatsCounter < AllowedErrors)
+                            while (!Utilities.InRange(monsterDefense, MonsterMinDefense, MonsterMaxDefense) && errorProvideStatsCounter < AllowedErrors)
                             {
                                 if (repeated)
                                 {
@@ -784,7 +773,8 @@ namespace GameProject
                                 repeated = true;
                                 if (errorProvideStatsCounter < AllowedErrors)
                                 {
-                                    monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
+                                    Console.Write(ProvideDefense, MonsterMinDefense, MonsterMaxDefense);
+                                    monsterDefense = Convert.ToInt32(Console.ReadLine());
                                 }
                             }
 
@@ -796,45 +786,68 @@ namespace GameProject
                             Console.WriteLine(MenuSpliter);
                             break;
                         case RandomModeOption:
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, archerName);
-                            archerHP = AskStat(ProvideHP, ArcherMinHP, ArcherMaxHP, GenerateRandomValue(ArcherMinHP, ArcherMaxHP));
-                            archerDamage = AskStat(ProvideDamage, ArcherMinDamage, ArcherMaxDamage, GenerateRandomValue(ArcherMinDamage, ArcherMaxHP));
-                            archerDefense = AskStat(ProvideDefense, ArcherMinDefense, ArcherMaxDefense, GenerateRandomValue(ArcherMinDefense, ArcherMaxDefense));
-                            archerAgility = AskStat(ProvideAgility, ArcherMinAgility, ArcherMaxAgility, GenerateRandomValue(ArcherMinAgility, ArcherMaxAgility));
-                            Console.WriteLine(MenuSpliter);
+                            showStatMsgLater = true;
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, barbarianName);
-                            barbarianHP = AskStat(ProvideHP, BarbarianMinHP, BarbarianMaxHP, GenerateRandomValue(BarbarianMinHP, BarbarianMaxHP));
-                            barbarianDamage = AskStat(ProvideDamage, BarbarianMinDamage, BarbarianMaxDamage, GenerateRandomValue(BarbarianMinDamage, BarbarianMaxDamage));
-                            barbarianDefense = AskStat(ProvideDefense, BarbarianMinDefense, BarbarianMaxDefense, GenerateRandomValue(BarbarianMinDefense, BarbarianMaxDefense));
-                            barbarianAgility = AskStat(ProvideAgility, BarbarianMinAgility, BarbarianMaxAgility, GenerateRandomValue(BarbarianMinAgility, BarbarianMaxAgility));
-                            Console.WriteLine(MenuSpliter);
+                            archerHP = Utilities.GenerateRandomValue(ArcherMinHP, ArcherMaxHP);
+                            archerDamage = Utilities.GenerateRandomValue(ArcherMinDamage, ArcherMaxHP);
+                            archerDefense = Utilities.GenerateRandomValue(ArcherMinDefense, ArcherMaxDefense);
+                            archerAgility = Utilities.GenerateRandomValue(ArcherMinAgility, ArcherMaxAgility);
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, mageName);
-                            mageHP = AskStat(ProvideHP, MageMinHP, MageMaxHP, GenerateRandomValue(MageMinHP, MageMaxHP));
-                            mageDamage = AskStat(ProvideDamage, MageMinDamage, MageMaxDamage, GenerateRandomValue(MageMinDamage, MageMaxDamage));
-                            mageDefense = AskStat(ProvideDefense, MageMinDefense, MageMaxDefense, GenerateRandomValue(MageMinDefense, MageMaxDefense));
-                            archerAgility = AskStat(ProvideAgility, MageMinAgility, MageMaxAgility, GenerateRandomValue(MageMinAgility, MageMaxAgility));
-                            Console.WriteLine(MenuSpliter);
+                            barbarianHP = Utilities.GenerateRandomValue(BarbarianMinHP, BarbarianMaxHP);
+                            barbarianDamage = Utilities.GenerateRandomValue(BarbarianMinDamage, BarbarianMaxDamage);
+                            barbarianDefense = Utilities.GenerateRandomValue(BarbarianMinDefense, BarbarianMaxDefense);
+                            barbarianAgility = Utilities.GenerateRandomValue(BarbarianMinAgility, BarbarianMaxAgility);
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowCharacterStats, druidName);
-                            druidHP = AskStat(ProvideHP, DruidMinHP, DruidMaxHP, GenerateRandomValue(DruidMinHP, DruidMaxHP));
-                            druidDamage = AskStat(ProvideDamage, DruidMinDamage, DruidMaxDamage, GenerateRandomValue(DruidMinDamage, DruidMaxDamage));
-                            druidDefense = AskStat(ProvideDefense, DruidMinDefense, DruidMaxDefense, GenerateRandomValue(DruidMinDefense, DruidMaxDefense));
-                            druidAgility = AskStat(ProvideAgility, DruidMinAgility, DruidMaxAgility, GenerateRandomValue(DruidMinAgility, DruidMaxAgility));
-                            Console.WriteLine(MenuSpliter);
+                            mageHP = Utilities.GenerateRandomValue(MageMinHP, MageMaxHP);
+                            mageDamage = Utilities.GenerateRandomValue(MageMinDamage, MageMaxDamage);
+                            mageDefense = Utilities.GenerateRandomValue(MageMinDefense, MageMaxDefense);
+                            mageAgility = Utilities.GenerateRandomValue(MageMinAgility, MageMaxAgility);
 
-                            Console.WriteLine(MenuSpliter);
-                            Console.WriteLine(ShowMonsterStats);
-                            monsterHP = AskStat(ProvideHP, MonsterMinHP, MonsterMaxHP, GenerateRandomValue(MonsterMinHP, MonsterMaxHP));
-                            monsterDamage = AskStat(ProvideDamage, MonsterMinDamage, MonsterMaxDamage, GenerateRandomValue(MonsterMinDamage, MonsterMaxDamage));
-                            monsterDefense = AskStat(ProvideDefense, MonsterMinDefense, MonsterMaxDefense, GenerateRandomValue(MonsterMinDefense, MonsterMaxDefense));
-                            Console.WriteLine(MenuSpliter);
+                            druidHP = Utilities.GenerateRandomValue(DruidMinHP, DruidMaxHP);
+                            druidDamage = Utilities.GenerateRandomValue(DruidMinDamage, DruidMaxDamage);
+                            druidDefense = Utilities.GenerateRandomValue(DruidMinDefense, DruidMaxDefense);
+                            druidAgility = Utilities.GenerateRandomValue(DruidMinAgility, DruidMaxAgility);
+
+                            monsterHP = Utilities.GenerateRandomValue(MonsterMinHP, MonsterMaxHP);
+                            monsterDamage = Utilities.GenerateRandomValue(MonsterMinDamage, MonsterMaxDamage);
+                            monsterDefense = Utilities.GenerateRandomValue(MonsterMinDefense, MonsterMaxDefense);
                             break;
+                    }
+                    if (showStatMsgLater)
+                    {
+                        Console.WriteLine(ShowCharacterStats, archerName);
+                        Console.WriteLine(ProvideHP + archerHP, ArcherMinHP, ArcherMaxHP);
+                        Console.WriteLine(ProvideDamage + archerDamage, ArcherMinDamage, ArcherMaxDamage);
+                        Console.WriteLine(ProvideDefense + archerDefense, ArcherMinDefense, ArcherMaxDefense);
+                        Console.WriteLine(ProvideHP + archerAgility, ArcherMinAgility, ArcherMaxAgility);
+                        Console.WriteLine(MenuSpliter);
+
+                        Console.WriteLine(ShowCharacterStats, barbarianName);
+                        Console.WriteLine(ProvideHP + barbarianHP, BarbarianMinHP, BarbarianMaxHP);
+                        Console.WriteLine(ProvideDamage + barbarianDamage, BarbarianMinDamage, BarbarianMaxDamage);
+                        Console.WriteLine(ProvideDefense + barbarianDefense, BarbarianMinDefense, BarbarianMaxDefense);
+                        Console.WriteLine(ProvideAgility + barbarianAgility, BarbarianMinAgility, BarbarianMaxAgility);
+                        Console.WriteLine(MenuSpliter);
+
+                        Console.WriteLine(ShowCharacterStats, mageName);
+                        Console.WriteLine(ProvideHP + mageHP, MageMinHP, MageMaxHP);
+                        Console.WriteLine(ProvideDamage + mageDamage, MageMinDamage, MageMaxDamage);
+                        Console.WriteLine(ProvideDefense + mageDefense, MageMinDefense, MageMaxDefense);
+                        Console.WriteLine(ProvideAgility + mageAgility, MageMinAgility, MageMaxAgility);
+                        Console.WriteLine(MenuSpliter);
+
+                        Console.WriteLine(ShowCharacterStats, druidName);
+                        Console.WriteLine(ProvideHP + druidHP, DruidMinHP, DruidMaxHP);
+                        Console.WriteLine(ProvideDamage + druidDamage, DruidMinDamage, DruidMaxDamage);
+                        Console.WriteLine(ProvideDefense + druidDefense, DruidMinDefense, DruidMaxDefense);
+                        Console.WriteLine(ProvideAgility + druidAgility, DruidMinAgility, DruidMaxAgility);
+                        Console.WriteLine(MenuSpliter);
+
+                        Console.WriteLine(ShowMonsterStats);
+                        Console.WriteLine(ProvideHP + monsterHP, MonsterMinHP, MonsterMaxHP);
+                        Console.WriteLine(ProvideDamage + monsterDamage, MonsterMinDamage, MonsterMaxDamage);
+                        Console.WriteLine(ProvideDefense + monsterDefense, MonsterMinDefense, MonsterMaxDefense);
+                        Console.WriteLine(MenuSpliter);
                     }
 
 
@@ -852,11 +865,11 @@ namespace GameProject
                         turnTracker++;
                         Console.WriteLine(AnounceTurn, turnTracker);
                         string[] turnPicker = new string[] {archerName, barbarianName, mageName, druidName};
-                        int[] everyoneAgilityScores = new int[] {GenerateRandomValue(0,PercentageTop)+archerAgility,
-                                                                 GenerateRandomValue(0,PercentageTop)+barbarianAgility,
-                                                                 GenerateRandomValue(0,PercentageTop)+mageAgility,
-                                                                 GenerateRandomValue(0,PercentageTop)+druidAgility};
-                        ReorderDesc(ref everyoneAgilityScores, ref turnPicker);
+                        int[] everyoneAgilityScores = new int[] {Utilities.GenerateRandomValue(0,PercentageTop)+archerAgility,
+                                                                 Utilities.GenerateRandomValue(0,PercentageTop)+barbarianAgility,
+                                                                 Utilities.GenerateRandomValue(0,PercentageTop)+mageAgility,
+                                                                 Utilities.GenerateRandomValue(0,PercentageTop)+druidAgility};
+                        Utilities.ReorderDesc(ref everyoneAgilityScores, ref turnPicker);
                         for(int i = 0; i < everyoneAgilityScores.Length; i++)
                         {
                             string nameActualTurn = turnPicker[i];
@@ -866,27 +879,28 @@ namespace GameProject
                             choosenOnCooldown = true;
                             if (nameActualTurn.Equals(archerName))
                             {
-                                while (IsActorAlive(archerTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                                while (Utilities.IsActorAlive(archerTurnHP) && Utilities.IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                                 {
                                     choosenOnCooldown = false;
                                     archerTurnDefense = archerDefense;
 
                                     Console.WriteLine(MenuSpliter);
-                                    formatedMenu = FormatString(FightMenu, archerSkillCooldown == 0 ? SkillReady : $"{archerSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{ArcherIcon}{LineJumper}{FormatString(CharacterTurn, archerName)}");
+                                    formatedMenu = Utilities.FormatString(FightMenu, archerSkillCooldown == 0 ? SkillReady : $"{archerSkillCooldown}");
+                                    Console.Write(Utilities.BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{ArcherIcon}{LineJumper}{Utilities.FormatString(CharacterTurn, archerName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
-                                            critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(archerDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                            critRollNumber = Utilities.CritFail(FailChance, CritChance);
+                                            Console.WriteLine(Utilities.AttackOption(archerDamage * critRollNumber, monsterDefense, ref monsterTurnHP, Utilities.FormatString(critRollNumber switch
                                             {
                                                 FailResponse => ArcherMissMsg,
                                                 CritResponse => ArcherCritsMsg,
                                                 _ => ArcherAttackMsg
-                                            }, archerName) + GeneralAttackSection);
+                                            }, archerName) + GeneralAttackSection));
                                             break;
                                         case DefendOption:
-                                            DefenseAction(ref archerTurnDefense, archerTurnDefense + archerDefense);
+                                            Utilities.DefenseAction(ref archerTurnDefense, archerTurnDefense + archerDefense);
                                             Console.WriteLine(CharacterDefends, archerName);
                                             break;
                                         case SkillOption:
@@ -908,7 +922,7 @@ namespace GameProject
                                             errorProvideNumFightMenuCounter++;
                                             break;
                                     }
-                                    if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                                    if (!choosenOnCooldown && Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                     {
                                         if (archerSkillCooldown > 0)
                                         {
@@ -921,27 +935,28 @@ namespace GameProject
                             }
                             else if (nameActualTurn.Equals(barbarianName))
                             {
-                                while (IsActorAlive(barbarianTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                                while (Utilities.IsActorAlive(barbarianTurnHP) && Utilities.IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                                 {
                                     choosenOnCooldown = false;
                                     barbarianTurnDefense = barbarianDefense;
 
                                     Console.WriteLine(MenuSpliter);
-                                    formatedMenu = FormatString(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : $"{barbarianSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{BarbarianIcon}{LineJumper}{FormatString(CharacterTurn, barbarianName)}");
+                                    formatedMenu = Utilities.FormatString(FightMenu, barbarianSkillCooldown == 0 ? SkillReady : $"{barbarianSkillCooldown}");
+                                    Console.Write(Utilities.BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{BarbarianIcon}{LineJumper}{Utilities.FormatString(CharacterTurn, barbarianName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
-                                            critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(barbarianDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                            critRollNumber = Utilities.CritFail(FailChance, CritChance);
+                                            Console.WriteLine(Utilities.AttackOption(barbarianDamage * critRollNumber, monsterDefense, ref monsterTurnHP, Utilities.FormatString(critRollNumber switch
                                             {
                                                 FailResponse => BarbarianMissMsg,
                                                 CritResponse => BarbarianCritsMsg,
                                                 _ => BarbarianAttackMsg
-                                            }, archerName) + GeneralAttackSection);
+                                            }, archerName) + GeneralAttackSection));
                                             break;
                                         case DefendOption:
-                                            DefenseAction(ref barbarianTurnDefense, barbarianTurnDefense + barbarianDefense);
+                                            Utilities.DefenseAction(ref barbarianTurnDefense, barbarianTurnDefense + barbarianDefense);
                                             Console.WriteLine(CharacterDefends, barbarianName);
                                             break;
                                         case SkillOption:
@@ -963,11 +978,11 @@ namespace GameProject
                                             Console.WriteLine(ErrorOutsideStatRange);
                                             break;
                                     }
-                                    if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                                    if (!choosenOnCooldown && Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                     {
                                         if (barbarianPerfectDefense > 0)
                                         {
-                                            DefenseAction(ref barbarianTurnDefense, PercentageTop);
+                                            Utilities.DefenseAction(ref barbarianTurnDefense, PercentageTop);
                                             barbarianPerfectDefense--;
                                         }
                                         if (barbarianSkillCooldown > 0)
@@ -981,26 +996,27 @@ namespace GameProject
                             }
                             else if (nameActualTurn.Equals(mageName))
                             {
-                                while (IsActorAlive(mageTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                                while (Utilities.IsActorAlive(mageTurnHP) && Utilities.IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                                 {
                                     choosenOnCooldown = false;
                                     mageTurnDefense = mageDefense;
                                     Console.WriteLine(MenuSpliter);
-                                    formatedMenu = FormatString(FightMenu, mageSkillCooldown == 0 ? SkillReady : $"{mageSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{MageIcon}{LineJumper}{FormatString(CharacterTurn, mageName)}");
+                                    formatedMenu = Utilities.FormatString(FightMenu, mageSkillCooldown == 0 ? SkillReady : $"{mageSkillCooldown}");
+                                    Console.Write(Utilities.BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{MageIcon}{LineJumper}{Utilities.FormatString(CharacterTurn, mageName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
-                                            critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(mageDamage * critRollNumber, monsterDefense, ref monsterTurnHP, FormatString(critRollNumber switch
+                                            critRollNumber = Utilities.CritFail(FailChance, CritChance);
+                                            Console.WriteLine(Utilities.AttackOption(mageDamage * critRollNumber, monsterDefense, ref monsterTurnHP, Utilities.FormatString(critRollNumber switch
                                             {
                                                 FailResponse => MageMissMsg,
                                                 CritResponse => MageCritsMsg,
                                                 _ => MageAttackMsg,
-                                            }, mageName) + GeneralAttackSection);
+                                            }, mageName) + GeneralAttackSection));
                                             break;
                                         case DefendOption:
-                                            DefenseAction(ref mageTurnDefense, mageTurnDefense + mageDefense);
+                                            Utilities.DefenseAction(ref mageTurnDefense, mageTurnDefense + mageDefense);
                                             Console.WriteLine(CharacterDefends, mageName);
                                             break;
                                         case SkillOption:
@@ -1013,7 +1029,7 @@ namespace GameProject
                                             else
                                             {
                                                 mageSkillCooldown = GlobalSpecialSkillCooldown; ;
-                                                AttackOption(mageDamage * MageSuperAttackMult, monsterDefense, ref monsterTurnHP, FormatString(MageSkill, mageName) + GeneralAttackSection); ;
+                                                Console.WriteLine(Utilities.AttackOption(mageDamage * MageSuperAttackMult, monsterDefense, ref monsterTurnHP, Utilities.FormatString(MageSkill, mageName) + GeneralAttackSection));
                                             }
                                             break;
                                         default:
@@ -1021,7 +1037,7 @@ namespace GameProject
                                             Console.WriteLine(ErrorMenuOptionOutsideRange);
                                             break;
                                     }
-                                    if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                                    if (!choosenOnCooldown && Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                     {
                                         if (mageSkillCooldown > 0)
                                         {
@@ -1034,27 +1050,28 @@ namespace GameProject
                             }
                             else if (nameActualTurn.Equals(druidName))
                             {
-                                while (IsActorAlive(druidTurnHP) && IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
+                                while (Utilities.IsActorAlive(druidTurnHP) && Utilities.IsActorAlive(monsterTurnHP) && errorProvideNumFightMenuCounter < AllowedErrors && (!Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt) || choosenOnCooldown))
                                 {
                                     choosenOnCooldown = false;
                                     druidTurnDefense = druidDefense;
 
                                     Console.WriteLine(MenuSpliter);
-                                    formatedMenu = FormatString(FightMenu, druidSkillCooldown == 0 ? SkillReady : $"{druidSkillCooldown}");
-                                    fightOption = BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{DruidIcon}{LineJumper}{FormatString(CharacterTurn, druidName)}");
+                                    formatedMenu = Utilities.FormatString(FightMenu, druidSkillCooldown == 0 ? SkillReady : $"{druidSkillCooldown}");
+                                    Console.Write(Utilities.BuildMenu(formatedMenu.Split(LineJumper), GeneralAskInputMsg, $"{DruidIcon}{LineJumper}{Utilities.FormatString(CharacterTurn, druidName)}"));
+                                    fightOption = Convert.ToInt32(Console.ReadLine());
                                     switch (fightOption)
                                     {
                                         case AtackOption:
-                                            critRollNumber = CritFail(FailChance, CritChance);
-                                            AttackOption(druidDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
+                                            critRollNumber = Utilities.CritFail(FailChance, CritChance);
+                                            Console.WriteLine(Utilities.AttackOption(druidDamage * critRollNumber, monsterDefense, ref monsterTurnHP, critRollNumber switch
                                             {
                                                 FailResponse => DruidMissMsg,
                                                 CritResponse => DruidCritsMsg,
                                                 _ => DruidAttackMsg,
-                                            } + GeneralAttackSection);
+                                            } + GeneralAttackSection));
                                             break;
                                         case DefendOption:
-                                            DefenseAction(ref druidTurnDefense, druidTurnDefense + druidDefense);
+                                            Utilities.DefenseAction(ref druidTurnDefense, druidTurnDefense + druidDefense);
                                             Console.WriteLine(CharacterDefends, druidName);
                                             break;
                                         case SkillOption:
@@ -1067,22 +1084,22 @@ namespace GameProject
                                             else
                                             {
                                                 Console.WriteLine(DruidSkill, DruidHealingAmount);
-                                                if (IsActorAlive(archerTurnHP))
+                                                if (Utilities.IsActorAlive(archerTurnHP))
                                                 {
-                                                    HealTarget(ref archerTurnHP, DruidHealingAmount, archerHP);
+                                                    archerTurnHP = Utilities.HealTarget(archerTurnHP, DruidHealingAmount, archerHP);
                                                     Console.WriteLine(DruidHealsCharacters, archerName, archerTurnHP);
                                                 }
-                                                if (IsActorAlive(barbarianTurnHP))
+                                                if (Utilities.IsActorAlive(barbarianTurnHP))
                                                 {
-                                                    HealTarget(ref barbarianTurnHP, DruidHealingAmount, barbarianHP);
+                                                    barbarianTurnHP = Utilities.HealTarget(barbarianTurnHP, DruidHealingAmount, barbarianHP);
                                                     Console.WriteLine(DruidHealsCharacters, barbarianName, barbarianTurnHP);
                                                 }
-                                                if (IsActorAlive(mageTurnHP))
+                                                if (Utilities.IsActorAlive(mageTurnHP))
                                                 {
-                                                    HealTarget(ref mageTurnHP, DruidHealingAmount, mageHP);
+                                                    mageTurnHP = Utilities.HealTarget(mageTurnHP, DruidHealingAmount, mageHP);
                                                     Console.WriteLine(DruidHealsCharacters, mageName, mageTurnHP);
                                                 }
-                                                HealTarget(ref druidTurnHP, DruidHealingAmount, druidHP);
+                                                druidTurnHP = Utilities.HealTarget(druidTurnHP, DruidHealingAmount, druidHP);
                                                 Console.WriteLine(DruidHealsCharacters, druidName, druidTurnHP);
                                                 druidSkillCooldown = GlobalSpecialSkillCooldown;
                                             }
@@ -1092,7 +1109,7 @@ namespace GameProject
                                             Console.WriteLine(ErrorMenuOptionOutsideRange);
                                             break;
                                     }
-                                    if (!choosenOnCooldown && InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
+                                    if (!choosenOnCooldown && Utilities.InRange(fightOption, MinMenusOption, MaxFightMenuOpt))
                                     {
                                         if (druidSkillCooldown > 0)
                                         {
@@ -1106,55 +1123,55 @@ namespace GameProject
                         }
                         
                         //MonsterTurn
-                        if (IsActorAlive(monsterTurnHP) && monsterStun <= 0)
+                        if (Utilities.IsActorAlive(monsterTurnHP) && monsterStun <= 0)
                         {
                             Console.WriteLine(MenuSpliter);
                             Console.WriteLine(MonsterIcon);
                             Console.WriteLine(MonsterAttacks);
-                            if (IsActorAlive(archerTurnHP))
+                            if (Utilities.IsActorAlive(archerTurnHP))
                             {
-                                damageAmount = CalcAttackDamage(monsterDamage, archerTurnDefense);
+                                damageAmount = Utilities.CalcAttackDamage(monsterDamage, archerTurnDefense);
                                 archerTurnHP -= damageAmount;
                                 Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, archerTurnHP, archerName);
-                                if (!IsActorAlive(archerTurnHP))
+                                if (!Utilities.IsActorAlive(archerTurnHP))
                                 {
                                     Console.WriteLine(CharDead, archerName);
                                 }
                             }
-                            if (IsActorAlive(barbarianTurnHP))
+                            if (Utilities.IsActorAlive(barbarianTurnHP))
                             {
-                                damageAmount = CalcAttackDamage(monsterDamage, barbarianTurnDefense);
+                                damageAmount = Utilities.CalcAttackDamage(monsterDamage, barbarianTurnDefense);
                                 barbarianTurnHP -= damageAmount;
                                 Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, barbarianTurnHP, barbarianName);
-                                if (!IsActorAlive(barbarianTurnHP))
+                                if (!Utilities.IsActorAlive(barbarianTurnHP))
                                 {
                                     Console.WriteLine(CharDead, barbarianName);
                                 }
 
                             }
-                            if (IsActorAlive(mageTurnHP))
+                            if (Utilities.IsActorAlive(mageTurnHP))
                             {
-                                damageAmount = CalcAttackDamage(monsterDamage, mageTurnDefense);
+                                damageAmount = Utilities.CalcAttackDamage(monsterDamage, mageTurnDefense);
                                 mageTurnHP -= damageAmount;
                                 Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, mageTurnHP, mageName);
-                                if (!IsActorAlive(mageTurnHP))
+                                if (!Utilities.IsActorAlive(mageTurnHP))
                                 {
                                     Console.WriteLine(CharDead, mageName);
                                 }
                             }
-                            if (IsActorAlive(druidTurnHP))
+                            if (Utilities.IsActorAlive(druidTurnHP))
                             {
-                                damageAmount = CalcAttackDamage(monsterDamage, druidTurnDefense);
+                                damageAmount = Utilities.CalcAttackDamage(monsterDamage, druidTurnDefense);
                                 druidTurnHP -= damageAmount;
                                 Console.WriteLine(MonsterCharDamage, monsterDamage, damageAmount, druidTurnHP, druidName);
-                                if (!IsActorAlive(druidTurnHP))
+                                if (!Utilities.IsActorAlive(druidTurnHP))
                                 {
                                     Console.WriteLine(CharDead, druidName);
                                 }
                             }
                             Console.WriteLine(MenuSpliter);
                         }
-                        else if (IsActorAlive(monsterTurnHP) && monsterStun > 0)
+                        else if (Utilities.IsActorAlive(monsterTurnHP) && monsterStun > 0)
                         {
                             Console.WriteLine(MenuSpliter);
                             Console.WriteLine(MonsterIcon);
@@ -1162,9 +1179,9 @@ namespace GameProject
                             Console.WriteLine(MonsterIsStuned, archerName);
                             Console.WriteLine(MenuSpliter);
                         }
-                        ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg);
-                    } while (IsActorAlive(monsterTurnHP) && (!AreActorGroupDead(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP })));
-                    Console.WriteLine(!IsActorAlive(monsterTurnHP) ? HeroesWin : MonsterWins);
+                        Console.Write(Utilities.ShowValuesDesc(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP }, new string[] { archerName, barbarianName, mageName, druidName }, ShowHealthMsg));
+                    } while (Utilities.IsActorAlive(monsterTurnHP) && (!Utilities.AreActorGroupDead(new int[] { archerTurnHP, barbarianTurnHP, mageTurnHP, druidTurnHP })));
+                    Console.WriteLine(!Utilities.IsActorAlive(monsterTurnHP) ? HeroesWin : MonsterWins);
                     
                 }
             } while (menuOption != ExitGameOption && errorProvideNumStartMenuCounter < AllowedErrors);
@@ -1175,180 +1192,6 @@ namespace GameProject
         }
 
 
-        public static int BuildMenu(string[] options, string askmsg)
-        {
-            int option;
-            for (int i = 0; i < options.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {options[i]}");
-            }
-            Console.Write(askmsg);
-            return Convert.ToInt32(Console.ReadLine());
-        }
-        public static int BuildMenu(string[] options, string askmsg, string msg)
-        {
-            int option;
-
-            if (!string.IsNullOrEmpty(msg))
-            {
-                Console.WriteLine(msg);
-            }
-            for (int i = 0; i < options.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {options[i]}");
-            }
-            Console.Write(askmsg);
-            return Convert.ToInt32(Console.ReadLine());
-        }
-        public static string FormatString(string text, params string[] args)
-        {
-            string searchTarget;
-            for (int i = 0; i < args.Length; i++)
-            {
-                searchTarget = "{" + i + "}";
-                text = text.Replace(searchTarget, args[i]);
-            }
-            return text;
-        }
-        public static int CalcAttackDamage(int atackerDamageValue, int targetDefenseValue)
-        {
-            return atackerDamageValue - ((atackerDamageValue * targetDefenseValue) / 100);
-        }
-        public static void AttackOption(int attackerDMG, int targetDefense, ref int targetHP, string msg)
-        {
-            int damageAmount = CalcAttackDamage(attackerDMG, targetDefense);
-            targetHP -= damageAmount;
-            Console.WriteLine(msg, attackerDMG, damageAmount, targetHP);
-        }
-        public static void DefenseAction(ref int actorDefense, int newDefenseValue)
-        {
-            actorDefense = newDefenseValue;
-        }
-        public static void HealTarget(ref int targetHP, int healingAmount, int targetMaxHP)
-        {
-            targetHP += healingAmount;
-            if (targetHP > targetMaxHP)
-            {
-                targetHP = targetMaxHP;
-            }
-        }
-        public static int CritFail(int chanceFail, int chanceCrit)
-        {
-            int rngValue = GenerateRandomValue(0, 100);
-
-            if (rngValue <= chanceFail)
-            {
-                return 0;
-            }
-            else if (rngValue >= (100 - chanceCrit))
-            {
-                return 2;
-            }
-            return 1;
-        }
-        public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat)
-        {
-            Console.Write(AskMsg, minPosibleStat, maxPosibleStat);
-            return Convert.ToInt32(Console.ReadLine());
-        }
-        public static int AskStat(string AskMsg, int minPosibleStat, int maxPosibleStat, int autoAssign)
-        {
-            Console.WriteLine(AskMsg + autoAssign, minPosibleStat, maxPosibleStat);
-            return autoAssign;
-        }
-        public static bool InRange(int checkValue, int smallRangeValue, int bigRangeValue)
-        {
-            return checkValue >= smallRangeValue && checkValue <= bigRangeValue;
-        }
-        public static bool IsActorAlive(int actorHP)
-        {
-            return actorHP > 0;
-        }
-        public static bool AreActorGroupDead(int[] actorsHP)
-        {
-            for (int i = 0; i < actorsHP.Length; i++)
-            {
-                if (IsActorAlive(actorsHP[i]))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        public static int GenerateRandomValue(int minValue, int maxValue)
-        {
-            Random rng = new Random();
-            return rng.Next(minValue, maxValue + 1);
-        }
-        public static string[] RemoveValue(string[] strings, int index)
-        {
-            string[] result = new string[strings.Length-1];
-            bool found = index==0;
-            for(int i = found ? 1 : 0; i < strings.Length; i++)
-            {
-                
-                result[found ? i-1 : i] = strings[i];
-                if (i+1 == index)
-                {
-                    found = true;
-                    i++;
-                }
-            }
-            return result;
-        }
-        public static string[] AddValue(string[] array, string newValue)
-        {
-            string[] result = new string[array.Length+1];
-            for(int i = 0; i<array.Length; i++)
-            {
-                result[i] = array[i];
-            }
-            result[result.Length-1] = newValue;
-            return result;
-        }
-        public static int SearchIndex(string[] array,string searchTarget)
-        {
-            for(int i = 0; i<array.Length; i++)
-            {
-                if (array[i].Equals(searchTarget)) return i;
-            }
-            return -1;
-        }
-        public static string[] AskGroupParameters(char wordSpliter, string msg)
-        {
-            Console.Write(msg);
-            string[] names = Console.ReadLine().Split(wordSpliter);
-            for(int i = 0; i< names.Length; i++)
-            {
-                names[i] = names[i].Trim();
-            }
-            return names;
-        }
-        public static void ShowValuesDesc(int[] values, string[] characterPerValue, string mainMsg)
-        {
-            ReorderDesc(ref values, ref characterPerValue);
-            for (int i = 0; i < values.Length; i++)
-            {
-                Console.WriteLine(mainMsg, characterPerValue[i], values[i]);
-            }
-        }
-        public static void ReorderDesc(ref int[] values, ref string[] valuesMsg)
-        {
-            for (int i = 0; i < values.Length - 1; i++)
-            {
-                for (int j = i; j < values.Length; j++)
-                {
-                    if (values[j] > values[i])
-                    {
-                        int aux = values[j];
-                        values[j] = values[i];
-                        values[i] = aux;
-                        string sAux = valuesMsg[j];
-                        valuesMsg[j] = valuesMsg[i];
-                        valuesMsg[i] = sAux;
-                    }
-                }
-            }
-        }
+        
     }
 }

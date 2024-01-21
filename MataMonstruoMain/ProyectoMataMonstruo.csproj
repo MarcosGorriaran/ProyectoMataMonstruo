@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -17,7 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="MataMonstruoFunctions\MataMonstruoFunctions.csproj" />
+    <Reference Include="MataMonstruoFunctions">
+      <HintPath>..\MataMonstruoFunctions\bin\Debug\net7.0\MataMonstruoFunctions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -118,3 +118,109 @@ Cuando el juego intenta decidir el orden hace una tirada entre 0-100 y luego añ
 - Clases validas:
     - Oportunidad de fallo: 50, 0, 100
     - Oportunidad de critico: 50, 0, 100
+- Clases invalidas:
+    - Oportunidad de fallo: -1, 101
+    - Oportunidad de critico: -1, 101
+- Valor esperado: 0 si la tirada da fallo, 1 si no es ni fallo ni critico y 2 si es critico.
+### Casos de prueba
+|N.Prueba|Oport. fallo|Oport. critico|Devuelve  |
+|--------|------------|--------------|----------|
+|1       |100         |0             |0         |
+|2       |0           |100           |2         |
+|3       |0           |0             |1         |
+## bool InRange(int checkValue, int smallRangeValue, int bigRangeValue)
+### Clases de equivalencia
+- Clases validas:
+    - Valor a revisar: 5,-5
+    - Rango minimo: 2,-4
+    - Rango maximo: 4,-2
+- Clases invalidas:
+    - Valor a revisar: 2147483648
+    - Rango minimo: 4
+    - Rango maximo: 2
+- Valor esperado: Si el valor a revisar esta entre los dos valores, ambos incluidos lanza TRUE si no FALSE
+### Casos de prueba
+|N.Prueba|Valor a revisar|Valor minimo|Valor maximo|Devuelve|
+|--------|---------------|------------|------------|--------|
+|1       |100            |100         |100         |TRUE    |
+|2       |5              |0           |100         |TRUE    |
+|3       |-1             |0           |100         |FALSE   |
+|4       |101            |0           |100         |FALSE   |
+## bool IsActorAlive(int actorHP)
+### Clases de equivalencia
+- Clases validas:
+    - vida del actor: 55, -123, 0
+- Clases no validas:
+    - vida del actor: 2147483648,-2147483648
+- Valor esperado: Se considera vivo si la salud del personaje esta por encima de 0.
+### Casos de prueba
+|N.Prueba|HP  |Devuelve|
+|--------|----|--------|
+|1       |100 |TRUE    |
+|2       |0   |FALSE   |
+|3       |-100|FALSE   |
+## bool AreActorGroupDead(int[] actorsHP)
+### Clases de equivalenca
+- Clases validas:
+    - Vida por actor: 55, -123, 0
+- Clases invalidas:
+    - Vida por actor: 2147483648,-2147483648
+- Valor esperado: Si el array solo contiene la salud de personajes con salud a 0 o negativa se considera true, si al menos uno de ellos tien mas de 0 puntos devolvera FALSE
+### Casos de prueba
+|N.Prueba|HPs      |Devuelve|
+|--------|---------|--------|
+|1       |[-1,-100]|TRUE    |
+|2       |[0,1]    |FALSE   |
+|3       |[-1,1]   |FALSE   |
+## int GenerateRandomValue(int minValue, int maxValue)
+### Clases de equivalencia
+- Clases validas:
+    - Valor minimo: 0, -1, 1
+    - Valor maximo: 0, -1, 1
+- Clases invalidas:
+    - Valor minimo: 0, 1
+    - valor maximo: -1,-1
+- Valor esperado: Un valor aleatorio entre valor minimo y valor maximo donde ambos estan incluidos en el umbral de posibles salidas.
+### Casos de prueba
+|N.Prueba|Val.Minimo|Val.Maximo|Devuelve|
+|1       |0         |1         |0 o 1   |
+|2       |1         |1         |1       |
+## string[] TrimAllStrings(string[] texts)
+### Clases de equivalencia
+- Clases validas:
+    - Textos: "", " ", " Text "
+- Clases invalidas:
+    - Textos: N/A
+- Valor esperado: Un array de strings sin espacios en blanco en ambos extremos de todos los strings en el array
+### Casos de prueba
+|N.Prueba|Textos          |Devuelve    |
+|--------|----------------|------------|
+|1       |[" "," Textos "]|["","Textos]|
+## string ShowValuesDesc(int[] values, string[] arg, string mainMsg)
+### Clases de equivalencia
+- Clases validas:
+    - Longitud array valores: 4, 1, 0
+    - Longitud array argumento: 4, 1, 0
+    - Mensaje principal: "Texto{0}{1}","Texto{0}{1}","Texto{0}{1}"
+- Clases invalidas:
+    - Longitud array valores: 4, 1, 0
+    - Longitud array argumento: 1, 0, 4
+    - Mensaje principal: "Texto", "Texto{0}", Texto{0}{1}{2}
+- Valor esperado: Un string con cada elemento de los dos arrays en el texto del mensaje principal y cada grupo de valores y el mesnaje principal repetido separados por un salto de linea.
+### Casos de prueba
+|N.Prueba|valores|array de argumento    |Mensaje      |Devuelve                            |
+|--------|-------|----------------------|-------------|------------------------------------|
+|1       |[2,5,4]|["Someone","Yes","no"]|"Texto{0}{1}"|"TextoYes5\nTextono4\nTextoSomeone2"|
+## void ReorderDesc(ref int[] values, ref string[] valuesMsg)
+### Clases de equivalencia
+- Clases validas:
+    - Longitud de valores: 4, 1, 0
+    - Longitud de mensaje con valores: 4, 1, 0
+- Clases invalidas:
+    - Longitud de valores: 0, 4, 1
+    - Longitud de  mensaje con valores: 4, 1, 0
+- Valor esperado: Los dos arrays ordenados basandose principalmente en valores y de forma descendente.
+### Casos de prueba
+|N.Prueba|valores|array de argumento    |valores procesado|array de argumento procesado|
+|--------|-------|----------------------|-----------------|----------------------------|
+|1       |[2,5,4]|["Someone","Yes","no"]|[5,4,2]          |["Yes","no","Someone"]      |

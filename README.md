@@ -183,6 +183,7 @@ Cuando el juego intenta decidir el orden hace una tirada entre 0-100 y luego añ
 - Valor esperado: Un valor aleatorio entre valor minimo y valor maximo donde ambos estan incluidos en el umbral de posibles salidas.
 ### Casos de prueba
 |N.Prueba|Val.Minimo|Val.Maximo|Devuelve|
+|--------|----------|----------|--------|
 |1       |0         |1         |0 o 1   |
 |2       |1         |1         |1       |
 ## string[] TrimAllStrings(string[] texts)

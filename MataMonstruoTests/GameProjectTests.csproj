@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MarcosGorriaran\ProyectoMataMonstruo\MataMonstruoFunctions\MataMonstruoFunctions.csproj" />
+    <ProjectReference Include="..\MataMonstruoFunctions\MataMonstruoFunctions.csproj" />
   </ItemGroup>
 
 </Project>

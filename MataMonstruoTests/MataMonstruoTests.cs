@@ -123,7 +123,7 @@ namespace GameProjectTests
         public void CalcAttackDamageNormalCase()
         {
             int damage = 4000, defense = 50;
-            int expected = 0, result;
+            int expected = 2000, result;
 
             result = Utilities.CalcAttackDamage(damage, defense);
 

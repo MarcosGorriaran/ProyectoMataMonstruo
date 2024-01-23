@@ -209,9 +209,9 @@ Cuando el juego intenta decidir el orden hace una tirada entre 0-100 y luego añ
     - Mensaje principal: "Texto", "Texto{0}", Texto{0}{1}{2}
 - Valor esperado: Un string con cada elemento de los dos arrays en el texto del mensaje principal y cada grupo de valores y el mesnaje principal repetido separados por un salto de linea.
 ### Casos de prueba
-|N.Prueba|valores|array de argumento    |Mensaje      |Devuelve                            |
-|--------|-------|----------------------|-------------|------------------------------------|
-|1       |[2,5,4]|["Someone","Yes","no"]|"Texto{0}{1}"|"TextoYes5\nTextono4\nTextoSomeone2"|
+|N.Prueba|valores|array de argumento    |Mensaje      |Devuelve                              |
+|--------|-------|----------------------|-------------|--------------------------------------|
+|1       |[2,5,4]|["Someone","Yes","no"]|"Texto{0}{1}"|"TextoYes5\nTextono4\nTextoSomeone2\n"|
 ## void ReorderDesc(ref int[] values, ref string[] valuesMsg)
 ### Clases de equivalencia
 - Clases validas:

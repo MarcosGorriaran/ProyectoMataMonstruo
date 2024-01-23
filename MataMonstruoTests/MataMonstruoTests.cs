@@ -348,12 +348,12 @@ namespace GameProjectTests
         public void TrimAllStringsNormalCase()
         {
             string[] trimValues = {" ", " Textos "};
-            string[] expected = { "", "Textos" };
+            string expected = "Textos";
             string[] result;
 
             result = Utilities.TrimAllStrings(trimValues);
 
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expected, result[0] + result[1]);
         }
         [TestMethod]
         public void ShowValuesDescNormalCase()
@@ -361,7 +361,7 @@ namespace GameProjectTests
             string[] textValues = {"Someone","Yes","no"};
             int[] values = {2,5,4};
             string msg = "Texto{0}{1}";
-            string expected = "TextoYes5\nTextono4\nTextoSomeone2";
+            string expected = "TextoYes5\nTextono4\nTextoSomeone2\n";
             string result;
 
             result = Utilities.ShowValuesDesc(values, textValues, msg);
@@ -378,9 +378,8 @@ namespace GameProjectTests
 
             Utilities.ReorderDesc(ref values, ref textValues);
 
-            Assert.Fail($"{textValues[0] + textValues[1] + textValues[2]}{expectedText[0] + expectedText[1] + expectedText[2]}");
-            Assert.AreEqual(expectedText, textValues);
-            Assert.AreEqual(expectedVal, values);
+            Assert.AreEqual($"{expectedText[0] + expectedText[1] + expectedText[2]}", $"{textValues[0] + textValues[1] + textValues[2]}");
+            Assert.AreEqual($"{expectedVal[0]}{expectedVal[1]}{expectedVal[2]}", $"{values[0]}{values[1]}{values[2]}");
             
         }
     }

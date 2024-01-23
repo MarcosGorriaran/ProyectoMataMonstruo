@@ -129,5 +129,49 @@ namespace GameProjectTests
 
             Assert.AreEqual(expected, result);
         }
+        [TestMethod]
+        public void AttackOptionZeroCase(){
+            int damage = 0, defense = 0, HP = 1, expectedHP = 1;
+            string text = "Texto{0}{1}{2}";
+            string expectedText = "Texto001";
+            string result;
+
+            result = Utilities.AttackOption(damage, defense,ref HP, text);
+
+            Assert.AreEqual(expectedText, result)
+            Assert.AreEqual(expectedHP, HP);
+        }
+        [TestMethod]
+        public void AttackOptionPerfectDefense(){
+            int damage = 50, defense = 100, HP = 1, expectedHP = 1;
+            string text = "Texto{0}{1}{2}";
+            string expectedText = "Texto5001";
+            string result;
+
+            result = Utilities.AttackOption(damage, defense,ref HP, text);
+
+            Assert.AreEqual(expectedText, result)
+            Assert.AreEqual(expectedHP, HP);
+        }
+        [TestMethod]
+        public void AttackOptionNormalCase(){
+            int damage = 4000, defense = 50, HP = 1999, expectedHP = -1;
+            string text = "Texto{0}{1}{2}";
+            string expectedText = "Texto40002000-1";
+            string result;
+
+            result = Utilities.AttackOption(damage, defense,ref HP, text);
+
+            Assert.AreEqual(expectedText, result);
+            Assert.AreEqual(expectedHP, HP);
+        }
+        [TestMethod]
+        public void DefenseAction(){
+            int actualDef=0, newDef=4, expected=4;
+
+            Utilities.DefenseAction(ref actualDef, newDef);
+
+            Assert.AreEqual(expected, actualDef);
+        }
     }
 }
